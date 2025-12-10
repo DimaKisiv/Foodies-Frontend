@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import RecipeInfo from "../../components/RecipeInfo/RecipeInfo";
 import {
   selectRecipesStatus,
   selectCurrentRecipe,
@@ -22,12 +23,7 @@ const RecipePage = () => {
     <section>
       <h2>Recipe details</h2>
       {status === "loading" && <Loader />}
-      {recipe != null && (
-        <>
-          <p>Recipe name is {recipe.title}</p>
-          <p>Recipe author is {recipe.owner.name}</p>
-        </>
-      )}
+      {recipe != null && <RecipeInfo recipe={recipe} />}
     </section>
   );
 };
