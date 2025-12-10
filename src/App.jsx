@@ -8,7 +8,7 @@ import Navigation from "./components/Shared/Navigation/Navigation";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const CategoryPage = lazy(() => import("./pages/Category/CategoryPage"));
-const RecipePage = lazy(() => import("./pages/Recipe/RecipePage"));
+const RecipeListPage = lazy(() => import("./pages/RecipeList/RecipeListPage"));
 const AddRecipePage = lazy(() => import("./pages/AddRecipe/AddRecipePage"));
 const UserPage = lazy(() => import("./pages/User/UserPage"));
 const MyRecipesPage = lazy(() => import("./pages/User/MyRecipesPage"));
@@ -41,7 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/category" element={<CategoryPage />} />
-            <Route path="/recipe" element={<RecipePage />} />
+            <Route path="/recipe" element={<RecipeListPage />} />
             <Route path="/add-recipe" element={<AddRecipePage />} />
             <Route path="user" element={<UserPage />}>
               <Route index element={<MyRecipesPage />} />
