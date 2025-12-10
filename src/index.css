@@ -1,1 +1,21 @@
 @import "./variables.css";
+
+@font-face {
+  font-family: "Mulish";
+  src: local("Mulish"),
+    url("./fonts/Mulish-VariableFont.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-base);
+  color: var(--color-text-main);
+  margin: 0;
+  overflow-x: hidden;
+}

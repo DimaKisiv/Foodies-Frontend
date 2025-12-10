@@ -1,2 +1,10 @@
 :root {
+  --font-family-main: "Mulish", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  --color-text-main: #050505;
+
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
+  --letter-spacing-base: -0.02em;
 }
