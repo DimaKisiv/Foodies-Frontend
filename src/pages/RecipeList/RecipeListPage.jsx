@@ -7,7 +7,7 @@ import {
 } from "../../redux/store/recipes/recipesSlice";
 import Loader from "../../components/shared/Loader/Loader";
 
-const RecipePage = () => {
+const RecipeListPage = () => {
   const dispatch = useDispatch();
   const recipes = useSelector(selectRecipeItems);
   const status = useSelector(selectRecipesStatus);
@@ -29,4 +29,4 @@ const RecipePage = () => {
   );
 };
 
-export default RecipePage;
+export default RecipeListPage;
