@@ -1,3 +1,4 @@
+import styles from "./PopularRecipes.module.css";
 import { useSelector } from "react-redux";
 import {
   selectPopularRecipes,

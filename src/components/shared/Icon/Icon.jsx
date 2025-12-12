@@ -1,3 +1,4 @@
+import styles from "./Icon.module.css";
 import sprite from "../../../assets/icons/sprite.svg";
 
 const Icon = ({ id, width = 20, height = 20, className = "", ...props }) => {
