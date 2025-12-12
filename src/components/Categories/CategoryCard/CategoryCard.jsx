@@ -1,6 +1,5 @@
 import styles from './CategoryCard.module.css';
 import { getCategoryImage } from "../../../utils/categoryImages.js";
-import CategoryName from "../CategoryName/CategoryName.jsx";
 import ArrowButton from "../ArrowButton/ArrowButton.jsx";
 
 
