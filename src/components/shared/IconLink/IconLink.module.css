@@ -1,0 +1,56 @@
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(5, 5, 5, 0.15);
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.iconLinkIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-main);
+  transition: color 0.25s ease;
+}
+
+.social {
+  border-color: rgba(5, 5, 5, 0.1);
+}
+
+.iconLink:hover,
+.iconLink:focus-visible {
+  background-color: #050505;
+  border-color: #050505;
+}
+
+.iconLink:hover .iconLinkIcon,
+.iconLink:focus-visible .iconLinkIcon {
+  color: #fff;
+}
+
+.iconLink:focus-visible {
+  outline: 2px solid #050505;
+  outline-offset: 3px;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .iconLink {
+    width: 40px;
+    height: 40px;
+  }
+}

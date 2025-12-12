@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Loader from "./components/shared/Loader/Loader";
+import Loader from "./components/Shared/Loader/Loader";
 import Navigation from "./components/Shared/Navigation/Navigation";
+import Footer from "./components/Footer/Footer";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const CategoryPage = lazy(() => import("./pages/Category/CategoryPage"));
@@ -53,6 +54,7 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
+        <Footer />
       </Router>
     </Provider>
   );
