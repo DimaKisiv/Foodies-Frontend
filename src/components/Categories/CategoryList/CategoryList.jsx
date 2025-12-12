@@ -9,11 +9,8 @@ const CategoryList = ({categories = [], onCategorySelect}) => {
         <div className={styles.gridContainer}>
             {categories.map((cat) => {
 
-                // // 1. Перевіряємо: чи є ця категорія в нашому списку "широких"?
                 const isWide = WIDE_CATEGORIES.includes(cat.name);
-                //
-                // // 2. Якщо є -> даємо клас layoutFull (на всю ширину)
-                // //    Якщо немає -> нічого не даємо (буде вузька за замовчуванням)
+
                 const layoutClass = isWide ? styles.wideCard : '';
 
                 return (

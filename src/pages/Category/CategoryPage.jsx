@@ -6,8 +6,8 @@ import {
     selectCategoriesStatus,
 } from "../../redux/store/categories/categoriesSlice";
 import Loader from "../../components/shared/Loader/Loader";
-import MainTitle from "../../components/shared/Typography/MainTitle/MainTitle.jsx";
-import Subtitle from "../../components/shared/Typography/Subtitle/Subtitle.jsx";
+import SectionTitle from "../../components/shared/Typography/SectionTitle/SectionTitle.jsx";
+import SectionSubtitle from "../../components/shared/Typography/SectionSubtitle/SectionSubtitle.jsx";
 import CategoryList from "../../components/Categories/CategoryList/CategoryList.jsx";
 
 const CategoryPage = () => {
@@ -19,22 +19,18 @@ const CategoryPage = () => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-// 4. Функція, яку ми передаємо вниз у CategoryList
+// Функція, яку ми передаємо вниз у CategoryList
     const handleCategoryClick = async (categoryName) => {
         console.log(`User clicked: ${categoryName}`);
     };
 
     return (
         <section>
-            <MainTitle>Categories</MainTitle>
-            <Subtitle>Discover a limitless world of culinary possibilities and enjoy exquisite recipes that combine
-                taste, style and the warm atmosphere of the kitchen.</Subtitle>
+            <SectionTitle>Categories</SectionTitle>
+            <SectionSubtitle>Discover a limitless world of culinary possibilities and enjoy exquisite recipes that
+                combine
+                taste, style and the warm atmosphere of the kitchen.</SectionSubtitle>
             {status === "loading" && <Loader/>}
-            {/*<ul>*/}
-            {/*  {categories?.map((c) => (*/}
-            {/*    <li key={c.id || c._id || c.name}>{c.name}</li>*/}
-            {/*  ))}*/}
-            {/*</ul>*/}
             {categories && (
                 <CategoryList
                     categories={categories}
