@@ -7,7 +7,7 @@ import {
   selectCategoriesItems,
   selectCategoriesStatus,
 } from "../../redux/categories/categoriesSlice";
-import Hero from "../../components/Hero/Hero.jsx";
+import Hero from "../../components/HomePage/Hero/Hero";
 
 const HomePage = () => {
   const dispatch = useDispatch();
