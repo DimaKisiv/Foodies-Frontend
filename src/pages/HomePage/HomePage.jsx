@@ -11,6 +11,7 @@ import {
   selectCategoriesItems,
   selectCategoriesStatus,
 } from "../../redux/store/categories/categoriesSlice";
+import Hero from "../../components/Hero/Hero.jsx";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const HomePage = () => {
 
   return (
     <main>
+      <Hero />
+
       <h2>Home</h2>
       <section>
         <h3>Popular Recipes</h3>

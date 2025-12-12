@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import Loader from "./components/shared/Loader/Loader";
 import Navigation from "./components/Shared/Navigation/Navigation";
+import Header from "./components/Header/Header.jsx";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const CategoryPage = lazy(() => import("./pages/Category/CategoryPage"));
@@ -36,7 +37,8 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Navigation />
+        <Header />
+        {/*<Navigation />*/}
         <GlobalLoader />
         <Suspense fallback={<Loader />}>
           <Routes>
