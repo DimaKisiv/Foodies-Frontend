@@ -1,18 +1,18 @@
-import beefImg from '../assets/images/categories/Beef.jpg';
-import breakfastImg from '../assets/images/categories/Breakfast.jpg';
-import chickenImg from '../assets/images/categories/Chicken.jpg';
-import dessertsImg from '../assets/images/categories/Desserts.jpg';
-import goatImg from '../assets/images/categories/Goat.jpg';
-import lambImg from '../assets/images/categories/Lamb.jpg';
-import miscellaneousImg from '../assets/images/categories/Miscellaneous.jpg';
-import pastaImg from '../assets/images/categories/Pasta.jpg';
-import porkImg from '../assets/images/categories/Pork.jpg';
-import seaFoodImg from '../assets/images/categories/Seafood.jpg';
-import sideImg from '../assets/images/categories/Side.jpg';
-import soupImg from '../assets/images/categories/Soup.jpg';
-import starterImg from '../assets/images/categories/Starter.jpg';
-import veganImg from '../assets/images/categories/Vegan.jpg';
-import vegetarianImg from '../assets/images/categories/Vegetarian.jpg';
+import beefImg from '../assets/images/categories/beef.jpg';
+import breakfastImg from '../assets/images/categories/breakfast.jpg';
+import chickenImg from '../assets/images/categories/chicken.jpg';
+import dessertsImg from '../assets/images/categories/desserts.jpg';
+import goatImg from '../assets/images/categories/goat.jpg';
+import lambImg from '../assets/images/categories/lamb.jpg';
+import miscellaneousImg from '../assets/images/categories/miscellaneous.jpg';
+import pastaImg from '../assets/images/categories/pasta.jpg';
+import porkImg from '../assets/images/categories/pork.jpg';
+import seaFoodImg from '../assets/images/categories/seafood.jpg';
+import sideImg from '../assets/images/categories/side.jpg';
+import soupImg from '../assets/images/categories/soup.jpg';
+import starterImg from '../assets/images/categories/starter.jpg';
+import veganImg from '../assets/images/categories/vegan.jpg';
+import vegetarianImg from '../assets/images/categories/vegetarian.jpg';
 
 
 export const categoryImages = {
