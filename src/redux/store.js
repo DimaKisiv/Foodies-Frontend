@@ -1,12 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./store/auth/authSlice";
-import { usersReducer } from "./store/users/usersSlice";
-import { categoriesReducer } from "./store/categories/categoriesSlice";
-import { ingredientsReducer } from "./store/ingredients/ingredientsSlice";
-import { areasReducer } from "./store/areas/areasSlice";
-import { recipesReducer } from "./store/recipes/recipesSlice";
-import { testimonialsReducer } from "./store/testimonials/testimonialsSlice";
-import { allReducer } from "./store/all/allSlice";
+import { authReducer } from "./auth/authSlice";
+import { usersReducer } from "./users/usersSlice";
+import { categoriesReducer } from "./categories/categoriesSlice";
+import { ingredientsReducer } from "./ingredients/ingredientsSlice";
+import { areasReducer } from "./areas/areasSlice";
+import { recipesReducer } from "./recipes/recipesSlice";
+import { testimonialsReducer } from "./testimonials/testimonialsSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +16,6 @@ const store = configureStore({
     areas: areasReducer,
     recipes: recipesReducer,
     testimonials: testimonialsReducer,
-    all: allReducer,
   },
 });
 
