@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import css from "./SignInModal.module.css"
 import Modal from "../Modal/Modal.jsx";
 import clsx from "clsx";
 import Icon from "../shared/Icon/Icon.jsx";
+import { login } from "../../redux/auth/authOperations.js";
+import { useDispatch } from "react-redux";
 
 function SignInModal({ isOpen, onClose }) {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -47,7 +50,8 @@ function SignInModal({ isOpen, onClose }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!isValid) return;
-        console.log("Form data:", formData);
+
+        dispatch(login(formData));
     };
 
     return (

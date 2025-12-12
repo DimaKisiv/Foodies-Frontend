@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import css from "./SignUpModal.module.css"
 import Modal from "../Modal/Modal.jsx";
 import clsx from "clsx";
 import Icon from "../shared/Icon/Icon.jsx";
+import { register } from "../../redux/auth/authOperations.js";
+import { useDispatch } from "react-redux";
 
 function SignUpModal({ isOpen, onClose }) {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         name: "",
@@ -53,7 +56,11 @@ function SignUpModal({ isOpen, onClose }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!isValid) return;
-        console.log("Form data:", formData);
+
+        const data = formData;
+        data.avatar = '';
+
+        dispatch(register(data));
     };
 
     return (
