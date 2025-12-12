@@ -4,7 +4,12 @@ import styles from './CategoryList.module.css';
 // Твій список "широких" категорій.
 const WIDE_CATEGORIES = ["Breakfast", "Dessert", "Pork", "Side"];
 
-const CategoryList = ({categories = [], onCategorySelect}) => {
+// // Функція, яку ми передаємо вниз у CategoryList
+// const handleCategoryClick = async (categoryName) => {
+//     console.log(`User clicked: ${categoryName}`);
+// };
+
+const CategoryList = ({categories}) => {
     return (
         <div className={styles.gridContainer}>
             {categories.map((cat) => {
@@ -17,7 +22,8 @@ const CategoryList = ({categories = [], onCategorySelect}) => {
                     <CategoryCard
                         key={cat.id || cat._id}
                         category={cat}
-                        onClick={onCategorySelect}
+                        onClick={() => {
+                        }}
                         className={layoutClass} // Передаємо клас
                     />
                 );
@@ -26,7 +32,8 @@ const CategoryList = ({categories = [], onCategorySelect}) => {
             {/* Картка "All Categories" */}
             <div
                 className={`${styles.card} ${styles.allCategoriesCard}`}
-                onClick={() => onCategorySelect('all')}
+                onClick={() => {
+                }}
             >
                 <h3>All Categories</h3>
                 <button className={styles.arrowBtn}>➔</button>
