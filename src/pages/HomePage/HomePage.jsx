@@ -14,7 +14,7 @@ import {
   selectRecipeItems,
   selectRecipesStatus,
 } from "../../redux/recipes/recipesSlice";
-import Hero from "../../components/Hero/Hero.jsx";
+import Hero from "../../components/HomePage/Hero/Hero";
 
 const HomePage = () => {
   const dispatch = useDispatch();
