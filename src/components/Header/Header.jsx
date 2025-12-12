@@ -1,10 +1,12 @@
 import css from "./Header.module.css"
 import { NavLink } from "react-router";
 import clsx from "clsx";
-import {useState} from "react";
+import React, { useState } from "react";
 import LogOutModal from "../LogOutModal/LogOutModal.jsx";
 import SignInModal from "../SignInModal/SignInModal.jsx";
 import SignUpModal from "../SignUpModal/SignUpModal.jsx";
+import { useAuthListener } from "../../hooks/UseAutchListener.jsx";
+import Icon from "../shared/Icon/Icon.jsx";
 
 function Header () {
     const buildLinkClass = ({isActive}) => {
@@ -13,6 +15,8 @@ function Header () {
     const [SignInModalOpen, SignInModalSetOpen] = useState(false);
     const [SignUpModalOpen, SignUpModalSetOpen] = useState(false);
     const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
+    const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
+    const currentUser = useAuthListener();
 
     return (
         <>
@@ -31,12 +35,46 @@ function Header () {
                         Add Recipe
                     </NavLink>
                 </nav>
-                
-                <div className={css['header-actions']}>
-                    <button onClick={() => SignInModalSetOpen(true)}>Sign In</button>
 
-                    <button onClick={() => SignUpModalSetOpen(true)}>Sign Up</button>
-                </div>
+                {currentUser ?
+                    <div className={css['header-profile']} onClick={() => setOpenProfileDropdown(!openProfileDropdown)}>
+                        <div className={css['header-profile-action']}>
+                            <div className={css['header-profile-img']}></div>
+
+                            <p className={css['header-profile-name']}>{currentUser.user.name}</p>
+
+                            <button className={css['header-profile-arrow']}>
+                                <Icon
+                                    id='icon-chevron-down'
+                                    className={`${openProfileDropdown ? css['arrow__up'] : ''}`}
+                                    width={18}
+                                    height={18}
+                                    aria-hidden="true"
+                                />
+                            </button>
+                        </div>
+
+                        {openProfileDropdown && (
+                            <div className={css['header-profile-content']}>
+                                <button className={css['header-profile-content__item']}>Profile</button>
+                                <button className={css['header-profile-content__item']} onClick={() => LogOutModalSetOpen(true)}>
+                                    <span>Log Out</span>
+                                    <Icon
+                                    id='icon-arrow-up-right'
+                                    width={18}
+                                    height={18}
+                                    aria-hidden="true"
+                                /></button>
+                            </div>
+                        )}
+                    </div>
+                    :
+                    <div className={css['header-actions']}>
+                        <button onClick={() => SignInModalSetOpen(true)}>Sign In</button>
+
+                        <button onClick={() => SignUpModalSetOpen(true)}>Sign Up</button>
+                    </div>
+                }
             </div>
 
             <SignInModal isOpen={SignInModalOpen} onClose={() => SignInModalSetOpen(false)}></SignInModal>
