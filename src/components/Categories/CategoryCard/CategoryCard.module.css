@@ -1,17 +1,17 @@
 .card {
-    border-radius: 20px;
-
-    /*aspect-ratio: 4 / 3;*/
     height: 250px;
+    border-radius: 20px;
     overflow: hidden;
     position: relative; /* Щоб позиціонувати текст поверх */
 }
 
 .content {
-    position: absolute; /* 1. Вириваємо з потоку, щоб накласти поверх */
-    bottom: 20px; /* Відступ від низу */
-    left: 20px; /* Відступ зліва */
-    z-index: 10; /* 2. Піднімаємо шар вище картинки */
+    position: absolute;
+    display: flex;
+    bottom: 16px;
+    left: 16px;
+    gap: 4px;
+    z-index: 10;
 }
 
 .image {
@@ -26,5 +26,16 @@
     .card {
         border-radius: 30px;
         height: 369px;
+    }
+
+    .content {
+        bottom: 24px;
+        left: 24px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .content {
+        gap: 10px;
     }
 }
