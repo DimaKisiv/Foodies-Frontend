@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Container from "../Shared/Container/Container";
-import IconLink from "../Shared/IconLink/IconLink";
+import Container from "../shared/Container/Container";
+import IconLink from "../shared/IconLink/IconLink";
 import styles from "./Footer.module.css";
 
 const currentYear = new Date().getFullYear();

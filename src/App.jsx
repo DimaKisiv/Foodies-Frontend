@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Loader from "./components/Shared/Loader/Loader";
-import Navigation from "./components/Shared/Navigation/Navigation";
+import Loader from "./components/shared/Loader/Loader";
+import Navigation from "./components/shared/Navigation/Navigation";
 import Footer from "./components/Footer/Footer";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));

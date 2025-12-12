@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPopularRecipes } from "../../redux/store/recipes/recipesOperations";
 import { fetchCategories } from "../../redux/store/categories/categoriesOperations";
 import Loader from "../../components/shared/Loader/Loader";
+import Icon from "../../components/shared/Icon/Icon";
 import {
   selectPopularRecipes,
   selectRecipesStatus,
@@ -27,6 +28,7 @@ const HomePage = () => {
   return (
     <main>
       <h2>Home</h2>
+      <Icon id="icon-facebook"></Icon>
       <section>
         <h3>Popular Recipes</h3>
         {recipesStatus === "loading" && <Loader />}
