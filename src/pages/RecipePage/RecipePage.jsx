@@ -8,6 +8,7 @@ import {
 } from "../../redux/store/recipes/recipesSlice";
 import Loader from "../../components/shared/Loader/Loader";
 import { fetchRecipeById } from "../../redux/store/recipes/recipesOperations";
+import styles from "./RecipePage.module.css";
 
 const RecipePage = () => {
   const { id } = useParams();
@@ -20,8 +21,7 @@ const RecipePage = () => {
   }, [dispatch, id]);
 
   return (
-    <section>
-      <h2>Recipe details</h2>
+    <section className={styles["recipe-page"]}>
       {status === "loading" && <Loader />}
       {recipe != null && <RecipeInfo recipe={recipe} />}
     </section>
