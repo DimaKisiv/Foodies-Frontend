@@ -1,0 +1,30 @@
+.card {
+    border-radius: 20px;
+
+    /*aspect-ratio: 4 / 3;*/
+    height: 250px;
+    overflow: hidden;
+    position: relative; /* Щоб позиціонувати текст поверх */
+}
+
+.content {
+    position: absolute; /* 1. Вириваємо з потоку, щоб накласти поверх */
+    bottom: 20px; /* Відступ від низу */
+    left: 20px; /* Відступ зліва */
+    z-index: 10; /* 2. Піднімаємо шар вище картинки */
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .card {
+        border-radius: 30px;
+        height: 369px;
+    }
+}
