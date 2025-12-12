@@ -1,6 +1,5 @@
 import css from "./Hero.module.css"
 import { NavLink } from "react-router";
-
 function Hero () {
 
     return (
@@ -15,6 +14,11 @@ function Hero () {
                 <NavLink to="/add-recipe" className={css['hero-btn']}>
                     Add Recipe
                 </NavLink>
+
+                <div className={css['hero-decors']}>
+                    <div className={css['hero-img-1']}></div>
+                    <div className={css['hero-img-2']}></div>
+                </div>
             </div>
         </>
     )

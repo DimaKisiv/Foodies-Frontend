@@ -29,6 +29,26 @@
     color: #FFFFFF;
 }
 
+.hero-decors {
+    display: flex;
+    margin-top: 40px;
+}
+.hero-img-1 {
+    display: block;
+    width: 128px;
+    height: 116px;
+    margin-top: 120px;
+    background-image: url('../../assets/hero1.svg');
+    background-size: cover;
+}
+.hero-img-2 {
+    display: block;
+    width: 302px;
+    height: 273px;
+    background-image: url('../../assets/hero2.svg');
+    background-size: cover;
+}
+
 .hero-btn {
     text-transform: uppercase;
     background-color: #FFFFFF;
