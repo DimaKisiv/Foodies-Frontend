@@ -1,19 +1,26 @@
 import styles from "../RecipeInfo.module.css";
 
-export default function RecipePreparation({ instructions, isFavorite }) {
-  const handleFavoritesChange = () => {};
-
+export default function RecipePreparation({
+  instructions,
+  isFavorite,
+  onFavoriteClick,
+}) {
   return (
     <>
       <h3 className={styles["section-header"]}>Recipe Preparation</h3>
       <p className={styles.description}>{instructions}</p>
 
-      {/* TODO change text and probably styles when recipe is favorite */}
       <button
-        className={styles["favorites-button"]}
-        onClick={handleFavoritesChange}
+        className={
+          styles[
+            isFavorite
+              ? "remove-from-favorites-button"
+              : "add-to-favorites-button"
+          ]
+        }
+        onClick={onFavoriteClick}
       >
-        Add to favorites
+        {isFavorite ? "Remove from favorites" : "Add to favorites"}
       </button>
     </>
   );
