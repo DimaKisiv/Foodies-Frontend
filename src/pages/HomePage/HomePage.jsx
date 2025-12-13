@@ -15,6 +15,13 @@ import {
   selectRecipesStatus,
 } from "../../redux/recipes/recipesSlice";
 import Hero from "../../components/HomePage/Hero/Hero";
+import TestimonialsCarousel from "../../components/Testimonials/TestimonialsCarousel/TestimonialsCarousel.jsx";
+import {
+  selectTestimonialsItems,
+  selectTestimonialsStatus
+} from "../../redux/testimonials/testimonialsSlice.js";
+import { fetchTestimonials } from "../../redux/testimonials/testimonialsOperations.js";
+import css from "./HomePage.module.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -22,12 +29,15 @@ const HomePage = () => {
   const categoriesStatus = useSelector(selectCategoriesStatus);
   const recipes = useSelector(selectRecipeItems);
   const recipesStatus = useSelector(selectRecipesStatus);
+  const testimonials = useSelector(selectTestimonialsItems);
+  const testimonialsStatus = useSelector(selectTestimonialsStatus);
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     dispatch(fetchPopularRecipes());
     dispatch(fetchCategories());
+    dispatch(fetchTestimonials());
   }, [dispatch]);
 
   const handleSelectCategory = (name) => (e) => {
@@ -119,6 +129,14 @@ const HomePage = () => {
           )}
         </section>
       )}
+      <section className={css.testimonials}>
+        <div className={css.testimonialsWrapper}>
+          <h5>What our customer say</h5>
+          <h2>Testimonials</h2>
+          {testimonialsStatus === "loading" && <Loader />}
+          {testimonials.length > 0 && <TestimonialsCarousel slideList={testimonials}/>}
+        </div>
+      </section>
     </main>
   );
 };

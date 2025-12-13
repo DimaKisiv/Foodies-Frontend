@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Icon from "../../shared/Icon/Icon.jsx";
 import TestimonialCard from "../TestimonialCard/TestimonialCard.jsx";
 import css from "./TestimonialsCarousel.module.css";
 import "./styles.css";
@@ -17,15 +18,23 @@ const TestimonialsCarousel = ({ slideList }) => {
   };
 
   return (
-    <Slider {...settings}>
-      {slideList.map(({ id, testimonial, owner }) => (
-        <TestimonialCard
-          id={id}
-          text={testimonial}
-          author={owner.name}
-        />
-      ))}
-    </Slider>
+    <div className={css.container}>
+      <Icon
+        className={css.quotes}
+        id="icon-quotes"
+        width={59}
+        height={48}
+      />
+      <Slider {...settings}>
+        {slideList.map(({ id, testimonial, owner }) => (
+          <TestimonialCard
+            id={id}
+            text={testimonial}
+            author={owner.name}
+          />
+        ))}
+      </Slider>
+    </div>
   );
 }
 
