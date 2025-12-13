@@ -1,6 +1,6 @@
 import styles from './CategoryCard.module.css';
 import { getCategoryImage } from "../../../utils/categoryImages.js";
-import Icon from "../../shared/Icon/Icon.jsx"; // Шлях залежить від того, де лежить компонент
+import Icon from "../../shared/Icon/Icon.jsx";
 
 
 const CategoryCard = ({category, onClick, className = ''}) => {
