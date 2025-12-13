@@ -1,0 +1,167 @@
+.recipe {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumb {
+  border-radius: 30px;
+  width: 343px;
+  height: 318px;
+}
+
+.section-header {
+  margin: 0;
+  margin-top: 32px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.33333;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #050505;
+}
+
+.tags-list {
+  /* ul override */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.tag {
+  border: 1px solid #bfbebe;
+  border-radius: 20px;
+  padding: 10px;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.02em;
+  color: #bfbebe;
+}
+
+.description {
+  margin-top: 20px;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+}
+
+.author {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.author-avatar {
+  border-radius: 30px;
+  width: 32px;
+  height: 32px;
+}
+
+.author-name-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.author-created-by-text {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: #bfbebe;
+  margin: 0;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  color: #bfbebe;
+  margin: 0;
+}
+
+.ingredients-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ingredient {
+  display: flex;
+}
+
+.ingredient img {
+  border: 1px solid #bfbebe;
+  border-radius: 15px;
+  width: 75px;
+  height: 75px;
+  padding: 10px;
+}
+
+.ingredient div {
+  margin-left: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+}
+
+.ingredient-name {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  color: #050505;
+}
+
+.ingredient-measure {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  color: #bfbebe;
+}
+
+.favorites-button {
+  margin-top: 32px;
+
+  width: max-content;
+  padding: 14px 20px;
+
+  background-color: transparent;
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+
+  transition: background-color 0.25s linear, color 0.25s linear;
+}
+
+.favorites-button:hover,
+.favorites-button:focus {
+  background-color: #050505;
+  color: #fff;
+}
+/* TODO adjust button when recipe is favorite */
