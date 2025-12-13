@@ -3,6 +3,9 @@ import {
   fetchRecipes,
   fetchPopularRecipes,
   fetchRecipeById,
+  fetchFavoritesRecipes,
+  addRecipeToFavorites,
+  deleteRecipeFromFavorites
 } from "./recipesOperations";
 
 const slice = createSlice({
@@ -10,6 +13,7 @@ const slice = createSlice({
   initialState: {
     items: [],
     popular: [],
+    favorites: [],
     current: null,
     status: "idle",
     error: null,
@@ -55,6 +59,45 @@ const slice = createSlice({
       .addCase(fetchRecipeById.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
+      })
+      // add to favorites
+      .addCase(addRecipeToFavorites.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(addRecipeToFavorites.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.favorites = payload.favorites;
+      })
+      .addCase(addRecipeToFavorites.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+      // remove from favorites
+      .addCase(deleteRecipeFromFavorites.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteRecipeFromFavorites.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.favorites = payload.favorites;
+      })
+      .addCase(deleteRecipeFromFavorites.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+      // fetch favorites
+      .addCase(fetchFavoritesRecipes.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchFavoritesRecipes.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.favorites = payload.items;
+      })
+      .addCase(fetchFavoritesRecipes.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
       });
   },
 });
@@ -68,3 +111,4 @@ export const selectPopularRecipes = (state) => state.recipes.popular;
 export const selectCurrentRecipe = (state) => state.recipes.current;
 export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
+export const selectFavoritesRecipes = (state) => state.recipes.favorites;
