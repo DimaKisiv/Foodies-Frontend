@@ -19,12 +19,7 @@ const TestimonialsCarousel = ({ slideList }) => {
 
   return (
     <div className={css.container}>
-      <Icon
-        className={css.quotes}
-        id="icon-quotes"
-        width={59}
-        height={48}
-      />
+      <Icon className={css.quotes} id="icon-quotes" />
       <Slider {...settings}>
         {slideList.map(({ id, testimonial, owner }) => (
           <TestimonialCard
