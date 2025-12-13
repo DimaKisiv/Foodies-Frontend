@@ -3,9 +3,7 @@ import styles from "../RecipeInfo.module.css";
 export default function RecipeMainInfo({ recipe, owner }) {
   return (
     <>
-      <img className={styles["thumb"]} src={recipe.thumb} />
-
-      <h3 className={styles["section-header"]}>{recipe.title}</h3>
+      <h3 className={styles["title"]}>{recipe.title}</h3>
       <ul className={styles["tags-list"]}>
         <li key="category" className={styles.tag}>
           {recipe.category}
