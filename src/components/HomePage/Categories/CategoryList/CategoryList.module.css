@@ -1,0 +1,23 @@
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    grid-auto-flow: dense;
+}
+
+@media (min-width: 768px) {
+    .gridContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Широка картка займає весь ряд (2 з 2) */
+    .wideCard {
+        grid-column: span 2;
+    }
+}
+
+@media (min-width: 1440px) {
+    .gridContainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

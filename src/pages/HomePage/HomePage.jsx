@@ -9,7 +9,7 @@ import {
 } from "../../redux/categories/categoriesSlice";
 import SectionTitle from "../../components/shared/SectionTitle/SectionTitle.jsx";
 import SectionSubtitle from "../../components/shared/SectionSubtitle/SectionSubtitle.jsx";
-import CategoryList from "../../components/Categories/CategoryList/CategoryList.jsx";
+import CategoryList from "../../components/HomePage/Categories/CategoryList/CategoryList.jsx";
 
 const HomePage = () => {
   const dispatch = useDispatch();
