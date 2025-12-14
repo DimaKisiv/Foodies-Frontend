@@ -12,7 +12,7 @@ import {
 const RecipeInfo = ({ recipe }) => {
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavoritesRecipes);
-  
+
   const isRecipeFavorite = favorites.map((item) => item.id).includes(recipe.id);
 
   const handleFavoriteClick = () => {
@@ -25,13 +25,16 @@ const RecipeInfo = ({ recipe }) => {
 
   return (
     <div className={styles.recipe}>
-      <RecipeMainInfo recipe={recipe} owner={recipe.owner} />
-      <RecipeIngredients ingredients={recipe.ingredientsDetailed} />
-      <RecipePreparation
-        instructions={recipe.instructions}
-        isFavorite={isRecipeFavorite}
-        onFavoriteClick={handleFavoriteClick}
-      />
+      <img className={styles["thumb"]} src={recipe.thumb} />
+      <div>
+        <RecipeMainInfo recipe={recipe} owner={recipe.owner} />
+        <RecipeIngredients ingredients={recipe.ingredientsDetailed} />
+        <RecipePreparation
+          instructions={recipe.instructions}
+          isFavorite={isRecipeFavorite}
+          onFavoriteClick={handleFavoriteClick}
+        />
+      </div>
     </div>
   );
 };
