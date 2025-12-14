@@ -20,6 +20,15 @@ const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setAuthFromStorage(state, { payload }) {
+      const token = payload?.token ?? null;
+      const user = payload?.user ?? null;
+
+      state.user = user;
+      state.token = token;
+      state.isAuthenticated = Boolean(token);
+      setAuthToken(token);
+    },
     setToken(state, { payload }) {
       state.token = payload;
       state.isAuthenticated = Boolean(payload);
@@ -105,7 +114,7 @@ const slice = createSlice({
   },
 });
 
-export const { setToken } = slice.actions;
+export const { setAuthFromStorage, setToken } = slice.actions;
 export const authReducer = slice.reducer;
 
 // Selectors

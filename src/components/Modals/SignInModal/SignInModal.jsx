@@ -47,11 +47,19 @@ function SignInModal({ isOpen, onClose }) {
     setTouched({ ...touched, [name]: true });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValid) return;
 
-    dispatch(login(formData));
+    try {
+      await dispatch(login(formData)).unwrap();
+      setFormData({ email: "", password: "" });
+      setTouched({ email: false, password: false });
+      setShowPassword(false);
+      onClose?.();
+    } catch {
+      // TODO: Display error message to user
+    }
   };
 
   return (
