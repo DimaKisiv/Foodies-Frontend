@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/';
+const API_URL = 'http://localhost:3000/';
 
 const categoryFileNames = {
   "Beef": "beef.jpg",
@@ -22,7 +22,6 @@ export const getCategoryImage = (categoryName) => {
   const fileName = categoryFileNames[categoryName];
 
   if (!fileName) {
-    // Тут теж використовуємо змінну
     return `${API_URL}/categories/beef.jpg`;
   }
 

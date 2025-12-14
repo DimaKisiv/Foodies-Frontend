@@ -1,5 +1,6 @@
 import styles from './Subtitle.module.css';
 
+
 const Subtitle = ({children, maxWidth}) => {
   const container = maxWidth ? {maxWidth: maxWidth} : {};
 
