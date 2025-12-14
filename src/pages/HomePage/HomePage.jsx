@@ -61,7 +61,7 @@ const HomePage = () => {
       </h3>
       <section>
         <MainTitle>Categories</MainTitle>
-        <Subtitle>
+        <Subtitle maxWidth={531}>
           Discover a limitless world of culinary possibilities and enjoy exquisite recipes that
           combine taste, style and the warm atmosphere of the kitchen.
         </Subtitle>

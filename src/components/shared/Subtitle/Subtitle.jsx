@@ -1,7 +1,13 @@
 import styles from './Subtitle.module.css';
 
+const Subtitle = ({children, maxWidth}) => {
+  const container = maxWidth ? {maxWidth: maxWidth} : {};
 
-const Subtitle = ({children}) => {
-  return <p className={styles.text}>{children}</p>;
+  return (
+    <div style={container}>
+      <p className={styles.text}>{children}</p>
+    </div>
+  );
 };
+
 export default Subtitle;
