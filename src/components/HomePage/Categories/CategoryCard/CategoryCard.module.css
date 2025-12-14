@@ -2,7 +2,7 @@
     height: 250px;
     border-radius: 20px;
     overflow: hidden;
-    position: relative; /* Щоб позиціонувати текст поверх */
+    position: relative;
 }
 
 .image {
