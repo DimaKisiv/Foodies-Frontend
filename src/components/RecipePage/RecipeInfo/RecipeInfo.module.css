@@ -139,7 +139,7 @@
   color: #bfbebe;
 }
 
-.favorites-button {
+.add-to-favorites-button {
   margin-top: 32px;
 
   width: max-content;
@@ -155,13 +155,22 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #1a1a1a;
-
-  transition: background-color 0.25s linear, color 0.25s linear;
 }
 
-.favorites-button:hover,
-.favorites-button:focus {
-  background-color: #050505;
+.remove-from-favorites-button {
+  margin-top: 32px;
+
+  width: max-content;
+  padding: 14px 20px;
+
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+  background: #050505;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   color: #fff;
 }
-/* TODO adjust button when recipe is favorite */
