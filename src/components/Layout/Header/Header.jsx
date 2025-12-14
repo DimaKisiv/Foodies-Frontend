@@ -1,36 +1,110 @@
-import { Link } from "react-router";
-import styles from "./Header.module.css";
+import css from "./Header.module.css";
+import { NavLink } from "react-router";
+import clsx from "clsx";
+import React, { useState } from "react";
+import LogOutModal from "../../Modals/LogOutModal/LogOutModal.jsx";
+import SignInModal from "../../Modals/SignInModal/SignInModal.jsx";
+import SignUpModal from "../../Modals/SignUpModal/SignUpModal.jsx";
+import Icon from "../../shared/Icon/Icon";
+import { useSelector } from "react-redux";
+import { selectAuthUser, selectIsAuthenticated } from "../../../redux/auth/authSlice";
+function Header() {
+  const buildLinkClass = ({ isActive }) => {
+    return clsx(
+      css["header-nav-link"],
+      isActive && css["header-nav-link--active"]
+    );
+  };
+  const [SignInModalOpen, SignInModalSetOpen] = useState(false);
+  const [SignUpModalOpen, SignUpModalSetOpen] = useState(false);
+  const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
+  const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectAuthUser);
 
-const routes = [
-  { to: "/", label: "Home" },
-  {
-    to: "/recipe/WqTbctwYxTVNYiRc5hvTD",
-    label: "Recipe (Salmon Avocado Salad)",
-  },
-  { to: "/recipe/add", label: "Add Recipe" },
-  { to: "/user/xe5qH2mG0yokWj_51txi8", label: "User" },
-  { to: "/user/xe5qH2mG0yokWj_51txi8/my-recipes", label: "My Recipes" },
-  { to: "/user/xe5qH2mG0yokWj_51txi8/my-favorites", label: "My Favorites" },
-  { to: "/user/xe5qH2mG0yokWj_51txi8/followers", label: "Followers" },
-  { to: "/user/xe5qH2mG0yokWj_51txi8/following", label: "Following" },
-];
-
-const Header = () => {
   return (
-    <header>
-      <nav className={styles.nav}>
-        <ul className={styles.list}>
-          {routes.map((r) => (
-            <li key={r.to}>
-              <Link to={r.to} className={styles.link}>
-                {r.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
+    <>
+      <div className={css["header"]}>
+        <NavLink to="/" className={css.logo}>
+          foodies
+        </NavLink>
+
+        <nav className={css["header-nav"]}>
+          <NavLink to="/" className={buildLinkClass}>
+            Home
+          </NavLink>
+
+          <NavLink to="/add-recipe" className={buildLinkClass}>
+            Add Recipe
+          </NavLink>
+        </nav>
+
+        {isAuthenticated && user ? (
+          <div
+            className={css["header-profile"]}
+            onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
+          >
+            <div className={css["header-profile-action"]}>
+              <div className={css["header-profile-img"]}></div>
+
+              <p className={css["header-profile-name"]}>
+                {user.name}
+              </p>
+
+              <button className={css["header-profile-arrow"]}>
+                <Icon
+                  id="icon-chevron-down"
+                  className={`${openProfileDropdown ? css["arrow__up"] : ""}`}
+                  width={18}
+                  height={18}
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+
+            {openProfileDropdown && (
+              <div className={css["header-profile-content"]}>
+                <button className={css["header-profile-content__item"]}>
+                  Profile
+                </button>
+                <button
+                  className={css["header-profile-content__item"]}
+                  onClick={() => LogOutModalSetOpen(true)}
+                >
+                  <span>Log Out</span>
+                  <Icon
+                    id="icon-arrow-up-right"
+                    width={18}
+                    height={18}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={css["header-actions"]}>
+            <button onClick={() => SignInModalSetOpen(true)}>Sign In</button>
+
+            <button onClick={() => SignUpModalSetOpen(true)}>Sign Up</button>
+          </div>
+        )}
+      </div>
+
+      <SignInModal
+        isOpen={SignInModalOpen}
+        onClose={() => SignInModalSetOpen(false)}
+      ></SignInModal>
+      <SignUpModal
+        isOpen={SignUpModalOpen}
+        onClose={() => SignUpModalSetOpen(false)}
+      ></SignUpModal>
+      <LogOutModal
+        isOpen={LogOutModalOpen}
+        onClose={() => LogOutModalSetOpen(false)}
+      ></LogOutModal>
+    </>
   );
-};
+}
 
 export default Header;

@@ -5,8 +5,19 @@
 
 .thumb {
   border-radius: 30px;
-  width: 343px;
-  height: 318px;
+  max-width: 100%;
+  height: max-content;
+}
+
+.title {
+  margin: 0;
+  margin-top: 32px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.33333;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #050505;
 }
 
 .section-header {
@@ -45,6 +56,7 @@
 }
 
 .description {
+  margin: 0;
   margin-top: 20px;
 
   font-weight: 500;
@@ -95,6 +107,7 @@
 
 .ingredients-grid {
   margin-top: 20px;
+  width: max-content;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -139,7 +152,7 @@
   color: #bfbebe;
 }
 
-.favorites-button {
+.add-to-favorites-button {
   margin-top: 32px;
 
   width: max-content;
@@ -155,13 +168,115 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #1a1a1a;
-
-  transition: background-color 0.25s linear, color 0.25s linear;
 }
 
-.favorites-button:hover,
-.favorites-button:focus {
-  background-color: #050505;
+.remove-from-favorites-button {
+  margin-top: 32px;
+
+  width: max-content;
+  padding: 14px 20px;
+
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+  background: #050505;
+
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.42857;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   color: #fff;
 }
-/* TODO adjust button when recipe is favorite */
+
+@media screen and (min-width: 768px) {
+  .title {
+    margin-top: 40px;
+    font-size: 24px;
+    line-height: 1.16667;
+  }
+
+  .section-header {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .author-created-by-text {
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+
+  .author-name {
+    margin-top: 4px;
+
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+  }
+
+  .ingredients-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .ingredient img {
+    width: 75px;
+    height: 75px;
+    padding: 15px;
+  }
+
+  .ingredient-name {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .ingredient-measure {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .add-to-favorites-button {
+    margin-top: 40px;
+    padding: 14px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .remove-from-favorites-button {
+    margin-top: 40px;
+    padding: 14px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .recipe {
+    flex-direction: row;
+    gap: 80px;
+  }
+
+  .recipe div {
+    flex: 1;
+  }
+
+  .thumb {
+    width: 551px;
+    height: 400px;
+    object-fit: cover;
+  }
+
+  .title {
+    margin-top: 0;
+  }
+}

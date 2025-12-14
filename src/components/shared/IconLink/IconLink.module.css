@@ -7,7 +7,7 @@
   height: 36px;
 
   border-radius: 999px;
-  border: 1px solid rgba(5, 5, 5, 0.15);
+  border: 1px solid var(--gray);
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
@@ -24,7 +24,7 @@
 }
 
 .social {
-  border-color: rgba(5, 5, 5, 0.1);
+  border-color: var(--gray);
 }
 
 .iconLink:hover,

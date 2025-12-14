@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.quotes {
+    padding-left: 16px;
+    width: 40px;
+    height: 32px;
+    color: #bfbebe;
+}
+
+@media screen and (min-width: 768px) {}
+
+@media screen and (min-width: 1440px) {
+    .quotes {
+        padding-left: 32px;
+        width: 59px;
+        height: 48px;
+    }
+}

@@ -1,4 +1,27 @@
-import styles from "./Hero.module.css";
-export default function Hero() {
-  return <div>Hero</div>;
+import css from "./Hero.module.css"
+import { NavLink } from "react-router";
+function Hero () {
+
+    return (
+        <>
+            <div className={css['hero']}>
+                <h2 className={css['hero-title']}>Improve Your <br/> Culinary Talents</h2>
+
+                <p className={css['hero-description']}>
+                    Amazing recipes for beginners in the world of cooking, enveloping you in the aromas and tastes of various cuisines.
+                </p>
+
+                <NavLink to="/add-recipe" className={css['hero-btn']}>
+                    Add Recipe
+                </NavLink>
+
+                <div className={css['hero-decors']}>
+                    <div className={css['hero-img-1']}></div>
+                    <div className={css['hero-img-2']}></div>
+                </div>
+            </div>
+        </>
+    )
 }
+
+export default Hero

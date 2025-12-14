@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+}
+
+.text {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.35;
+    letter-spacing: var(--letter-spacing-base);
+}
+
+.author {
+    margin-top: 16px;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: var(--letter-spacing-base);
+    text-transform: uppercase;
+}
+
+@media screen and (min-width: 768px) {
+    .text {
+        font-size: 24px;
+        line-height: 1.5;
+    }
+
+    .author {
+        font-size: 20px;
+        line-height: 1.2;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 0;
+    }
+}
