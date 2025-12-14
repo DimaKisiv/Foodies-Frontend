@@ -7,6 +7,7 @@ import GlobalReduxLoader from "./components/Shared/GlobalReduxLoader/GlobalRedux
 import SharedLayout from "./components/Layout/SharedLayout";
 import FollowersPage from "./pages/UserPage/FollowersPage/FollowersPage";
 import FollowingPage from "./pages/UserPage/FollowingPage/FollowingPage";
+import AuthProvider from "./providers/AuthProvider";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const RecipePage = lazy(() => import("./pages/RecipePage/RecipePage"));
@@ -22,6 +23,7 @@ const MyFavoritesPage = lazy(() =>
 function App() {
   return (
     <Provider store={store}>
+      <AuthProvider>
       <Router>
         <GlobalReduxLoader />
         <Suspense fallback={<Loader />}>
@@ -45,6 +47,7 @@ function App() {
           </Routes>
         </Suspense>
       </Router>
+      </AuthProvider>
     </Provider>
   );
 }

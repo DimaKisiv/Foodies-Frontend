@@ -54,14 +54,20 @@ function SignUpModal({ isOpen, onClose }) {
     setTouched({ ...touched, [name]: true });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValid) return;
 
-    const data = formData;
-    data.avatar = "";
+    const data = { ...formData, avatar: "" };
 
-    dispatch(register(data));
+    try {
+      await dispatch(register(data)).unwrap();
+      setFormData({ email: "", name: "", password: "" });
+      setTouched({ email: false, name: false, password: false });
+      setShowPassword(false);
+      onClose?.();
+    } catch {
+    }
   };
 
   return (

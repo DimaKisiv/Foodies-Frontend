@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import LogOutModal from "../../Modals/LogOutModal/LogOutModal.jsx";
 import SignInModal from "../../Modals/SignInModal/SignInModal.jsx";
 import SignUpModal from "../../Modals/SignUpModal/SignUpModal.jsx";
-import { useAuthListener } from "../../../hooks/UseAutchListener.jsx";
 import Icon from "../../shared/Icon/Icon";
+import { useSelector } from "react-redux";
+import { selectAuthUser, selectIsAuthenticated } from "../../../redux/auth/authSlice";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -18,7 +19,8 @@ function Header() {
   const [SignUpModalOpen, SignUpModalSetOpen] = useState(false);
   const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
-  const currentUser = useAuthListener();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectAuthUser);
 
   return (
     <>
@@ -37,7 +39,7 @@ function Header() {
           </NavLink>
         </nav>
 
-        {currentUser ? (
+        {isAuthenticated && user ? (
           <div
             className={css["header-profile"]}
             onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
@@ -46,7 +48,7 @@ function Header() {
               <div className={css["header-profile-img"]}></div>
 
               <p className={css["header-profile-name"]}>
-                {currentUser.user.name}
+                {user.name}
               </p>
 
               <button className={css["header-profile-arrow"]}>

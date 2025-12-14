@@ -7,10 +7,14 @@ import Modal from "../Modal.jsx";
 function LogOutModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(logout());
+    try {
+      await dispatch(logout()).unwrap();
+      onClose?.();
+    } catch {
+    }
   };
 
   return (
