@@ -7,7 +7,10 @@ import SignInModal from "../../Modals/SignInModal/SignInModal.jsx";
 import SignUpModal from "../../Modals/SignUpModal/SignUpModal.jsx";
 import Icon from "../../shared/Icon/Icon";
 import { useSelector } from "react-redux";
-import { selectAuthUser, selectIsAuthenticated } from "../../../redux/auth/authSlice";
+import {
+  selectAuthUser,
+  selectIsAuthenticated,
+} from "../../../redux/auth/authSlice";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -34,7 +37,7 @@ function Header() {
             Home
           </NavLink>
 
-          <NavLink to="/add-recipe" className={buildLinkClass}>
+          <NavLink to="/recipe/add" className={buildLinkClass}>
             Add Recipe
           </NavLink>
         </nav>
@@ -47,9 +50,7 @@ function Header() {
             <div className={css["header-profile-action"]}>
               <div className={css["header-profile-img"]}></div>
 
-              <p className={css["header-profile-name"]}>
-                {user.name}
-              </p>
+              <p className={css["header-profile-name"]}>{user.name}</p>
 
               <button className={css["header-profile-arrow"]}>
                 <Icon
