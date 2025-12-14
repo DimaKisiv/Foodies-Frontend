@@ -10,8 +10,8 @@ import {
   selectCategoriesItems,
   selectCategoriesStatus,
 } from "../../redux/categories/categoriesSlice";
-import SectionTitle from "../../components/shared/SectionTitle/SectionTitle.jsx";
-import SectionSubtitle from "../../components/shared/SectionSubtitle/SectionSubtitle.jsx";
+import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
+import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 import CategoryList from "../../components/HomePage/Categories/CategoryList/CategoryList.jsx";
 import {
   selectRecipeItems,
@@ -46,12 +46,12 @@ const HomePage = () => {
   const handleSelectCategory = (name) => (e) => {
     e.preventDefault();
     setSelectedCategory(name);
-    dispatch(fetchRecipes({ category: name }));
+    dispatch(fetchRecipes({category: name}));
   };
 
   return (
     <main>
-      <Hero />
+      <Hero/>
 
       <h2>Home</h2>
       <h3>
@@ -60,19 +60,19 @@ const HomePage = () => {
         </a>
       </h3>
       <section>
-        <SectionTitle>Categories</SectionTitle>
-        <SectionSubtitle>
+        <MainTitle>Categories</MainTitle>
+        <Subtitle>
           Discover a limitless world of culinary possibilities and enjoy exquisite recipes that
           combine taste, style and the warm atmosphere of the kitchen.
-        </SectionSubtitle>
+        </Subtitle>
         {categoriesStatus === "loading" && <Loader/>}
         {categories.length > 0 && <CategoryList categories={categories}/>}
       </section>
 
       {selectedCategory && (
-        <section id="recipes" style={{ marginTop: 16 }}>
+        <section id="recipes" style={{marginTop: 16}}>
           <h3>Recipes in {selectedCategory}</h3>
-          {recipesStatus === "loading" && <Loader />}
+          {recipesStatus === "loading" && <Loader/>}
           {recipesStatus === "failed" && (
             <p>Failed to load recipes. Please try again.</p>
           )}
@@ -80,7 +80,7 @@ const HomePage = () => {
             <p>No recipes found for this category.</p>
           )}
           {recipes?.length > 0 && recipesStatus === "succeeded" && (
-            <ul style={{ listStyle: "none", padding: 0 }}>
+            <ul style={{listStyle: "none", padding: 0}}>
               {recipes.map((r) => (
                 <li
                   key={r.id || r._id || r.slug || `${r.title}-${r.name}`}
@@ -107,15 +107,15 @@ const HomePage = () => {
                         src={r.thumb}
                         alt={r.title || r.name}
                         width="80"
-                        style={{ objectFit: "cover", borderRadius: 8 }}
+                        style={{objectFit: "cover", borderRadius: 8}}
                       />
                     )}
                     <div>
-                      <div style={{ fontWeight: 600 }}>
+                      <div style={{fontWeight: 600}}>
                         {r.title || r.name || "Untitled Recipe"}
                       </div>
                       {r.description && (
-                        <div style={{ color: "#666" }}>{r.description}</div>
+                        <div style={{color: "#666"}}>{r.description}</div>
                       )}
                     </div>
                   </a>
@@ -129,7 +129,7 @@ const HomePage = () => {
         <div className={css.testimonialsWrapper}>
           <h5>What our customer say</h5>
           <h2>Testimonials</h2>
-          {testimonialsStatus === "loading" && <Loader />}
+          {testimonialsStatus === "loading" && <Loader/>}
           {testimonials.length > 0 && <TestimonialsCarousel slideList={testimonials}/>}
         </div>
       </section>
