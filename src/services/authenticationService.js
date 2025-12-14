@@ -11,7 +11,6 @@ export const getStoredAuth = () => {
     return {
       token: parsed.token ?? null,
       user: parsed.user ?? null,
-      raw: parsed,
     };
   } catch {
     return null;

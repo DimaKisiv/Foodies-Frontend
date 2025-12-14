@@ -67,6 +67,7 @@ function SignUpModal({ isOpen, onClose }) {
       setShowPassword(false);
       onClose?.();
     } catch {
+      // TODO: Display error message to user
     }
   };
 

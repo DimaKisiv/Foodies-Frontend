@@ -14,6 +14,7 @@ function LogOutModal({ isOpen, onClose }) {
       await dispatch(logout()).unwrap();
       onClose?.();
     } catch {
+      // TODO: Display error message to user
     }
   };
 
