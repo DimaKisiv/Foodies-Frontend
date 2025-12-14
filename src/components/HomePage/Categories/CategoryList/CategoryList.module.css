@@ -3,21 +3,43 @@
     grid-template-columns: 1fr;
     gap: 20px;
     grid-auto-flow: dense;
+    margin-bottom: 64px;
+}
+
+.card {
+    border-radius: 30px;
+    width: 100%;
+    min-height: 250px;
+    border: none;
+    outline: none;
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 @media (min-width: 768px) {
     .gridContainer {
         grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 100px;
     }
 
-    /* Широка картка займає весь ряд (2 з 2) */
     .wideCard {
         grid-column: span 2;
+    }
+
+    .card {
+        font-size: 20px;
+        line-height: 1.2;
     }
 }
 
 @media (min-width: 1440px) {
     .gridContainer {
         grid-template-columns: repeat(4, 1fr);
+        margin-bottom: 120px;
     }
 }

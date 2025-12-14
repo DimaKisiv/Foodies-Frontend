@@ -1,47 +1,36 @@
 import CategoryCard from '../CategoryCard/CategoryCard.jsx';
 import styles from './CategoryList.module.css';
+import { useState } from "react";
 
-// Твій список "широких" категорій.
-const WIDE_CATEGORIES = ["Breakfast", "Dessert", "Pork", "Side"];
 
-// // Функція, яку ми передаємо вниз у CategoryList
-// const handleCategoryClick = async (categoryName) => {
-//     console.log(`User clicked: ${categoryName}`);
-// };
+const WIDE_CATEGORIES = [2, 3, 7, 9];
 
 const CategoryList = ({categories}) => {
+  const [showAll, setShowAll] = useState(false);
+
   return (
     <div className={styles.gridContainer}>
-      {categories.map((cat) => {
-
-        const isWide = WIDE_CATEGORIES.includes(cat.name);
-
-        const layoutClass = isWide ? styles.wideCard : '';
+      {(showAll ? categories : categories.slice(0, 11)).map((category, i) => {
+        const layoutClass = WIDE_CATEGORIES.includes(i) ? styles.wideCard : '';
 
         return (
           <CategoryCard
-            key={cat.id || cat._id}
-            category={cat}
+            key={category.id}
+            category={category}
             onClick={() => {
             }}
-            className={layoutClass} // Передаємо клас
+            className={layoutClass}
           />
         );
       })}
-
-      {/* Картка "All Categories" */}
-      <div
-        className={`${styles.card} ${styles.allCategoriesCard}`}
-        onClick={() => {
-        }}
+      <button
+        className={styles.card}
+        onClick={() => setShowAll(!showAll)}
       >
-        <h3>All Categories</h3>
-        <button className={styles.arrowBtn}>➔</button>
-      </div>
+        {showAll ? "Show less" : "All Categories"}
+      </button>
     </div>
   );
 };
 
 export default CategoryList;
-
-
