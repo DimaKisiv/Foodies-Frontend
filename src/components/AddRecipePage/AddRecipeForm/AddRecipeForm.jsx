@@ -4,6 +4,7 @@ import { Navigate } from "react-router";
 import styles from "./AddRecipeForm.module.css";
 import { selectIsAuthenticated } from "../../../redux/auth/authSlice";
 import { toast, Toaster } from "react-hot-toast";
+import { api } from "../../../redux/client";
 import { fetchCategories } from "../../../redux/categories/categoriesOperations";
 import {
   selectCategoriesItems,
@@ -52,6 +53,11 @@ export default function AddRecipeForm() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [ingredientQty, setIngredientQty] = useState("");
   const [cookingTimeMin, setCookingTimeMin] = useState(10); // unfilled default
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [thumbFile, setThumbFile] = useState(null);
+  const [thumbPreview, setThumbPreview] = useState(null);
 
   const handleAddSelectedIngredient = (nameOrId) => {
     if (!nameOrId) return;
@@ -67,31 +73,144 @@ export default function AddRecipeForm() {
     const displayName =
       found?.name ?? found?.title ?? String(found?.id ?? nameOrId);
     const img = found?.img || null;
+    const id = String(found?.id ?? found?._id ?? nameOrId);
     // Avoid duplicates by name (check before updating to prevent double toasts in StrictMode)
-    const isDuplicate = selectedIngredients.some((i) => i.name === displayName);
+    const isDuplicate = selectedIngredients.some(
+      (i) => i.name === displayName || i.id === id
+    );
     if (isDuplicate) {
       toast.error("Ingredient already added", { id: "ingredient-dup" });
       return;
     }
     setSelectedIngredients((prev) => [
       ...prev,
-      { name: displayName, qty, img },
+      { id, name: displayName, qty, img },
     ]);
     setIngredientQty("");
+  };
+
+  const handleThumbChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      toast.error("Image too large (max 10MB)");
+      return;
+    }
+    setThumbFile(file);
+    const url = URL.createObjectURL(file);
+    setThumbPreview(url);
+  };
+
+  const clearThumb = () => {
+    if (thumbPreview) URL.revokeObjectURL(thumbPreview);
+    setThumbPreview(null);
+    setThumbFile(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Basic validations
+    if (!title.trim()) {
+      toast.error("Title is required", { id: "recipe-title" });
+      return;
+    }
+    if (!thumbFile) {
+      toast.error("Photo is required", { id: "recipe-thumb" });
+      return;
+    }
+    if (!selectedCategory) {
+      toast.error("Select a category", { id: "recipe-category" });
+      return;
+    }
+    if (!selectedArea) {
+      toast.error("Select an area", { id: "recipe-area" });
+      return;
+    }
+    if (selectedIngredients.length < 1) {
+      toast.error("Add at least one ingredient", { id: "recipe-ingredients" });
+      return;
+    }
+    if (description.trim().length < 10) {
+      toast.error("Description must be at least 10 characters", {
+        id: "recipe-desc",
+      });
+      return;
+    }
+    if (instructions.trim().length < 10) {
+      toast.error("Recipe preparation must be at least 10 characters", {
+        id: "recipe-prep",
+      });
+      return;
+    }
+    const form = new FormData();
+    form.append("title", title.trim());
+    if (description.trim()) form.append("description", description.trim());
+    if (instructions.trim()) form.append("instructions", instructions.trim());
+    if (selectedCategory) form.append("category", selectedCategory);
+    if (selectedArea) form.append("area", selectedArea);
+    if (typeof cookingTimeMin === "number")
+      form.append("time", String(cookingTimeMin));
+    const ingredientsPayload = selectedIngredients.map((i) => ({
+      id: String(i.id),
+      measure: i.qty || undefined,
+    }));
+    form.append("ingredients", JSON.stringify(ingredientsPayload));
+    if (thumbFile) form.append("thumb", thumbFile);
+
+    try {
+      const { data } = await api.post("/recipes", form);
+      toast.success("Recipe created");
+      clearThumb();
+      setSelectedIngredients([]);
+      setIngredientQty("");
+      setSelectedIngredient("");
+      setTitle("");
+      setDescription("");
+      setInstructions("");
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      toast.error(message || "Failed to create recipe");
+    }
   };
 
   return (
     <div className={styles.page}>
       <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         {/* LEFT */}
         <div className={styles.left}>
-          {!isFilled ? (
+          {!isFilled && thumbPreview ? (
+            <div className={styles.previewBlock}>
+              <div className={styles.previewFrame}>
+                <img
+                  className={styles.previewImg}
+                  src={thumbPreview}
+                  alt="Recipe preview"
+                />
+              </div>
+
+              <label className={styles.uploadAnother}>
+                <input
+                  className={styles.fileInput}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleThumbChange}
+                />
+                Upload another photo
+              </label>
+            </div>
+          ) : !isFilled ? (
             <label className={`${styles.uploader} ${styles.uploaderEmpty}`}>
               <input
                 className={styles.fileInput}
                 type="file"
                 accept="image/*"
+                onChange={handleThumbChange}
               />
               <div className={styles.cameraWrap} aria-hidden="true">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -114,7 +233,10 @@ export default function AddRecipeForm() {
               <div className={styles.previewFrame}>
                 <img
                   className={styles.previewImg}
-                  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1400&auto=format&fit=crop"
+                  src={
+                    thumbPreview ||
+                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1400&auto=format&fit=crop"
+                  }
                   alt="Recipe preview"
                 />
               </div>
@@ -124,6 +246,7 @@ export default function AddRecipeForm() {
                   className={styles.fileInput}
                   type="file"
                   accept="image/*"
+                  onChange={handleThumbChange}
                 />
                 Upload another photo
               </label>
@@ -143,7 +266,9 @@ export default function AddRecipeForm() {
               className={styles.titleInput}
               type="text"
               placeholder="Enter a name"
-              defaultValue={isFilled ? "SALMON AVOCADO SALAD" : ""}
+              defaultValue={isFilled ? "SALMON AVOCADO SALAD" : undefined}
+              value={isFilled ? undefined : title}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <div className={styles.textareaWrap}>
@@ -154,8 +279,10 @@ export default function AddRecipeForm() {
                 defaultValue={
                   isFilled
                     ? "Is a healthy salad recipe that’s big on nutrients and flavor. A moist, pan seared salmon is layered on top of spinach, avocado, tomatoes, and red onions. Then drizzled with a homemade lemon vinaigrette."
-                    : ""
+                    : undefined
                 }
+                value={isFilled ? undefined : description}
+                onChange={(e) => setDescription(e.target.value)}
               />
               <span className={styles.counter}>
                 {isFilled ? "45" : "0"}/200
@@ -404,8 +531,10 @@ export default function AddRecipeForm() {
                 defaultValue={
                   isFilled
                     ? "Is a healthy salad recipe that’s big on nutrients and flavor. A moist, pan seared salmon is layered on top of spinach, avocado, tomatoes, and red onions. Then drizzled with a homemade lemon vinaigrette."
-                    : ""
+                    : undefined
                 }
+                value={isFilled ? undefined : instructions}
+                onChange={(e) => setInstructions(e.target.value)}
               />
               <span className={styles.counter}>
                 {isFilled ? "108" : "0"}/1000
