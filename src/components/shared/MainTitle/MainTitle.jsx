@@ -1,4 +1,8 @@
 import styles from "./MainTitle.module.css";
-export default function MainTitle() {
-  return <div>MainTitle</div>;
-}
+
+
+const MainTitle = ({children}) => {
+  return <h2 className={styles.title}>{children}</h2>;
+};
+
+export default MainTitle;
