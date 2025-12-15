@@ -1,10 +1,10 @@
-import styles from './CategoryCard.module.css';
 import { getCategoryImage } from "../../../../utils/categoryImages.js";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../../shared/Icon/Icon.jsx";
+import styles from './CategoryCard.module.css';
 
-
-const CategoryCard = ({category, onClick, className = ''}) => {
-
+const CategoryCard = ({ category, className = '' }) => {
+  const navigate = useNavigate();
   const imageSrc = getCategoryImage(category.name);
 
   return (
@@ -14,7 +14,7 @@ const CategoryCard = ({category, onClick, className = ''}) => {
         <h3 className={`${styles.text} ${className}`}>{category.name}</h3>
         <button
           className={`${styles.button} ${className}`}
-          onClick={onClick}
+          onClick={() => navigate(`/categories/${category.name}`)}
         >
           <Icon
             id="icon-arrow-up-right"

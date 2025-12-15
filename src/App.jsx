@@ -8,6 +8,8 @@ import SharedLayout from "./components/Layout/SharedLayout";
 import FollowersPage from "./pages/UserPage/FollowersPage/FollowersPage";
 import FollowingPage from "./pages/UserPage/FollowingPage/FollowingPage";
 import AuthProvider from "./providers/AuthProvider";
+import Categories from "./pages/HomePage/Categories/Categories.jsx";
+import Recipes from "./pages/HomePage/Recipes/Recipes.jsx";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const RecipePage = lazy(() => import("./pages/RecipePage/RecipePage"));
@@ -29,7 +31,11 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route element={<SharedLayout />}>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePage />}>
+                <Route index element={<Categories />} />
+                <Route path="categories" element={<Categories />} />
+                <Route path="categories/:name" element={<Recipes />} />
+              </Route>
               <Route path="/recipe/:id" element={<RecipePage />} />
               <Route path="/recipe/add" element={<AddRecipePage />} />
               <Route path="user/:id" element={<UserPage />}>

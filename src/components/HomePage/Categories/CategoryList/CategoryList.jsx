@@ -1,7 +1,6 @@
+import { useEffect, useState } from "react";
 import CategoryCard from '../CategoryCard/CategoryCard.jsx';
 import styles from './CategoryList.module.css';
-import { useEffect, useState } from "react";
-
 
 const DESKTOP_WIDE_CATEGORIES = [2, 3, 7, 9];
 const TABLET_WIDE_CATEGORIES = [2, 7];
@@ -30,13 +29,10 @@ const CategoryList = ({categories}) => {
     <div className={styles.gridContainer}>
       {(showAll ? categories : categories.slice(0, 11)).map((category, i) => {
         const layoutClass = currentWideCategories.includes(i) ? styles.wideCard : '';
-
         return (
           <CategoryCard
             key={category.id}
             category={category}
-            onClick={() => {
-            }}
             className={layoutClass}
           />
         );
