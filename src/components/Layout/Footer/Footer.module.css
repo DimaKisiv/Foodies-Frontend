@@ -58,7 +58,7 @@
   line-height: 1.43;
   letter-spacing: -0.02em;
   text-align: center;
-  color: var(--color-text-main);
+  color: var(--color-text-secondary);
 }
 
 @media (min-width: 768px) {
