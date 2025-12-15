@@ -122,6 +122,26 @@
     stroke-linejoin="round"
   />
 </symbol>
+<symbol id="icon-arrow-left-frameless" viewBox="0 0 18 18">
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+    stroke-miterlimit="4"
+    stroke-width="1.5"
+    d="M14.303 9l-10.607-0.001"
+  />
+  <path
+    fill="none"
+    stroke="currentColor"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+    stroke-miterlimit="4"
+    stroke-width="1.5"
+    d="M8.999 14.303l-5.303-5.304 5.304-5.303"
+  />
+</symbol>
 <symbol id="icon-trash" viewBox="0 0 18 18">
   <path
     d="M6.75 2.25H11.25"

@@ -1,0 +1,22 @@
+.container {}
+
+.backBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.header {}
+
+.content {}
+
+.filters {}
+
+.list {}
