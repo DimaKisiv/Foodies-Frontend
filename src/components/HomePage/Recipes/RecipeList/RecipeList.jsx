@@ -10,10 +10,7 @@ const RecipeList = () => {
     <div className={css.container}>
       {recipes.map((recipe) => {
         return (
-          <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-          />)
+          <RecipeCard key={recipe.id} recipe={recipe}/>)
       })}
     </div>
   );

@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--gray);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.container:hover {
+    background-color: var(--color-text-main);
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-main);
+}
+
+.container:hover .icon {
+    color: #ffffff;
+}
