@@ -6,6 +6,7 @@ import { ingredientsReducer } from "./ingredients/ingredientsSlice";
 import { areasReducer } from "./areas/areasSlice";
 import { recipesReducer } from "./recipes/recipesSlice";
 import { testimonialsReducer } from "./testimonials/testimonialsSlice";
+import { paginationReducer } from "./pagination/paginationSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     areas: areasReducer,
     recipes: recipesReducer,
     testimonials: testimonialsReducer,
+    pagination: paginationReducer,
   },
 });
 

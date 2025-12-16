@@ -6,27 +6,32 @@ import { RecipePreview } from "../../../components/UserPage/ListItems/RecipePrev
 import { fetchFavoritesRecipes } from "../../../redux/recipes/recipesOperations";
 import {
   selectFavoritesRecipes,
-  selectRecipesPage,
   selectRecipesLimit,
-  selectRecipesTotalPages,
-  setRecipesPage,
 } from "../../../redux/recipes/recipesSlice";
+import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./MyFavoritesPage.module.css";
 
 export default function MyFavoritesPage() {
   const dispatch = useDispatch();
   const items = useSelector(selectFavoritesRecipes) || [];
-  const page = useSelector(selectRecipesPage);
   const limit = useSelector(selectRecipesLimit);
-  const totalPages = useSelector(selectRecipesTotalPages);
+  const { page, totalPages, onPageChange, setSectionTotalPages } =
+    useSectionPagination();
 
   useEffect(() => {
-    dispatch(fetchFavoritesRecipes({ page, limit }));
-  }, [dispatch, page, limit]);
-
-  const onPageChange = (nextPage) => {
-    dispatch(setRecipesPage(nextPage));
-  };
+    dispatch(fetchFavoritesRecipes({ page, limit }))
+      .unwrap()
+      .then((payload) => {
+        const total =
+          payload?.total ?? payload?.count ?? payload?.totalCount ?? undefined;
+        const limitFromPayload = payload?.limit ?? limit ?? 12;
+        const tp =
+          payload?.totalPages ??
+          (total ? Math.max(1, Math.ceil(total / limitFromPayload)) : 1);
+        setSectionTotalPages(tp);
+      })
+      .catch(() => {});
+  }, [dispatch, page, limit, setSectionTotalPages]);
 
   return (
     <div className={styles.wrap}>

@@ -1,13 +1,13 @@
 // src/pages/UserPage/FollowersPage/FollowersPage.jsx
 import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
 import { UserCard } from "../../../components/UserPage/ListItems/UserCard/UserCard";
+import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./FollowersPage.module.css";
 
 export default function FollowersPage() {
   // TODO: Redux
   const items = [];
-  const page = 1;
-  const totalPages = 2;
+  const { page, totalPages, onPageChange } = useSectionPagination();
 
   return (
     <div className={styles.wrap}>
@@ -15,7 +15,7 @@ export default function FollowersPage() {
         items={items}
         page={page}
         totalPages={totalPages}
-        onPageChange={() => {}}
+        onPageChange={onPageChange}
         renderItem={(u) => (
           <UserCard
             user={u}

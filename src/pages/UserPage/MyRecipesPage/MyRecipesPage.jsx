@@ -10,33 +10,38 @@ import {
 } from "../../../redux/recipes/recipesOperations";
 import {
   selectRecipeItems,
-  selectRecipesPage,
   selectRecipesLimit,
-  selectRecipesTotalPages,
-  setRecipesPage,
 } from "../../../redux/recipes/recipesSlice";
+import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./MyRecipesPage.module.css";
 
 export default function MyRecipesPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const items = useSelector(selectRecipeItems) || [];
-  const page = useSelector(selectRecipesPage);
   const limit = useSelector(selectRecipesLimit);
-  const totalPages = useSelector(selectRecipesTotalPages);
+  const { page, totalPages, onPageChange, setSectionTotalPages } =
+    useSectionPagination();
 
   useEffect(() => {
-    if (params.id) {
-      // Viewing another user's profile: fetch by author id
-      dispatch(fetchRecipes({ author: params.id, page, limit }));
-      return;
-    }
-    // Own profile: fetch own recipes via dedicated endpoint
-    dispatch(fetchOwnRecipes({ page, limit }));
-  }, [dispatch, params.id, page, limit]);
-  const onPageChange = (nextPage) => {
-    dispatch(setRecipesPage(nextPage));
-  };
+    const thunk = params.id
+      ? fetchRecipes({ author: params.id, page, limit })
+      : fetchOwnRecipes({ page, limit });
+    dispatch(thunk)
+      .unwrap()
+      .then((payload) => {
+        const total =
+          payload?.total ?? payload?.count ?? payload?.totalCount ?? undefined;
+        const limitFromPayload = payload?.limit ?? limit ?? 12;
+        const tp =
+          payload?.totalPages ??
+          (total ? Math.max(1, Math.ceil(total / limitFromPayload)) : 1);
+        setSectionTotalPages(tp);
+      })
+      .catch(() => {
+        // ignore, ListItems will show error from recipes slice if needed
+      });
+  }, [dispatch, params.id, page, limit, setSectionTotalPages]);
 
   return (
     <div className={styles.wrap}>

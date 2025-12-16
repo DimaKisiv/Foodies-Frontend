@@ -1,10 +1,11 @@
 // src/pages/UserPage/TabsList/TabsList.jsx
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 import styles from "./TabsList.module.css";
 
 export function TabsList() {
   // userId is optional; if not passed, fall back to url param
   const params = useParams();
+  const location = useLocation();
   const isOtherProfile = Boolean(params.id);
   const base = isOtherProfile ? `/user/${params.id}` : `/user`;
   const tabs = isOtherProfile
@@ -21,18 +22,26 @@ export function TabsList() {
 
   return (
     <nav className={styles.tabs}>
-      {tabs.map((t) => (
-        <NavLink
-          key={t.to}
-          to={t.to}
-          className={({ isActive }) =>
-            isActive ? `${styles.tab} ${styles.active}` : styles.tab
-          }
-          end
-        >
-          {t.label}
-        </NavLink>
-      ))}
+      {tabs.map((t) => {
+        const isDefaultMyRecipes =
+          !isOtherProfile &&
+          t.to.endsWith("/my-recipes") &&
+          location.pathname === base;
+        return (
+          <NavLink
+            key={t.to}
+            to={t.to}
+            className={({ isActive }) =>
+              isActive || isDefaultMyRecipes
+                ? `${styles.tab} ${styles.active}`
+                : styles.tab
+            }
+            end
+          >
+            {t.label}
+          </NavLink>
+        );
+      })}
       <div className={styles.line} />
     </nav>
   );
