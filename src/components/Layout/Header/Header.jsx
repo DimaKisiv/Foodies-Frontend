@@ -65,9 +65,12 @@ function Header() {
 
             {openProfileDropdown && (
               <div className={css["header-profile-content"]}>
-                <button className={css["header-profile-content__item"]}>
+                <NavLink
+                  to="/user"
+                  className={css["header-profile-content__item"]}
+                >
                   Profile
-                </button>
+                </NavLink>
                 <button
                   className={css["header-profile-content__item"]}
                   onClick={() => LogOutModalSetOpen(true)}

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchRecipes,
+  fetchOwnRecipes,
   fetchPopularRecipes,
   fetchRecipeById,
   fetchFavoritesRecipes,
   addRecipeToFavorites,
-  deleteRecipeFromFavorites
+  deleteRecipeFromFavorites,
 } from "./recipesOperations";
 
 const slice = createSlice({
@@ -15,10 +16,20 @@ const slice = createSlice({
     popular: [],
     favorites: [],
     current: null,
+    page: 1,
+    limit: 12,
+    totalPages: 1,
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setRecipesPage(state, { payload }) {
+      state.page = Number(payload) || 1;
+    },
+    setRecipesLimit(state, { payload }) {
+      state.limit = Number(payload) || state.limit;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // list
@@ -29,8 +40,37 @@ const slice = createSlice({
       .addCase(fetchRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         state.items = payload.items;
+        state.page = payload.page ?? state.page ?? 1;
+        state.limit = payload.limit ?? state.limit ?? 12;
+        const total = payload.total ?? payload.count ?? payload.totalCount;
+        const computedTotalPages = total
+          ? Math.max(1, Math.ceil(total / (payload.limit ?? state.limit ?? 12)))
+          : undefined;
+        state.totalPages =
+          payload.totalPages ?? computedTotalPages ?? state.totalPages ?? 1;
       })
       .addCase(fetchRecipes.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+      // own list
+      .addCase(fetchOwnRecipes.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchOwnRecipes.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.items = payload.items;
+        state.page = payload.page ?? state.page ?? 1;
+        state.limit = payload.limit ?? state.limit ?? 12;
+        const total = payload.total ?? payload.count ?? payload.totalCount;
+        const computedTotalPages = total
+          ? Math.max(1, Math.ceil(total / (payload.limit ?? state.limit ?? 12)))
+          : undefined;
+        state.totalPages =
+          payload.totalPages ?? computedTotalPages ?? state.totalPages ?? 1;
+      })
+      .addCase(fetchOwnRecipes.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
       })
@@ -94,6 +134,14 @@ const slice = createSlice({
       .addCase(fetchFavoritesRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         state.favorites = payload.items;
+        state.page = payload.page ?? state.page ?? 1;
+        state.limit = payload.limit ?? state.limit ?? 12;
+        const total = payload.total ?? payload.count ?? payload.totalCount;
+        const computedTotalPages = total
+          ? Math.max(1, Math.ceil(total / (payload.limit ?? state.limit ?? 12)))
+          : undefined;
+        state.totalPages =
+          payload.totalPages ?? computedTotalPages ?? state.totalPages ?? 1;
       })
       .addCase(fetchFavoritesRecipes.rejected, (state, { payload }) => {
         state.status = "failed";
@@ -102,6 +150,7 @@ const slice = createSlice({
   },
 });
 
+export const { setRecipesPage, setRecipesLimit } = slice.actions;
 export const recipesReducer = slice.reducer;
 
 // Selectors
@@ -112,3 +161,6 @@ export const selectCurrentRecipe = (state) => state.recipes.current;
 export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
 export const selectFavoritesRecipes = (state) => state.recipes.favorites;
+export const selectRecipesPage = (state) => state.recipes.page;
+export const selectRecipesLimit = (state) => state.recipes.limit;
+export const selectRecipesTotalPages = (state) => state.recipes.totalPages;

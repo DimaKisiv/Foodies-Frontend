@@ -13,3 +13,16 @@ export const fetchUsers = createAsyncThunk(
     }
   }
 );
+
+export const fetchCurrent = createAsyncThunk(
+  "users/fetchCurrent",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await api.get("/users/current");
+      return data;
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);

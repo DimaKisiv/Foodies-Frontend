@@ -1,0 +1,21 @@
+/* src/pages/UserPage/UserPage.module.css */
+.page {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 28px;
+  align-items: start;
+  padding: 24px;
+}
+
+.left {
+  position: sticky;
+  top: 24px;
+}
+
+.right {
+  min-width: 0;
+}
+
+.content {
+  padding-top: 16px;
+}

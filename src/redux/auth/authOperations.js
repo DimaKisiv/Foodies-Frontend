@@ -49,19 +49,6 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   }
 });
 
-export const fetchCurrent = createAsyncThunk(
-  "auth/current",
-  async (_, thunkAPI) => {
-    try {
-      const { data } = await api.get("/auth/current");
-      return data;
-    } catch (err) {
-      const message = err.response?.data?.message || err.message;
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
 export const updateAvatar = createAsyncThunk(
   "auth/updateAvatar",
   async (file, thunkAPI) => {

@@ -1,24 +1,50 @@
-import { useSelector } from "react-redux";
+// src/pages/UserPage/MyFavoritesPage/MyFavoritesPage.jsx
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
+import { RecipePreview } from "../../../components/UserPage/ListItems/RecipePreview/RecipePreview";
+import { fetchFavoritesRecipes } from "../../../redux/recipes/recipesOperations";
 import {
-  selectPopularRecipes,
-  selectRecipesStatus,
+  selectFavoritesRecipes,
+  selectRecipesPage,
+  selectRecipesLimit,
+  selectRecipesTotalPages,
+  setRecipesPage,
 } from "../../../redux/recipes/recipesSlice";
-import Loader from "../../../components/Shared/Loader/Loader";
+import styles from "./MyFavoritesPage.module.css";
 
-const MyFavoritesPage = () => {
-  const favorites = useSelector(selectPopularRecipes); // placeholder list
-  const status = useSelector(selectRecipesStatus);
+export default function MyFavoritesPage() {
+  const dispatch = useDispatch();
+  const items = useSelector(selectFavoritesRecipes) || [];
+  const page = useSelector(selectRecipesPage);
+  const limit = useSelector(selectRecipesLimit);
+  const totalPages = useSelector(selectRecipesTotalPages);
+
+  useEffect(() => {
+    dispatch(fetchFavoritesRecipes({ page, limit }));
+  }, [dispatch, page, limit]);
+
+  const onPageChange = (nextPage) => {
+    dispatch(setRecipesPage(nextPage));
+  };
+
   return (
-    <section>
-      <h2>My Favorites</h2>
-      {status === "loading" && <Loader />}
-      <ul>
-        {favorites?.map((r) => (
-          <li key={r.id || r._id || r.name}>{r.name || r.title}</li>
-        ))}
-      </ul>
-    </section>
+    <div className={styles.wrap}>
+      <ListItems
+        items={items}
+        page={page}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+        renderItem={(recipe) => (
+          <RecipePreview
+            recipe={recipe}
+            onOpen={() => {}}
+            onDelete={() => {
+              // e.g. remove from favorites
+            }}
+          />
+        )}
+      />
+    </div>
   );
-};
-
-export default MyFavoritesPage;
+}
