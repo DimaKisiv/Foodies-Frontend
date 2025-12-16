@@ -13,10 +13,12 @@
     cursor: pointer;
 }
 
-.header {}
+.header,
+.header h5 {
+    margin-top: 20px;
+}
 
-.content {}
-
-.filters {}
-
-.list {}
+.content {
+    display: flex;
+    gap: 40px;
+}

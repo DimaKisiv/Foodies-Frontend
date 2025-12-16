@@ -10,7 +10,7 @@ const Categories = () => {
   const categoriesStatus = useSelector(selectCategoriesStatus);
 
   return (
-    <div>
+    <section>
       <MainTitle>Categories</MainTitle>
       <Subtitle maxWidth={531}>
         Discover a limitless world of culinary possibilities and enjoy exquisite recipes that
@@ -18,7 +18,7 @@ const Categories = () => {
       </Subtitle>
       {categoriesStatus === "loading" && <Loader/>}
       {categories.length > 0 && <CategoryList categories={categories}/>}
-    </div>
+    </section>
   );
 }
 

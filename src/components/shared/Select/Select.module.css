@@ -1,0 +1,41 @@
+.wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.select {
+    position: relative;
+    display: grid;
+    padding: 16px 18px;
+    width: 330px;
+    height: 56px;
+    border: 1px solid var(--gray);
+    border-radius: 30px;
+    font-family: var(--font-family-main);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: var(--letter-spacing-base);
+    background-color: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    z-index: 2;
+}
+
+.selectArrow {
+    position: absolute;
+    content: "";
+    right: 18px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateY(-50%) rotate(0deg);
+    transition: transform 0.2s;
+    z-index: 0;
+}
+
+.selectArrowUp {
+    transform: translateY(-50%) rotate(180deg);
+}
