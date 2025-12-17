@@ -1,23 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import css from "./SignInModal.module.css";
 import Modal from "../Modal.jsx";
 import clsx from "clsx";
 import { login } from "../../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 import Icon from "../../shared/Icon/Icon";
+import { toast } from "react-hot-toast";
 
-function SignInModal({ isOpen, onClose }) {
+function SignInModal({
+  isOpen,
+  onClose,
+  defaultEmail = "",
+  onSwitchToSignUp,
+}) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const [submitError, setSubmitError] = useState(null);
+
   const [showPassword, setShowPassword] = useState(false);
   const [touched, setTouched] = useState({
     email: false,
     password: false,
   });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setSubmitError(null);
+    setFormData({ email: defaultEmail || "", password: "" });
+    setTouched({ email: false, password: false });
+    setShowPassword(false);
+  }, [isOpen, defaultEmail]);
 
   const validate = () => {
     const errors = {};
@@ -40,6 +56,7 @@ function SignInModal({ isOpen, onClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (submitError) setSubmitError(null);
   };
 
   const handleBlur = (e) => {
@@ -51,19 +68,46 @@ function SignInModal({ isOpen, onClose }) {
     e.preventDefault();
     if (!isValid) return;
 
+    setSubmitError(null);
+
     try {
       await dispatch(login(formData)).unwrap();
       setFormData({ email: "", password: "" });
       setTouched({ email: false, password: false });
       setShowPassword(false);
       onClose?.();
-    } catch {
-      // TODO: Display error message to user
+    } catch (err) {
+      const status = err?.status ?? null;
+      const message = err.response?.data?.message || err.message;
+
+      if (status === 401) {
+        setSubmitError("Invalid email or password");
+        return;
+      }
+
+      if (status === 400) {
+        setSubmitError(message || "Validation error");
+        return;
+      }
+
+      toast.error(message || "Server error. Please try again later");
     }
   };
 
+  const handleClose = () => {
+    setSubmitError(null);
+    setFormData({ email: "", password: "" });
+    setTouched({ email: false, password: false });
+    setShowPassword(false);
+    onClose?.();
+  };
+
   return (
-    <Modal className={css["signIn-modal"]} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      className={css["signIn-modal"]}
+      isOpen={isOpen}
+      onClose={handleClose}
+    >
       <div className={css["signIn-modal-container"]}>
         <p className={css["modal-title"]}>Sign In</p>
 
@@ -120,8 +164,10 @@ function SignInModal({ isOpen, onClose }) {
               <span className={css["error"]}>{errors.password}</span>
             )}
           </div>
-
           <div className={css["modal-actions"]}>
+            {submitError && (
+              <span className={css["submit-error"]}>{submitError}</span>
+            )}
             <button
               type="submit"
               className={clsx(css["modal-btn"], {
@@ -135,7 +181,13 @@ function SignInModal({ isOpen, onClose }) {
         </form>
 
         <p className={css["modal-info-text"]}>
-          Don't have an account? <button>Create an account</button>
+          Don't have an account?{" "}
+          <button
+            type="button"
+            onClick={() => onSwitchToSignUp?.(formData.email)}
+          >
+            Create an account
+          </button>
         </p>
       </div>
     </Modal>

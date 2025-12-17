@@ -18,12 +18,27 @@ function Header() {
       isActive && css["header-nav-link--active"]
     );
   };
-  const [SignInModalOpen, SignInModalSetOpen] = useState(false);
-  const [SignUpModalOpen, SignUpModalSetOpen] = useState(false);
+  const [authModal, setAuthModal] = useState(null);
+  const [authModalEmail, setAuthModalEmail] = useState("");
   const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectAuthUser);
+
+  const openSignIn = (email = "") => {
+    setAuthModalEmail(email || "");
+    setAuthModal("signin");
+  };
+
+  const openSignUp = (email = "") => {
+    setAuthModalEmail(email || "");
+    setAuthModal("signup");
+  };
+
+  const closeAuthModal = () => {
+    setAuthModal(null);
+    setAuthModalEmail("");
+  };
 
   return (
     <>
@@ -87,21 +102,31 @@ function Header() {
             )}
           </div>
         ) : (
-          <div className={css["header-actions"]}>
-            <button onClick={() => SignInModalSetOpen(true)}>Sign In</button>
+          <div
+            className={clsx(
+              css["header-actions"],
+              authModal === "signin" && css["header-actions--signin"],
+              authModal === "signup" && css["header-actions--signup"]
+            )}
+          >
+            <button onClick={() => openSignIn()}>Sign In</button>
 
-            <button onClick={() => SignUpModalSetOpen(true)}>Sign Up</button>
+            <button onClick={() => openSignUp()}>Sign Up</button>
           </div>
         )}
       </div>
 
       <SignInModal
-        isOpen={SignInModalOpen}
-        onClose={() => SignInModalSetOpen(false)}
+        isOpen={authModal === "signin"}
+        onClose={closeAuthModal}
+        defaultEmail={authModalEmail}
+        onSwitchToSignUp={openSignUp}
       ></SignInModal>
       <SignUpModal
-        isOpen={SignUpModalOpen}
-        onClose={() => SignUpModalSetOpen(false)}
+        isOpen={authModal === "signup"}
+        onClose={closeAuthModal}
+        defaultEmail={authModalEmail}
+        onSwitchToSignIn={openSignIn}
       ></SignUpModal>
       <LogOutModal
         isOpen={LogOutModalOpen}
