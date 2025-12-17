@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import styles from "./AddRecipeForm.module.css";
 import { selectIsAuthenticated } from "../../../redux/auth/authSlice";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { api } from "../../../redux/client";
 import { fetchCategories } from "../../../redux/categories/categoriesOperations";
 import {
@@ -136,7 +136,6 @@ export default function AddRecipeForm() {
 
   return isAuth ? (
     <div className={styles.page}>
-      <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
       <Formik
         initialValues={{
           title: "",

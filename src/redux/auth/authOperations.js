@@ -16,7 +16,8 @@ export const register = createAsyncThunk(
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
-      return thunkAPI.rejectWithValue(message);
+      const status = err.response?.status ?? null;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
@@ -32,7 +33,8 @@ export const login = createAsyncThunk(
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
-      return thunkAPI.rejectWithValue(message);
+      const status = err.response?.status ?? null;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
@@ -45,7 +47,8 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return true;
   } catch (err) {
     const message = err.response?.data?.message || err.message;
-    return thunkAPI.rejectWithValue(message);
+    const status = err.response?.status ?? null;
+    return thunkAPI.rejectWithValue({ status, message });
   }
 });
 
@@ -57,7 +60,8 @@ export const fetchCurrent = createAsyncThunk(
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
-      return thunkAPI.rejectWithValue(message);
+      const status = err.response?.status ?? null;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
@@ -73,7 +77,8 @@ export const updateAvatar = createAsyncThunk(
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
-      return thunkAPI.rejectWithValue(message);
+      const status = err.response?.status ?? null;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
