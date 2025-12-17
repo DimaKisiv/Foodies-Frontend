@@ -5,12 +5,12 @@ import { fetchPopularRecipes } from "../../redux/recipes/recipesOperations";
 import { fetchCategories } from "../../redux/categories/categoriesOperations";
 import Loader from "../../components/Shared/Loader/Loader";
 import Hero from "../../components/HomePage/Hero/Hero";
-import TestimonialsCarousel from "../../components/Testimonials/TestimonialsCarousel/TestimonialsCarousel.jsx";
 import {
   selectTestimonialsItems,
   selectTestimonialsStatus
 } from "../../redux/testimonials/testimonialsSlice.js";
 import { fetchTestimonials } from "../../redux/testimonials/testimonialsOperations.js";
+import TestimonialsCarousel from "../../components/HomePage/Testimonials/TestimonialsCarousel/TestimonialsCarousel.jsx";
 import css from "./HomePage.module.css";
 
 const HomePage = () => {

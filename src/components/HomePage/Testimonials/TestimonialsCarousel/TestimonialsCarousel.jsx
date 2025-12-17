@@ -2,8 +2,8 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Icon from "../../shared/Icon/Icon.jsx";
 import TestimonialCard from "../TestimonialCard/TestimonialCard.jsx";
+import Icon from "../../../shared/Icon/Icon.jsx";
 import css from "./TestimonialsCarousel.module.css";
 import "./styles.css";
 
