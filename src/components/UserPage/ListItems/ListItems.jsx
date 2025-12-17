@@ -1,6 +1,7 @@
 // src/pages/UserPage/ListItems/ListItems.jsx
 import styles from "./ListItems.module.css";
 import { ListPagination } from "../ListPagination/ListPagination";
+import Loader from "../../Shared/Loader/Loader";
 
 export function ListItems({
   title,
@@ -17,7 +18,11 @@ export function ListItems({
     <section className={styles.section}>
       {title ? <h2 className={styles.title}>{title}</h2> : null}
 
-      {isLoading ? <div className={styles.state}>Loading…</div> : null}
+      {isLoading ? (
+        <div className={styles.loaderWrap}>
+          <Loader />
+        </div>
+      ) : null}
       {error ? <div className={styles.stateError}>{String(error)}</div> : null}
 
       {!isLoading && !error && items.length === 0 ? (

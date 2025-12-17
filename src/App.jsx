@@ -8,6 +8,7 @@ import SharedLayout from "./components/Layout/SharedLayout";
 import FollowersPage from "./pages/UserPage/FollowersPage/FollowersPage";
 import FollowingPage from "./pages/UserPage/FollowingPage/FollowingPage";
 import AuthProvider from "./providers/AuthProvider";
+import { AuthModalProvider } from "./providers/AuthModalProvider";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const RecipePage = lazy(() => import("./pages/RecipePage/RecipePage"));
@@ -24,37 +25,42 @@ function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <Router>
-          <GlobalReduxLoader />
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route element={<SharedLayout />}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/recipe/:id" element={<RecipePage />} />
-                <Route path="/recipe/add" element={<AddRecipePage />} />
-                {/* Own profile (all four tabs) */}
-                <Route path="user" element={<UserPage />}>
-                  <Route index element={<MyRecipesPage />} />
-                  <Route path="my-recipes" element={<MyRecipesPage />} />
-                  <Route path="my-favorites" element={<MyFavoritesPage />} />
-                  <Route path="followers" element={<FollowersPage />} />
-                  <Route path="following" element={<FollowingPage />} />
-                  <Route
-                    path="*"
-                    element={<Navigate to="my-recipes" replace />}
-                  />
+        <AuthModalProvider>
+          <Router>
+            <GlobalReduxLoader />
+            <Suspense fallback={<Loader />}>
+              <Routes>
+                <Route element={<SharedLayout />}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/recipe/:id" element={<RecipePage />} />
+                  <Route path="/recipe/add" element={<AddRecipePage />} />
+                  {/* Own profile (all four tabs) */}
+                  <Route path="user" element={<UserPage />}>
+                    <Route index element={<MyRecipesPage />} />
+                    <Route path="my-recipes" element={<MyRecipesPage />} />
+                    <Route path="my-favorites" element={<MyFavoritesPage />} />
+                    <Route path="followers" element={<FollowersPage />} />
+                    <Route path="following" element={<FollowingPage />} />
+                    <Route
+                      path="*"
+                      element={<Navigate to="my-recipes" replace />}
+                    />
+                  </Route>
+                  {/* Other user's profile (recipes + followers only) */}
+                  <Route path="user/:id" element={<UserPage />}>
+                    <Route index element={<Navigate to="recipes" replace />} />
+                    <Route path="recipes" element={<MyRecipesPage />} />
+                    <Route path="followers" element={<FollowersPage />} />
+                    <Route
+                      path="*"
+                      element={<Navigate to="recipes" replace />}
+                    />
+                  </Route>
                 </Route>
-                {/* Other user's profile (recipes + followers only) */}
-                <Route path="user/:id" element={<UserPage />}>
-                  <Route index element={<Navigate to="recipes" replace />} />
-                  <Route path="recipes" element={<MyRecipesPage />} />
-                  <Route path="followers" element={<FollowersPage />} />
-                  <Route path="*" element={<Navigate to="recipes" replace />} />
-                </Route>
-              </Route>
-            </Routes>
-          </Suspense>
-        </Router>
+              </Routes>
+            </Suspense>
+          </Router>
+        </AuthModalProvider>
       </AuthProvider>
     </Provider>
   );

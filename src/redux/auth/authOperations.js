@@ -51,34 +51,3 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue({ status, message });
   }
 });
-
-export const fetchCurrent = createAsyncThunk(
-  "auth/current",
-  async (_, thunkAPI) => {
-    try {
-      const { data } = await api.get("/auth/current");
-      return data;
-    } catch (err) {
-      const message = err.response?.data?.message || err.message;
-      const status = err.response?.status ?? null;
-      return thunkAPI.rejectWithValue({ status, message });
-    }
-  }
-);
-
-export const updateAvatar = createAsyncThunk(
-  "auth/updateAvatar",
-  async (file, thunkAPI) => {
-    try {
-      const formData = new FormData();
-      formData.append("avatar", file);
-      const { data } = await api.patch("/auth/avatars", formData);
-      // data: { avatarURL }
-      return data;
-    } catch (err) {
-      const message = err.response?.data?.message || err.message;
-      const status = err.response?.status ?? null;
-      return thunkAPI.rejectWithValue({ status, message });
-    }
-  }
-);

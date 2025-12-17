@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../client";
+import { api, buildQuery } from "../client";
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchAll",
@@ -39,6 +39,86 @@ export const updateAvatar = createAsyncThunk(
     } catch (err) {
       const message = err.response?.data?.message || err.message;
       return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const fetchUserById = createAsyncThunk(
+  "users/fetchById",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/users/${id}`);
+      return { id: String(id), user: data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue({ id: String(id), message });
+    }
+  }
+);
+
+// Followers/Following
+export const fetchFollowers = createAsyncThunk(
+  "users/fetchFollowers",
+  async ({ userId, page = 1, limit = 12 } = {}, thunkAPI) => {
+    try {
+      const query = buildQuery({ page, limit });
+      const path = userId
+        ? `/users/${userId}/followers${query}`
+        : `/users/followers${query}`;
+      const { data } = await api.get(path);
+      return { key: userId ? String(userId) : "me", ...data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue({
+        key: userId ? String(userId) : "me",
+        message,
+      });
+    }
+  }
+);
+
+export const fetchFollowing = createAsyncThunk(
+  "users/fetchFollowing",
+  async ({ userId, page = 1, limit = 12 } = {}, thunkAPI) => {
+    try {
+      const query = buildQuery({ page, limit });
+      const path = userId
+        ? `/users/${userId}/following${query}`
+        : `/users/following${query}`;
+      const { data } = await api.get(path);
+      return { key: userId ? String(userId) : "me", ...data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue({
+        key: userId ? String(userId) : "me",
+        message,
+      });
+    }
+  }
+);
+
+export const followUser = createAsyncThunk(
+  "users/followUser",
+  async (userId, thunkAPI) => {
+    try {
+      const { data } = await api.post(`/users/${userId}/follow`);
+      return { userId: String(userId), ...data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue({ userId: String(userId), message });
+    }
+  }
+);
+
+export const unfollowUser = createAsyncThunk(
+  "users/unfollowUser",
+  async (userId, thunkAPI) => {
+    try {
+      const { data } = await api.delete(`/users/${userId}/follow`);
+      return { userId: String(userId), ...data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue({ userId: String(userId), message });
     }
   }
 );

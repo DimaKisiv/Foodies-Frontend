@@ -8,6 +8,8 @@ import { fetchFavoritesRecipes } from "../../../redux/recipes/recipesOperations"
 import {
   selectFavoritesRecipes,
   selectRecipesLimit,
+  selectRecipesStatus,
+  selectRecipesError,
 } from "../../../redux/recipes/recipesSlice";
 import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./MyFavoritesPage.module.css";
@@ -17,6 +19,8 @@ export default function MyFavoritesPage() {
   const navigate = useNavigate();
   const items = useSelector(selectFavoritesRecipes) || [];
   const limit = useSelector(selectRecipesLimit);
+  const status = useSelector(selectRecipesStatus);
+  const error = useSelector(selectRecipesError);
   const { page, totalPages, onPageChange, setSectionTotalPages } =
     useSectionPagination();
 
@@ -39,6 +43,8 @@ export default function MyFavoritesPage() {
     <div className={styles.wrap}>
       <ListItems
         items={items}
+        isLoading={status === "loading"}
+        error={error}
         page={page}
         totalPages={totalPages}
         onPageChange={onPageChange}

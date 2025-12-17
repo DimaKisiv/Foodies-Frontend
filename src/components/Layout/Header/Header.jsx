@@ -3,14 +3,14 @@ import { NavLink } from "react-router";
 import clsx from "clsx";
 import React, { useState } from "react";
 import LogOutModal from "../../Modals/LogOutModal/LogOutModal.jsx";
-import SignInModal from "../../Modals/SignInModal/SignInModal.jsx";
-import SignUpModal from "../../Modals/SignUpModal/SignUpModal.jsx";
-import Icon from "../../shared/Icon/Icon";
+import { useAuthModal } from "../../../providers/AuthModalProvider";
 import { useSelector } from "react-redux";
 import {
   selectAuthUser,
   selectIsAuthenticated,
 } from "../../../redux/auth/authSlice";
+import { selectCurrentUser } from "../../../redux/users/usersSlice";
+import Icon from "../../Shared/Icon/Icon.jsx";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -18,27 +18,13 @@ function Header() {
       isActive && css["header-nav-link--active"]
     );
   };
-  const [authModal, setAuthModal] = useState(null);
-  const [authModalEmail, setAuthModalEmail] = useState("");
+  const { authModal, openSignIn, openSignUp } = useAuthModal();
   const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectAuthUser);
-
-  const openSignIn = (email = "") => {
-    setAuthModalEmail(email || "");
-    setAuthModal("signin");
-  };
-
-  const openSignUp = (email = "") => {
-    setAuthModalEmail(email || "");
-    setAuthModal("signup");
-  };
-
-  const closeAuthModal = () => {
-    setAuthModal(null);
-    setAuthModalEmail("");
-  };
+  const authUser = useSelector(selectAuthUser);
+  const currentUser = useSelector(selectCurrentUser);
+  const user = currentUser || authUser;
 
   return (
     <>
@@ -52,7 +38,16 @@ function Header() {
             Home
           </NavLink>
 
-          <NavLink to="/recipe/add" className={buildLinkClass}>
+          <NavLink
+            to="/recipe/add"
+            className={buildLinkClass}
+            onClick={(e) => {
+              if (!isAuthenticated) {
+                e.preventDefault();
+                openSignIn();
+              }
+            }}
+          >
             Add Recipe
           </NavLink>
         </nav>
@@ -63,7 +58,15 @@ function Header() {
             onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
           >
             <div className={css["header-profile-action"]}>
-              <div className={css["header-profile-img"]}></div>
+              <div className={css["header-profile-img"]}>
+                {user?.avatar || user?.avatarURL ? (
+                  <img
+                    src={user.avatar || user.avatarURL}
+                    alt={user.name || "Avatar"}
+                    aria-hidden={!user?.name}
+                  />
+                ) : null}
+              </div>
 
               <p className={css["header-profile-name"]}>{user.name}</p>
 
@@ -116,18 +119,6 @@ function Header() {
         )}
       </div>
 
-      <SignInModal
-        isOpen={authModal === "signin"}
-        onClose={closeAuthModal}
-        defaultEmail={authModalEmail}
-        onSwitchToSignUp={openSignUp}
-      ></SignInModal>
-      <SignUpModal
-        isOpen={authModal === "signup"}
-        onClose={closeAuthModal}
-        defaultEmail={authModalEmail}
-        onSwitchToSignIn={openSignIn}
-      ></SignUpModal>
       <LogOutModal
         isOpen={LogOutModalOpen}
         onClose={() => LogOutModalSetOpen(false)}

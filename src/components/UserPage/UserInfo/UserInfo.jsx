@@ -1,12 +1,17 @@
 // src/pages/UserPage/UserInfo/UserInfo.jsx
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
 import { selectUsersStatus } from "../../../redux/users/usersSlice";
 import { updateAvatar } from "../../../redux/users/usersOperations";
 import styles from "./UserInfo.module.css";
 
-export function UserInfo({ user }) {
+export function UserInfo({
+  user,
+  mode = "own",
+  isFollowing = false,
+  onToggleFollow,
+}) {
   // Prefer explicit prop; otherwise fall back to current user from Redux
   const current = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
@@ -16,12 +21,31 @@ export function UserInfo({ user }) {
   const name = me?.name ?? "";
   const email = me?.email ?? "";
 
-  const stats = [
-    { label: "Added recipes:", value: me?.recipesCount ?? 0 },
-    { label: "Favorites:", value: me?.favoritesCount ?? 0 },
-    { label: "Followers:", value: me?.followersCount ?? 0 },
-    { label: "Following:", value: me?.followingCount ?? 0 },
-  ];
+  const stats = useMemo(() => {
+    const added =
+      me?.recipesCount ??
+      (Array.isArray(me?.recipes) ? me.recipes.length : 0) ??
+      0;
+    if (mode === "other") {
+      return [
+        { label: "Added recipes:", value: added },
+        { label: "Followers:", value: me?.followersCount ?? 0 },
+      ];
+    }
+    return [
+      { label: "Added recipes:", value: added },
+      { label: "Favorites:", value: me?.favoritesCount ?? 0 },
+      { label: "Followers:", value: me?.followersCount ?? 0 },
+      { label: "Following:", value: me?.followingCount ?? 0 },
+    ];
+  }, [
+    me?.recipesCount,
+    me?.recipes,
+    me?.followersCount,
+    me?.favoritesCount,
+    me?.followingCount,
+    mode,
+  ]);
 
   const [previewUrl, setPreviewUrl] = useState("");
 
@@ -32,6 +56,7 @@ export function UserInfo({ user }) {
   }, [previewUrl]);
 
   const onPickAvatar = () => {
+    if (mode === "other") return; // Do not allow changing other user's avatar
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
@@ -61,15 +86,17 @@ export function UserInfo({ user }) {
         <div className={styles.avatar} aria-label="User avatar">
           {avatarUrl ? <img src={avatarUrl} alt={name || "Avatar"} /> : null}
         </div>
-        <button
-          className={styles.addAvatarBtn}
-          type="button"
-          title="Change avatar"
-          onClick={onPickAvatar}
-          disabled={usersStatus === "loading"}
-        >
-          +
-        </button>
+        {mode === "own" ? (
+          <button
+            className={styles.addAvatarBtn}
+            type="button"
+            title="Change avatar"
+            onClick={onPickAvatar}
+            disabled={usersStatus === "loading"}
+          >
+            +
+          </button>
+        ) : null}
       </div>
 
       <div className={styles.name}>{name}</div>
@@ -88,9 +115,20 @@ export function UserInfo({ user }) {
         ))}
       </div>
 
-      <button className={styles.logoutBtn} type="button">
-        LOG OUT
-      </button>
+      {mode === "own" ? (
+        <button className={styles.logoutBtn} type="button">
+          LOG OUT
+        </button>
+      ) : (
+        <button
+          className={styles.logoutBtn}
+          type="button"
+          onClick={onToggleFollow}
+          disabled={usersStatus === "loading"}
+        >
+          {isFollowing ? "UNFOLLOW" : "FOLLOW"}
+        </button>
+      )}
     </div>
   );
 }

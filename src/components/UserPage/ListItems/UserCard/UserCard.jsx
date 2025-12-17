@@ -8,7 +8,8 @@ export function UserCard({
   onOpen,
 }) {
   const name = user?.name ?? "USER NAME";
-  const recipes = user?.recipesCount ?? 0;
+  const recipePreviews = Array.isArray(user?.recipes) ? user.recipes : [];
+  const recipes = recipePreviews.length;
 
   return (
     <article className={styles.card}>
@@ -30,11 +31,13 @@ export function UserCard({
       </div>
 
       <div className={styles.preview}>
-        {/* Template thumbnails (copilot can map real thumbnails) */}
-        <div className={styles.thumb} />
-        <div className={styles.thumb} />
-        <div className={styles.thumb} />
-        <div className={styles.thumb} />
+        {recipePreviews.slice(0, 4).map((r, idx) => (
+          <div key={r.id ?? idx} className={styles.thumb}>
+            {r?.thumb ? (
+              <img src={r.thumb} alt={name ? `${name} recipe` : "Recipe"} />
+            ) : null}
+          </div>
+        ))}
       </div>
 
       <button
