@@ -1,4 +1,4 @@
-import RoundButton from "../../../shared/RoundButton/RoundButton.jsx";
+import RoundButton from "../../../shared/Button/RoundButton/RoundButton.jsx";
 import css from "./RecipeCard.module.css";
 
 const RecipeCard = ({ recipe }) => {

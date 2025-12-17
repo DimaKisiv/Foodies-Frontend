@@ -11,7 +11,9 @@ import {
 const slice = createSlice({
   name: "recipes",
   initialState: {
+    category: null,
     items: [],
+    pages: 0,
     popular: [],
     favorites: [],
     current: null,
@@ -28,7 +30,9 @@ const slice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
+        state.category = payload.items[0].category;
         state.items = payload.items;
+        state.pages = Math.ceil(payload.total / payload.limit);
       })
       .addCase(fetchRecipes.rejected, (state, { payload }) => {
         state.status = "failed";
@@ -107,8 +111,10 @@ export const recipesReducer = slice.reducer;
 // Selectors
 export const selectRecipesState = (state) => state.recipes;
 export const selectRecipeItems = (state) => state.recipes.items;
+export const selectRecipesCategory = (state) => state.recipes.category;
 export const selectPopularRecipes = (state) => state.recipes.popular;
 export const selectCurrentRecipe = (state) => state.recipes.current;
+export const selectRecipePages = (state) => state.recipes.pages;
 export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
 export const selectFavoritesRecipes = (state) => state.recipes.favorites;

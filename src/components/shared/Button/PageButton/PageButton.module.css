@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.container:hover {
+    background-color: var(--color-text-main);
+    color: #ffffff;
+}
+
+.active {
+    border: 1px solid var(--gray);
+}

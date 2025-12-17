@@ -1,4 +1,4 @@
-import Icon from "../Icon/Icon.jsx";
+import Icon from "../../Icon/Icon.jsx";
 import css from "./RoundButton.module.css";
 
 const RoundButton = ({ iconId, onClick }) => {

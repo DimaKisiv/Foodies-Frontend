@@ -56,12 +56,12 @@ const Recipes = () => {
           and every dessert is an expression of the most refined gastronomic desires.
         </Subtitle>
       </div>
-      <div className={css.content}>
-        {ingredientsStatus && areasStatus === "loading" && <Loader/>}
-        {(ingredients.length > 0 && areas.length > 0) && <RecipeFilters />}
-        {recipesStatus === "loading" && <Loader/>}
-        {recipes.length > 0 && <RecipeList />}
-      </div>
+      {recipesStatus === "loading" && <Loader/>}
+      {recipes.length > 0 &&
+        <div className={css.content}>
+          <RecipeFilters />
+          <RecipeList />
+        </div>}
     </section>
   );
 }
