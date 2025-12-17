@@ -3,6 +3,7 @@ import css from "./LogOutModal.module.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/auth/authOperations.js";
 import Modal from "../Modal.jsx";
+import { toast } from "react-hot-toast";
 
 function LogOutModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
@@ -13,8 +14,9 @@ function LogOutModal({ isOpen, onClose }) {
     try {
       await dispatch(logout()).unwrap();
       onClose?.();
-    } catch {
-      // TODO: Display error message to user
+    } catch (err) {
+      const message = err?.message ?? err;
+      toast.error(message || "Server error. Please try again later");
     }
   };
 

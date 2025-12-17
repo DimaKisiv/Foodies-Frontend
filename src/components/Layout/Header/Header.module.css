@@ -163,3 +163,27 @@
     border: 1px solid #FFFFFF;
     background-color: #FFFFFF;
 }
+
+.header-actions--signin button:first-child {
+    color: #FFFFFF;
+    border: 1px solid #BFBEBE;
+    background-color: #1A1A1A;
+}
+
+.header-actions--signin button:last-child {
+    color: #050505;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+
+.header-actions--signup button:first-child:hover {
+    color: #050505;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+
+.header-actions--signup button:first-child:hover ~ button:last-child {
+    color: #FFFFFF;
+    border: 1px solid #BFBEBE;
+    background-color: #1A1A1A;
+}

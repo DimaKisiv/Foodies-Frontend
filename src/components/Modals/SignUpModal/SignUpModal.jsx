@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import css from "./SignUpModal.module.css";
 import Modal from "../Modal.jsx";
 import clsx from "clsx";
@@ -6,8 +6,14 @@ import { useDispatch } from "react-redux";
 import Icon from "../../shared/Icon/Icon";
 import { registerLocale } from "react-datepicker";
 import { register } from "../../../redux/auth/authOperations";
+import { toast } from "react-hot-toast";
 
-function SignUpModal({ isOpen, onClose }) {
+function SignUpModal({
+  isOpen,
+  onClose,
+  defaultEmail = "",
+  onSwitchToSignIn,
+}) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -15,12 +21,22 @@ function SignUpModal({ isOpen, onClose }) {
     password: "",
   });
 
+  const [submitError, setSubmitError] = useState(null);
+
   const [showPassword, setShowPassword] = useState(false);
   const [touched, setTouched] = useState({
     email: false,
     name: false,
     password: false,
   });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setSubmitError(null);
+    setFormData({ email: defaultEmail || "", name: "", password: "" });
+    setTouched({ email: false, name: false, password: false });
+    setShowPassword(false);
+  }, [isOpen, defaultEmail]);
 
   const validate = () => {
     const errors = {};
@@ -47,6 +63,7 @@ function SignUpModal({ isOpen, onClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (submitError) setSubmitError(null);
   };
 
   const handleBlur = (e) => {
@@ -58,6 +75,8 @@ function SignUpModal({ isOpen, onClose }) {
     e.preventDefault();
     if (!isValid) return;
 
+    setSubmitError(null);
+
     const data = { ...formData, avatar: "" };
 
     try {
@@ -66,13 +85,38 @@ function SignUpModal({ isOpen, onClose }) {
       setTouched({ email: false, name: false, password: false });
       setShowPassword(false);
       onClose?.();
-    } catch {
-      // TODO: Display error message to user
+    } catch (err) {
+      const status = err?.status ?? null;
+      const message = err?.message ?? err;
+
+      if (status === 409) {
+        setSubmitError("User with this email already exists");
+        return;
+      }
+
+      if (status === 400) {
+        setSubmitError(message || "Validation error");
+        return;
+      }
+
+      toast.error(message || "Server error. Please try again later");
     }
   };
 
+  const handleClose = () => {
+    setSubmitError(null);
+    setFormData({ email: "", name: "", password: "" });
+    setTouched({ email: false, name: false, password: false });
+    setShowPassword(false);
+    onClose?.();
+  };
+
   return (
-    <Modal className={css["signUp-modal"]} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      className={css["signUp-modal"]}
+      isOpen={isOpen}
+      onClose={handleClose}
+    >
       <div className={css["signUp-modal-container"]}>
         <p className={css["modal-title"]}>Sign Up</p>
 
@@ -144,8 +188,10 @@ function SignUpModal({ isOpen, onClose }) {
               <span className={css["error"]}>{errors.password}</span>
             )}
           </div>
-
           <div className={css["modal-actions"]}>
+            {submitError && (
+              <span className={css["submit-error"]}>{submitError}</span>
+            )}
             <button
               type="submit"
               className={clsx(css["modal-btn"], {
@@ -159,7 +205,13 @@ function SignUpModal({ isOpen, onClose }) {
         </form>
 
         <p className={css["modal-info-text"]}>
-          I already have an account? <button>Sign in</button>
+          I already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => onSwitchToSignIn?.(formData.email)}
+          >
+            Sign in
+          </button>
         </p>
       </div>
     </Modal>
