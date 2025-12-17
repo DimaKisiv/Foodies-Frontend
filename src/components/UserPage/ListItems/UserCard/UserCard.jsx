@@ -1,16 +1,32 @@
 // src/pages/UserPage/ListItems/UserCard/UserCard.jsx
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./UserCard.module.css";
+import { toggleFollowUser } from "../../../../redux/users/usersOperations";
 
-export function UserCard({
-  user,
-  isFollowing = false,
-  onToggleFollow,
-  onOpen,
-}) {
+export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   const name = user?.name ?? "USER NAME";
   const recipePreviews = Array.isArray(user?.recipes) ? user.recipes : [];
   const recipes = recipePreviews.length;
   const avatar = user?.avatar || user?.avatarURL;
+  const dispatch = useDispatch();
+  const userId = user?.id ?? user?._id;
+  // Derive following status from Redux when prop isn't explicitly provided
+  const storeFollowing = useSelector((state) => {
+    const items = state?.users?.followingByUserId?.["me"]?.items || [];
+    return items.some((u) => String(u.id ?? u._id) === String(userId));
+  });
+  const effectiveIsFollowing =
+    typeof isFollowing === "boolean" ? isFollowing : Boolean(storeFollowing);
+
+  const handleToggle = async () => {
+    if (onToggleFollow) return onToggleFollow();
+    if (!userId) return;
+    try {
+      await dispatch(toggleFollowUser(userId)).unwrap();
+    } catch {
+      // optional: show toast
+    }
+  };
 
   return (
     <article className={styles.card}>
@@ -26,9 +42,9 @@ export function UserCard({
           <button
             type="button"
             className={styles.followBtn}
-            onClick={onToggleFollow}
+            onClick={handleToggle}
           >
-            {isFollowing ? "UNFOLLOW" : "FOLLOW"}
+            {effectiveIsFollowing ? "UNFOLLOW" : "FOLLOW"}
           </button>
         </div>
       </div>

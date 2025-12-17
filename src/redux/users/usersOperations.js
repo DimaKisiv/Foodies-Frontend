@@ -122,3 +122,28 @@ export const unfollowUser = createAsyncThunk(
     }
   }
 );
+
+// Toggle follow/unfollow based on current Redux state
+export const toggleFollowUser = createAsyncThunk(
+  "users/toggleFollowUser",
+  async (userId, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const key = "me";
+      const items = state?.users?.followingByUserId?.[key]?.items || [];
+      const isFollowing = items.some(
+        (u) => String(u.id ?? u._id) === String(userId)
+      );
+
+      if (isFollowing) {
+        const res = await thunkAPI.dispatch(unfollowUser(userId)).unwrap();
+        return { userId: String(userId), followed: false, ...res };
+      }
+      const res = await thunkAPI.dispatch(followUser(userId)).unwrap();
+      return { userId: String(userId), followed: true, ...res };
+    } catch (err) {
+      const message = err?.message || "Failed to toggle follow";
+      return thunkAPI.rejectWithValue({ userId: String(userId), message });
+    }
+  }
+);

@@ -79,7 +79,6 @@ export default function FollowersPage() {
         renderItem={(u) => (
           <UserCard
             user={u}
-            isFollowing={Boolean(u?.isFollowing)}
             onToggleFollow={() => handleToggleFollow(u)}
             onOpen={() => navigate(`/user/${u.id ?? u._id}/recipes`)}
           />
