@@ -4,7 +4,6 @@ import Modal from "../Modal.jsx";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import Icon from "../../shared/Icon/Icon";
-import { registerLocale } from "react-datepicker";
 import { register } from "../../../redux/auth/authOperations";
 import { toast } from "react-hot-toast";
 
@@ -87,7 +86,7 @@ function SignUpModal({
       onClose?.();
     } catch (err) {
       const status = err?.status ?? null;
-      const message = err?.message ?? err;
+      const message = err.response?.data?.message || err.message;
 
       if (status === 409) {
         setSubmitError("User with this email already exists");
@@ -205,7 +204,7 @@ function SignUpModal({
         </form>
 
         <p className={css["modal-info-text"]}>
-          I already have an account?{" "}
+          Already have an account?{" "}
           <button
             type="button"
             onClick={() => onSwitchToSignIn?.(formData.email)}

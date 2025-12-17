@@ -15,7 +15,7 @@ function LogOutModal({ isOpen, onClose }) {
       await dispatch(logout()).unwrap();
       onClose?.();
     } catch (err) {
-      const message = err?.message ?? err;
+      const message = err.response?.data?.message || err.message;
       toast.error(message || "Server error. Please try again later");
     }
   };

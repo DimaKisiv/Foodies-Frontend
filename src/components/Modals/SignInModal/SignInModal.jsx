@@ -78,7 +78,7 @@ function SignInModal({
       onClose?.();
     } catch (err) {
       const status = err?.status ?? null;
-      const message = err?.message ?? err;
+      const message = err.response?.data?.message || err.message;
 
       if (status === 401) {
         setSubmitError("Invalid email or password");
