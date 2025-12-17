@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register, updateAvatar } from "./authOperations";
+import { login, logout, register } from "./authOperations";
 import { setAuthToken } from "../client";
 
 const initialState = {
@@ -72,21 +72,6 @@ const slice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(logout.rejected, (state, { payload }) => {
-        state.status = "failed";
-        state.error = payload;
-      })
-      .addCase(updateAvatar.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
-      })
-      .addCase(updateAvatar.fulfilled, (state, { payload }) => {
-        state.status = "succeeded";
-        // API returns { avatarURL }. Update common avatar field for UI
-        if (!state.user) state.user = {};
-        state.user.avatar =
-          payload.avatarURL || payload.avatar || state.user.avatar;
-      })
-      .addCase(updateAvatar.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
       });

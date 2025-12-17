@@ -1,7 +1,7 @@
 // src/pages/UserPage/MyRecipesPage/MyRecipesPage.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
 import { RecipePreview } from "../../../components/UserPage/ListItems/RecipePreview/RecipePreview";
 import {
@@ -18,6 +18,7 @@ import styles from "./MyRecipesPage.module.css";
 export default function MyRecipesPage() {
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
   const items = useSelector(selectRecipeItems) || [];
   const limit = useSelector(selectRecipesLimit);
   const { page, totalPages, onPageChange, setSectionTotalPages } =
@@ -55,7 +56,8 @@ export default function MyRecipesPage() {
           <RecipePreview
             recipe={recipe}
             onOpen={() => {
-              // TODO navigate to recipe details
+              const id = recipe?.id || recipe?._id;
+              if (id) navigate(`/recipe/${id}`);
             }}
             onDelete={() => {
               // TODO dispatch delete

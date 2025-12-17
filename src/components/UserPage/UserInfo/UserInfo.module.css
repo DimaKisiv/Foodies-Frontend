@@ -20,6 +20,14 @@
   background: rgba(0, 0, 0, 0.08);
 }
 
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+  display: block;
+}
+
 .addAvatarBtn {
   position: absolute;
   left: 50%;

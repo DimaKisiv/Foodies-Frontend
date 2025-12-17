@@ -1,6 +1,7 @@
 // src/pages/UserPage/MyFavoritesPage/MyFavoritesPage.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
 import { RecipePreview } from "../../../components/UserPage/ListItems/RecipePreview/RecipePreview";
 import { fetchFavoritesRecipes } from "../../../redux/recipes/recipesOperations";
@@ -13,6 +14,7 @@ import styles from "./MyFavoritesPage.module.css";
 
 export default function MyFavoritesPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const items = useSelector(selectFavoritesRecipes) || [];
   const limit = useSelector(selectRecipesLimit);
   const { page, totalPages, onPageChange, setSectionTotalPages } =
@@ -43,7 +45,10 @@ export default function MyFavoritesPage() {
         renderItem={(recipe) => (
           <RecipePreview
             recipe={recipe}
-            onOpen={() => {}}
+            onOpen={() => {
+              const id = recipe?.id || recipe?._id;
+              if (id) navigate(`/recipe/${id}`);
+            }}
             onDelete={() => {
               // e.g. remove from favorites
             }}

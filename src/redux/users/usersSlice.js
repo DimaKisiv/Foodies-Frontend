@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUsers, fetchCurrent } from "./usersOperations";
+import { fetchUsers, fetchCurrent, updateAvatar } from "./usersOperations";
 import { setAuthFromStorage } from "../auth/authSlice";
 
 const slice = createSlice({
@@ -30,6 +30,20 @@ const slice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(fetchCurrent.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+      .addCase(updateAvatar.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateAvatar.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        if (!state.current) state.current = {};
+        state.current.avatar =
+          payload.avatarURL || payload.avatar || state.current.avatar;
+      })
+      .addCase(updateAvatar.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
       })
