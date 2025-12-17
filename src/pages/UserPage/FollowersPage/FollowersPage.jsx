@@ -1,5 +1,5 @@
 // src/pages/UserPage/FollowersPage/FollowersPage.jsx
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
@@ -11,32 +11,34 @@ import {
   followUser,
   unfollowUser,
 } from "../../../redux/users/usersOperations";
-import {
-  selectFollowersFor,
-  selectCurrentUser,
-} from "../../../redux/users/usersSlice";
+import { selectFollowersFor } from "../../../redux/users/usersSlice";
 
 export default function FollowersPage() {
   const params = useParams();
-  const authUser = useSelector(selectCurrentUser);
-  const targetUserId = useMemo(
-    () => String(params.id || authUser?.id || authUser?._id || ""),
-    [params.id, authUser]
-  );
+  const isOtherProfile = Boolean(params.id);
+  const otherUserId = params.id ? String(params.id) : "";
+  // Use 'me' key when on own profile (no id in URL)
+  const listKey = isOtherProfile ? otherUserId : "me";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { page, totalPages, onPageChange, setSectionTotalPages } =
     useSectionPagination();
 
-  const listState = useSelector(selectFollowersFor(targetUserId));
+  const listState = useSelector(selectFollowersFor(listKey));
   const items = listState.items || [];
   const isLoading = listState.status === "loading";
   const error = listState.error || null;
 
   useEffect(() => {
-    if (!targetUserId) return;
-    dispatch(fetchFollowers({ userId: targetUserId, page }));
-  }, [dispatch, targetUserId, page]);
+    // If viewing another user's profile, pass their id.
+    // If on own profile (no id in URL), omit userId so backend uses auth context.
+    if (isOtherProfile) {
+      if (!otherUserId) return;
+      dispatch(fetchFollowers({ userId: otherUserId, page }));
+    } else {
+      dispatch(fetchFollowers({ page }));
+    }
+  }, [dispatch, isOtherProfile, otherUserId, page]);
 
   useEffect(() => {
     if (listState.totalPages) setSectionTotalPages(listState.totalPages);
@@ -52,13 +54,17 @@ export default function FollowersPage() {
         } else {
           await dispatch(followUser(id)).unwrap();
         }
-        // Refresh current list
-        dispatch(fetchFollowers({ userId: targetUserId, page }));
+        // Refresh current list with the same keying logic
+        if (isOtherProfile) {
+          dispatch(fetchFollowers({ userId: otherUserId, page }));
+        } else {
+          dispatch(fetchFollowers({ page }));
+        }
       } catch {
         // noop; could show toast
       }
     },
-    [dispatch, targetUserId, page]
+    [dispatch, isOtherProfile, otherUserId, page]
   );
 
   return (

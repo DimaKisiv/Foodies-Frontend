@@ -43,10 +43,10 @@ export default function UserPage() {
 
   const otherUser = useSelector((state) => (id ? state.users.byId[id] : null));
   const myKey = useMemo(
-    () => "me",
+    () => String(authUser?.id || authUser?._id || ""),
     [authUser]
   );
-  const followingMe = useSelector(selectFollowingFor("me"));
+  const followingMe = useSelector(selectFollowingFor(myKey));
   const isFollowingOther = useMemo(() => {
     if (!id) return false;
     const list = followingMe?.items || [];

@@ -10,6 +10,7 @@ import {
   unfollowUser,
 } from "./usersOperations";
 import { setAuthFromStorage } from "../auth/authSlice";
+import { login, logout } from "../auth/authOperations";
 
 const slice = createSlice({
   name: "users",
@@ -68,6 +69,25 @@ const slice = createSlice({
       })
       .addCase(setAuthFromStorage, (state, { payload }) => {
         state.current = payload?.user ?? null;
+      })
+      // Sync on successful login to reflect the new user immediately
+      .addCase(login.fulfilled, (state, { payload }) => {
+        state.current = payload?.user ?? null;
+        // Clear cached user-related lists from any previous session
+        state.followersByUserId = {};
+        state.followingByUserId = {};
+        state.byId = {};
+        state.byIdStatus = {};
+        state.byIdError = {};
+      })
+      // On logout, clear current user and all user-related caches
+      .addCase(logout.fulfilled, (state) => {
+        state.current = null;
+        state.followersByUserId = {};
+        state.followingByUserId = {};
+        state.byId = {};
+        state.byIdStatus = {};
+        state.byIdError = {};
       })
       // Other user profile by id
       .addCase(fetchUserById.pending, (state, { meta }) => {

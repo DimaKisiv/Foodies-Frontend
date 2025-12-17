@@ -10,11 +10,14 @@ export function UserCard({
   const name = user?.name ?? "USER NAME";
   const recipePreviews = Array.isArray(user?.recipes) ? user.recipes : [];
   const recipes = recipePreviews.length;
+  const avatar = user?.avatar || user?.avatarURL;
 
   return (
     <article className={styles.card}>
       <div className={styles.left}>
-        <div className={styles.avatar} />
+        <div className={styles.avatar}>
+          {avatar ? <img src={avatar} alt={name || "Avatar"} /> : null}
+        </div>
 
         <div className={styles.info}>
           <div className={styles.name}>{name}</div>

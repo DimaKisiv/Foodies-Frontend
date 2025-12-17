@@ -6,7 +6,10 @@ import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
 import { UserCard } from "../../../components/UserPage/ListItems/UserCard/UserCard";
 import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./FollowingPage.module.css";
-import { fetchFollowing, unfollowUser } from "../../../redux/users/usersOperations";
+import {
+  fetchFollowing,
+  unfollowUser,
+} from "../../../redux/users/usersOperations";
 import { selectFollowingFor } from "../../../redux/users/usersSlice";
 
 export default function FollowingPage() {
@@ -42,85 +45,6 @@ export default function FollowingPage() {
       }
     },
     [dispatch, page]
-  );
-
-  return (
-    <div className={styles.wrap}>
-      <ListItems
-        items={items}
-        isLoading={isLoading}
-        error={error}
-        page={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-        renderItem={(u) => (
-          <UserCard
-            user={u}
-            isFollowing={true}
-            onToggleFollow={() => handleUnfollow(u)}
-            onOpen={() => navigate(`/user/${u.id ?? u._id}/recipes`)}
-          />
-        )}
-      />
-    </div>
-  );
-}
-// src/pages/UserPage/FollowingPage/FollowingPage.jsx
-import { useEffect, useCallback, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
-import { UserCard } from "../../../components/UserPage/ListItems/UserCard/UserCard";
-import useSectionPagination from "../../../hooks/useSectionPagination";
-import styles from "./FollowingPage.module.css";
-import {
-  fetchFollowing,
-  unfollowUser,
-} from "../../../redux/users/usersOperations";
-import {
-  selectFollowingFor,
-  selectCurrentUser,
-} from "../../../redux/users/usersSlice";
-
-export default function FollowingPage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { page, totalPages, onPageChange, setSectionTotalPages } =
-    useSectionPagination();
-
-  // Own profile only
-  const authUser = useSelector(selectCurrentUser);
-  const myId = useMemo(
-    () => String(authUser?.id || authUser?._id || ""),
-    [authUser]
-  );
-  const listState = useSelector(selectFollowingFor(myId));
-  const items = listState.items || [];
-  const isLoading = listState.status === "loading";
-  const error = listState.error || null;
-
-  useEffect(() => {
-    if (!myId) return;
-    dispatch(fetchFollowing({ userId: myId, page }));
-  }, [dispatch, myId, page]);
-
-  useEffect(() => {
-    if (listState.totalPages) setSectionTotalPages(listState.totalPages);
-  }, [listState.totalPages, setSectionTotalPages]);
-
-  const handleUnfollow = useCallback(
-    async (u) => {
-      try {
-        const id = u.id ?? u._id;
-        if (!id) return;
-        await dispatch(unfollowUser(id)).unwrap();
-        // Refresh list after unfollow
-        dispatch(fetchFollowing({ userId: myId, page }));
-      } catch {
-        // noop
-      }
-    },
-    [dispatch, myId, page]
   );
 
   return (

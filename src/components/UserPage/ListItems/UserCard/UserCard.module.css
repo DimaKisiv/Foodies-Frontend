@@ -22,6 +22,14 @@
   flex: 0 0 auto;
 }
 
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+
 .info {
   display: grid;
   gap: 6px;
