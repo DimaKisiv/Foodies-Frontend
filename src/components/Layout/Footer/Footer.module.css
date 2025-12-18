@@ -24,11 +24,17 @@
   text-transform: lowercase;
   color: var(--color-text-main);
   text-decoration: none;
+  transition: color 0.25s ease;
 }
 
 .logo:hover,
 .logo:focus-visible {
-  text-decoration: underline;
+  color: var(--gray);
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--gray);
+  outline-offset: 3px;
 }
 
 .socials {
@@ -52,7 +58,7 @@
   line-height: 1.43;
   letter-spacing: -0.02em;
   text-align: center;
-  color: #1a1a1a;
+  color: var(--color-text-secondary);
 }
 
 @media (min-width: 768px) {

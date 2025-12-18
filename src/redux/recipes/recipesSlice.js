@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchRecipes,
+  fetchOwnRecipes,
   fetchPopularRecipes,
   fetchRecipeById,
   fetchFavoritesRecipes,
   addRecipeToFavorites,
-  deleteRecipeFromFavorites
+  deleteRecipeFromFavorites,
 } from "./recipesOperations";
 
 const slice = createSlice({
@@ -17,10 +18,15 @@ const slice = createSlice({
     popular: [],
     favorites: [],
     current: null,
+    limit: 12,
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setRecipesLimit(state, { payload }) {
+      state.limit = Number(payload) || state.limit;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // list
@@ -32,9 +38,24 @@ const slice = createSlice({
         state.status = "succeeded";
         state.category = payload.items.length > 0 ? payload.items[0].category : null;
         state.items = payload.items;
+        state.limit = payload.limit ?? state.limit ?? 12;
         state.pages = Math.ceil(payload.total / payload.limit);
       })
       .addCase(fetchRecipes.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
+      // own list
+      .addCase(fetchOwnRecipes.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchOwnRecipes.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.items = payload.items;
+        state.limit = payload.limit ?? state.limit ?? 12;
+      })
+      .addCase(fetchOwnRecipes.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
       })
@@ -98,6 +119,7 @@ const slice = createSlice({
       .addCase(fetchFavoritesRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         state.favorites = payload.items;
+        state.limit = payload.limit ?? state.limit ?? 12;
       })
       .addCase(fetchFavoritesRecipes.rejected, (state, { payload }) => {
         state.status = "failed";
@@ -106,6 +128,7 @@ const slice = createSlice({
   },
 });
 
+export const { setRecipesLimit } = slice.actions;
 export const recipesReducer = slice.reducer;
 
 // Selectors
@@ -118,3 +141,6 @@ export const selectRecipePages = (state) => state.recipes.pages;
 export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
 export const selectFavoritesRecipes = (state) => state.recipes.favorites;
+export const selectRecipesLimit = (state) => state.recipes.limit;
+// Derived total pages per section based on current arrays
+// Note: totalPages is sourced from API payload or computed from total count in fulfilled handlers

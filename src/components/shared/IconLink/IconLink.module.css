@@ -29,17 +29,17 @@
 
 .iconLink:hover,
 .iconLink:focus-visible {
-  background-color: #050505;
-  border-color: #050505;
+  background-color: var(--color-text-main);
+  border-color: var(--color-text-main);
 }
 
 .iconLink:hover .iconLinkIcon,
 .iconLink:focus-visible .iconLinkIcon {
-  color: #fff;
+  color: var(--white);
 }
 
 .iconLink:focus-visible {
-  outline: 2px solid #050505;
+  outline: 2px solid var(--color-text-main);
   outline-offset: 3px;
 }
 

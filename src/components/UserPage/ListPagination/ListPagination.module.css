@@ -1,0 +1,21 @@
+/* src/pages/UserPage/ListPagination/ListPagination.module.css */
+.wrap {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.active {
+  color: rgba(0, 0, 0, 0.92);
+  border-color: rgba(0, 0, 0, 0.35);
+}

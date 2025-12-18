@@ -3,11 +3,14 @@ import { NavLink } from "react-router";
 import clsx from "clsx";
 import React, { useState } from "react";
 import LogOutModal from "../../Modals/LogOutModal/LogOutModal.jsx";
-import SignInModal from "../../Modals/SignInModal/SignInModal.jsx";
-import SignUpModal from "../../Modals/SignUpModal/SignUpModal.jsx";
-import Icon from "../../shared/Icon/Icon";
+import { useAuthModal } from "../../../providers/AuthModalProvider";
 import { useSelector } from "react-redux";
-import { selectAuthUser, selectIsAuthenticated } from "../../../redux/auth/authSlice";
+import {
+  selectAuthUser,
+  selectIsAuthenticated,
+} from "../../../redux/auth/authSlice";
+import { selectCurrentUser } from "../../../redux/users/usersSlice";
+import Icon from "../../Shared/Icon/Icon.jsx";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -15,12 +18,13 @@ function Header() {
       isActive && css["header-nav-link--active"]
     );
   };
-  const [SignInModalOpen, SignInModalSetOpen] = useState(false);
-  const [SignUpModalOpen, SignUpModalSetOpen] = useState(false);
+  const { authModal, openSignIn, openSignUp } = useAuthModal();
   const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const user = useSelector(selectAuthUser);
+  const authUser = useSelector(selectAuthUser);
+  const currentUser = useSelector(selectCurrentUser);
+  const user = currentUser || authUser;
 
   return (
     <>
@@ -34,7 +38,16 @@ function Header() {
             Home
           </NavLink>
 
-          <NavLink to="/add-recipe" className={buildLinkClass}>
+          <NavLink
+            to="/recipe/add"
+            className={buildLinkClass}
+            onClick={(e) => {
+              if (!isAuthenticated) {
+                e.preventDefault();
+                openSignIn();
+              }
+            }}
+          >
             Add Recipe
           </NavLink>
         </nav>
@@ -45,11 +58,17 @@ function Header() {
             onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
           >
             <div className={css["header-profile-action"]}>
-              <div className={css["header-profile-img"]}></div>
+              <div className={css["header-profile-img"]}>
+                {user?.avatar || user?.avatarURL ? (
+                  <img
+                    src={user.avatar || user.avatarURL}
+                    alt={user.name || "Avatar"}
+                    aria-hidden={!user?.name}
+                  />
+                ) : null}
+              </div>
 
-              <p className={css["header-profile-name"]}>
-                {user.name}
-              </p>
+              <p className={css["header-profile-name"]}>{user.name}</p>
 
               <button className={css["header-profile-arrow"]}>
                 <Icon
@@ -64,9 +83,12 @@ function Header() {
 
             {openProfileDropdown && (
               <div className={css["header-profile-content"]}>
-                <button className={css["header-profile-content__item"]}>
+                <NavLink
+                  to="/user"
+                  className={css["header-profile-content__item"]}
+                >
                   Profile
-                </button>
+                </NavLink>
                 <button
                   className={css["header-profile-content__item"]}
                   onClick={() => LogOutModalSetOpen(true)}
@@ -83,22 +105,20 @@ function Header() {
             )}
           </div>
         ) : (
-          <div className={css["header-actions"]}>
-            <button onClick={() => SignInModalSetOpen(true)}>Sign In</button>
+          <div
+            className={clsx(
+              css["header-actions"],
+              authModal === "signin" && css["header-actions--signin"],
+              authModal === "signup" && css["header-actions--signup"]
+            )}
+          >
+            <button onClick={() => openSignIn()}>Sign In</button>
 
-            <button onClick={() => SignUpModalSetOpen(true)}>Sign Up</button>
+            <button onClick={() => openSignUp()}>Sign Up</button>
           </div>
         )}
       </div>
 
-      <SignInModal
-        isOpen={SignInModalOpen}
-        onClose={() => SignInModalSetOpen(false)}
-      ></SignInModal>
-      <SignUpModal
-        isOpen={SignUpModalOpen}
-        onClose={() => SignUpModalSetOpen(false)}
-      ></SignUpModal>
       <LogOutModal
         isOpen={LogOutModalOpen}
         onClose={() => LogOutModalSetOpen(false)}
