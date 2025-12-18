@@ -27,39 +27,16 @@ function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
-      <Router>
-        <GlobalReduxLoader />
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route element={<SharedLayout />}>
-              <Route path="/" element={<HomePage />}>
-                <Route index element={<Categories />} />
-                <Route path="categories/:name" element={<Recipes />} />
-              </Route>
-              <Route path="/recipe/:id" element={<RecipePage />} />
-              <Route path="/recipe/add" element={<AddRecipePage />} />
-              <Route path="user/:id" element={<UserPage />}>
-                <Route index element={<MyRecipesPage />} />
-                <Route path="my-recipes" element={<MyRecipesPage />} />
-                <Route path="my-favorites" element={<MyFavoritesPage />} />
-                <Route path="followers" element={<FollowersPage />} />
-                <Route path="following" element={<FollowingPage />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="my-recipes" replace />}
-                />
-              </Route>
-            </Route>
-          </Routes>
-        </Suspense>
-      </Router>
         <AuthModalProvider>
           <Router>
             <GlobalReduxLoader />
             <Suspense fallback={<Loader />}>
               <Routes>
                 <Route element={<SharedLayout />}>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<HomePage />}>
+                    <Route index element={<Categories />} />
+                    <Route path="categories/:name" element={<Recipes />} />
+                  </Route>
                   <Route path="/recipe/:id" element={<RecipePage />} />
                   <Route path="/recipe/add" element={<AddRecipePage />} />
                   {/* Own profile (all four tabs) */}
