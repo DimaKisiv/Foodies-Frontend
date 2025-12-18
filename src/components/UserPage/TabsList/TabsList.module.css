@@ -1,17 +1,14 @@
+/* src/components/UserPage/TabsList/TabsList.module.css */
 .tabs {
   width: 100%;
   position: relative;
   text-transform: uppercase;
-
   display: flex;
   flex-wrap: nowrap;
   gap: 30px;
-
   padding-bottom: 14px;
-
   overflow-x: auto;
   overflow-y: hidden;
-
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge legacy */
 }
@@ -96,7 +93,7 @@
   right: 0;
   bottom: -14px;
 
-  height: 4px;
+  height: 3px;
   background-color: var(--color-text-main);
   z-index: 1;
 }
