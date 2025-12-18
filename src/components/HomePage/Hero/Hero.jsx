@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import css from "./Hero.module.css";
 import { NavLink } from "react-router";
 import { selectIsAuthenticated } from "../../../redux/auth/authSlice";
-import { useAuthModal } from "../../../providers/AuthModalProvider";
+import { useAuthModal } from "../../../providers/useAuthModal";
 function Hero() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { openSignIn } = useAuthModal();

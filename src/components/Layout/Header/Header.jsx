@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 import clsx from "clsx";
 import React, { useState } from "react";
 import LogOutModal from "../../Modals/LogOutModal/LogOutModal.jsx";
-import { useAuthModal } from "../../../providers/AuthModalProvider";
+import { useAuthModal } from "../../../providers/useAuthModal";
 import { useSelector } from "react-redux";
 import {
   selectAuthUser,

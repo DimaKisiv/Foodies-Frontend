@@ -11,6 +11,7 @@ export function UserInfo({
   mode = "own",
   isFollowing = false,
   onToggleFollow,
+  onLogout,
 }) {
   // Prefer explicit prop; otherwise fall back to current user from Redux
   const current = useSelector(selectCurrentUser);
@@ -116,7 +117,7 @@ export function UserInfo({
       </div>
 
       {mode === "own" ? (
-        <button className={styles.logoutBtn} type="button">
+        <button className={styles.logoutBtn} type="button" onClick={onLogout}>
           LOG OUT
         </button>
       ) : (

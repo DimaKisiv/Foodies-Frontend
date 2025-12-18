@@ -1,12 +1,18 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import SignInModal from "../components/Modals/SignInModal/SignInModal.jsx";
 import SignUpModal from "../components/Modals/SignUpModal/SignUpModal.jsx";
-
-const AuthModalContext = createContext(null);
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { selectIsAuthenticated } from "../redux/auth/authSlice";
+import { AuthModalContext } from "./authModalContext";
 
 export function AuthModalProvider({ children }) {
   const [authModal, setAuthModal] = useState(null); // 'signin' | 'signup' | null
   const [authModalEmail, setAuthModalEmail] = useState("");
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const prevAuth = useRef(isAuthenticated);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const openSignIn = useCallback((email = "") => {
     setAuthModalEmail(email || "");
@@ -31,6 +37,15 @@ export function AuthModalProvider({ children }) {
     closeAuthModal,
   };
 
+  useEffect(() => {
+    if (prevAuth.current && !isAuthenticated) {
+      if (location.pathname !== "/") {
+        navigate("/", { replace: true });
+      }
+    }
+    prevAuth.current = isAuthenticated;
+  }, [isAuthenticated, navigate, location.pathname]);
+
   return (
     <AuthModalContext.Provider value={value}>
       {children}
@@ -50,10 +65,4 @@ export function AuthModalProvider({ children }) {
   );
 }
 
-export function useAuthModal() {
-  const ctx = useContext(AuthModalContext);
-  if (!ctx) {
-    throw new Error("useAuthModal must be used within an AuthModalProvider");
-  }
-  return ctx;
-}
+// useAuthModal moved to providers/useAuthModal.js to improve Fast Refresh

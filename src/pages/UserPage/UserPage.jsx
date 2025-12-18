@@ -14,14 +14,18 @@ import {
 } from "../../redux/users/usersOperations";
 import { UserInfo } from "../../components/UserPage/UserInfo/UserInfo";
 import { TabsList } from "../../components/UserPage/TabsList/TabsList";
-import { useEffect, useMemo } from "react";
-import { useAuthModal } from "../../providers/AuthModalProvider";
+import { useEffect, useMemo, useState } from "react";
+import { useAuthModal } from "../../providers/useAuthModal";
+import MainTitle from "../../components/Shared/MainTitle/MainTitle.jsx";
+import Subtitle from "../../components/Shared/Subtitle/Subtitle.jsx";
+import LogOutModal from "../../components/Modals/LogOutModal/LogOutModal.jsx";
 
 export default function UserPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { openSignIn } = useAuthModal();
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const authUser = useSelector(selectCurrentUser);
   const isOwnProfile =
     !id || id === String(authUser?.id || authUser?._id || "");
@@ -70,26 +74,41 @@ export default function UserPage() {
   );
 
   return (
-    <div className={styles.page}>
-      <aside className={styles.left}>
-        {isOwnProfile ? (
-          <UserInfo user={authUser} mode="own" />
-        ) : (
-          <UserInfo
-            user={otherUser}
-            mode="other"
-            isFollowing={isFollowingOther}
-            onToggleFollow={onToggleFollow}
-          />
-        )}
-      </aside>
+    <>
+      <div className={styles.page}>
+        <MainTitle>PROFILE</MainTitle>
+        <Subtitle maxWidth={560}>
+          Reveal your culinary art, share your favorite recipe and create
+          gastronomic masterpieces with us.
+        </Subtitle>
+        <aside className={styles.left}>
+          {isOwnProfile ? (
+            <UserInfo
+              user={authUser}
+              mode="own"
+              onLogout={() => setIsLogoutOpen(true)}
+            />
+          ) : (
+            <UserInfo
+              user={otherUser}
+              mode="other"
+              isFollowing={isFollowingOther}
+              onToggleFollow={onToggleFollow}
+            />
+          )}
+        </aside>
 
-      <main className={styles.right}>
-        <TabsList />
-        <div className={styles.content}>
-          <Outlet />
-        </div>
-      </main>
-    </div>
+        <main className={styles.right}>
+          <TabsList />
+          <div className={styles.content}>
+            <Outlet />
+          </div>
+        </main>
+      </div>
+      <LogOutModal
+        isOpen={isLogoutOpen}
+        onClose={() => setIsLogoutOpen(false)}
+      />
+    </>
   );
 }

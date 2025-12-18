@@ -8,9 +8,9 @@ import SharedLayout from "./components/Layout/SharedLayout";
 import FollowersPage from "./pages/UserPage/FollowersPage/FollowersPage";
 import FollowingPage from "./pages/UserPage/FollowingPage/FollowingPage";
 import AuthProvider from "./providers/AuthProvider";
+import { AuthModalProvider } from "./providers/AuthModalProvider";
 import Categories from "./pages/HomePage/Categories/Categories.jsx";
 import Recipes from "./pages/HomePage/Recipes/Recipes.jsx";
-import { AuthModalProvider } from "./providers/AuthModalProvider";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const RecipePage = lazy(() => import("./pages/RecipePage/RecipePage"));
@@ -27,8 +27,8 @@ function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <AuthModalProvider>
-          <Router>
+        <Router>
+          <AuthModalProvider>
             <GlobalReduxLoader />
             <Suspense fallback={<Loader />}>
               <Routes>
@@ -64,8 +64,8 @@ function App() {
                 </Route>
               </Routes>
             </Suspense>
-          </Router>
-        </AuthModalProvider>
+          </AuthModalProvider>
+        </Router>
       </AuthProvider>
     </Provider>
   );
