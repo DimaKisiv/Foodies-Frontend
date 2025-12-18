@@ -33,7 +33,6 @@ function App() {
             <Route element={<SharedLayout />}>
               <Route path="/" element={<HomePage />}>
                 <Route index element={<Categories />} />
-                <Route path="categories" element={<Categories />} />
                 <Route path="categories/:name" element={<Recipes />} />
               </Route>
               <Route path="/recipe/:id" element={<RecipePage />} />

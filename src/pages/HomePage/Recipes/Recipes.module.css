@@ -19,8 +19,16 @@
 }
 
 .content {
+    position: relative;
     display: flex;
     gap: 40px;
 }
 
 .pagination {}
+
+.loader {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

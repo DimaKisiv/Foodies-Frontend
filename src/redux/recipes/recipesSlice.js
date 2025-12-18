@@ -12,7 +12,7 @@ const slice = createSlice({
   name: "recipes",
   initialState: {
     category: null,
-    items: [],
+    items: null,
     pages: 0,
     popular: [],
     favorites: [],
@@ -30,7 +30,7 @@ const slice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
-        state.category = payload.items[0].category;
+        state.category = payload.items.length > 0 ? payload.items[0].category : null;
         state.items = payload.items;
         state.pages = Math.ceil(payload.total / payload.limit);
       })

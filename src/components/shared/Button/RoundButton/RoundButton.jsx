@@ -1,9 +1,12 @@
 import Icon from "../../Icon/Icon.jsx";
 import css from "./RoundButton.module.css";
 
-const RoundButton = ({ iconId, onClick }) => {
+const RoundButton = ({ iconId, onClick, altMode }) => {
   return (
-    <button className={css.container} onClick={onClick}>
+    <button
+      className={altMode ? `${css.container} ${css.alt}` : css.container}
+      onClick={onClick}
+    >
       <Icon id={iconId} className={css.icon} />
     </button>
   );

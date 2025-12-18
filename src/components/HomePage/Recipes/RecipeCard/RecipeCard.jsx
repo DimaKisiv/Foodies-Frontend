@@ -1,11 +1,23 @@
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { selectIsAuthenticated } from "../../../../redux/auth/authSlice.js";
+import Avatar from "boring-avatars";
 import RoundButton from "../../../shared/Button/RoundButton/RoundButton.jsx";
 import css from "./RecipeCard.module.css";
 
+// TODO: avatars
 const RecipeCard = ({ recipe }) => {
+  const isUserSignedIn = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate();
+
+  const favoritesHandler = () => {}
+
+  const recipeHandler = () => navigate(`/recipe/${recipe.id}`);
+
   return (
     <div className={css.container}>
       <div className={css.image}>
-        <img src={recipe.thumb} alt=""/>
+        <img src={recipe.thumb} alt={recipe.title} />
       </div>
       <div className={css.title}>
         <h4>{recipe.title}</h4>
@@ -14,13 +26,22 @@ const RecipeCard = ({ recipe }) => {
       <div className={css.ui}>
         <div className={css.author}>
           <div className={css.avatar}>
-            <img src={recipe.owner.avatar} alt=""/>
+            {recipe.owner.avatar
+              ? <img src={recipe.owner.avatar} alt={recipe.owner.name} />
+              : <Avatar name={recipe.owner.name} size={40} variant="pixel" />}
           </div>
           <span>{recipe.owner.name}</span>
         </div>
         <div className={css.buttons}>
-          <RoundButton iconId="icon-heart" onClick={() => {}} />
-          <RoundButton iconId="icon-arrow-up-right" onClick={() => {}} />
+          <RoundButton
+            iconId="icon-heart"
+            onClick={favoritesHandler}
+            altMode={false}
+          />
+          <RoundButton
+            iconId="icon-arrow-up-right"
+            onClick={recipeHandler}
+          />
         </div>
       </div>
     </div>

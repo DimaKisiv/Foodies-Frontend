@@ -14,6 +14,7 @@ import MainTitle from "../../../components/shared/MainTitle/MainTitle.jsx";
 import RecipeFilters from "../../../components/HomePage/Recipes/RecipeFilters/RecipeFilters.jsx";
 import RecipeList from "../../../components/HomePage/Recipes/RecipeList/RecipeList.jsx";
 import Loader from "../../../components/shared/Loader/Loader.jsx";
+import NoItemsFound from "../../../components/shared/NoItemsFound/NoItemsFound.jsx";
 import css from './Recipes.module.css';
 
 const Recipes = () => {
@@ -25,9 +26,14 @@ const Recipes = () => {
   const ingredients = useSelector(selectIngredientsItems);
   const areasStatus = useSelector(selectAreasStatus);
   const areas = useSelector(selectAreasItems);
-
   const recipesStatus = useSelector(selectRecipesStatus);
   const recipes = useSelector(selectRecipeItems);
+
+  const isLoading = () => {
+    return ingredientsStatus === "loading"
+      || areasStatus === "loading"
+      || recipesStatus === "loading";
+  }
 
   useEffect(() => {
     dispatch(fetchRecipes({ category: name }));
@@ -56,12 +62,15 @@ const Recipes = () => {
           and every dessert is an expression of the most refined gastronomic desires.
         </Subtitle>
       </div>
-      {recipesStatus === "loading" && <Loader/>}
-      {recipes.length > 0 &&
-        <div className={css.content}>
-          <RecipeFilters />
-          <RecipeList />
-        </div>}
+      <div className={css.content}>
+        {isLoading() &&
+            <div className={css.loader}>
+              <Loader />
+            </div>}
+        <RecipeFilters />
+        {recipes?.length > 0 && <RecipeList />}
+        {recipes?.length === 0 && <NoItemsFound />}
+      </div>
     </section>
   );
 }

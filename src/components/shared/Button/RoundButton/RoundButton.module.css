@@ -24,3 +24,12 @@
 .container:hover .icon {
     color: #ffffff;
 }
+
+.alt {
+    border: none;
+    background-color: var(--color-text-main);
+}
+
+.alt .icon {
+    color: #ffffff;
+}
