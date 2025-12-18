@@ -1,23 +1,91 @@
-/* src/pages/UserPage/TabsList/TabsList.module.css */
 .tabs {
+  width: 100%;
   position: relative;
+  text-transform: uppercase;
+
   display: flex;
-  gap: 28px;
-  padding: 8px 0 14px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  flex-wrap: nowrap;
+  gap: 30px;
+
+  padding-bottom: 14px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+
+.tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+@media screen and (max-width: 374px) {
+  .tab:first-child {
+    padding-left: 8px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .tab:first-child {
+    padding-left: 16px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tabs {
+    padding-right: 100px;
+  }
+
+  .tabs::before,
+  .tabs::after {
+    content: "";
+    position: absolute;
+    bottom: 13px;
+    width: 17px;
+    height: 6px;
+    background-color: var(--white);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .tabs::before {
+    left: -1px;
+  }
+
+  .tabs::after {
+    right: -1px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .tabs::before,
+  .tabs::after {
+    width: 9px;
+  }
 }
 
 .tab {
-  font-size: 14px;
-  letter-spacing: 0.06em;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.35);
-  font-weight: 600;
-  padding-bottom: 10px;
+  white-space: nowrap;
+
+  font-family: var(--font-family-main);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+
+  color: var(--gray);
+  transition: color 250ms ease;
+}
+
+.tab:hover,
+.tab:focus-visible {
+  color: var(--color-text-main);
+  outline: none;
 }
 
 .active {
-  color: rgba(0, 0, 0, 0.9);
+  color: var(--color-text-main);
   position: relative;
 }
 
@@ -26,12 +94,33 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -15px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.9);
+  bottom: -14px;
+
+  height: 4px;
+  background-color: var(--color-text-main);
+  z-index: 1;
 }
 
 .line {
-  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 1px;
+  background-color: var(--gray);
+  z-index: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .tabs {
+    gap: 40px;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .tab {
+    font-size: 20px;
+    line-height: 1.2;
+  }
 }
