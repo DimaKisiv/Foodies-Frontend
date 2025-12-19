@@ -43,15 +43,9 @@
     display: none;
 }
 
-.cameraWrap {
-    width: 56px;
-    height: 56px;
-    border: 1px solid #cfcfcf;
-    border-radius: 14px;
-    display: grid;
-    place-items: center;
-    color: #9a9a9a;
-    margin-bottom: 14px;
+.responsiveIcon {
+    width: 50px;
+    height: 50px;
 }
 
 .uploadLink {
@@ -59,6 +53,7 @@
     text-decoration: underline;
     text-decoration-skip-ink: none;
     font-size: 14px;
+    margin-top: 16px;
     cursor: pointer;
 }
 
@@ -353,6 +348,13 @@
     font-weight: 900;
     letter-spacing: 0.06em;
     cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .responsiveIcon {
+        width: 64px;
+        height: 64px;
+    }
 }
 
 /* Responsive */

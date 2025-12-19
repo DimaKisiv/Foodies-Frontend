@@ -22,6 +22,7 @@ import {
 } from "../../../redux/ingredients/ingredientsSlice";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import Icon from "../../shared/Icon/Icon.jsx";
 
 export default function AddRecipeForm() {
   const isAuth = useSelector(selectIsAuthenticated);
@@ -78,11 +79,11 @@ export default function AddRecipeForm() {
       (i) => i.name === displayName || i.id === id
     );
     if (isDuplicate) {
-      toast.error("Ingredient already added", { id: "ingredient-dup" });
+      toast.error("Ingredient already added", {id: "ingredient-dup"});
       return;
     }
     setSelectedIngredients((prev) => {
-      const next = [...prev, { id, name: displayName, qty, img }];
+      const next = [...prev, {id, name: displayName, qty, img}];
       setFieldValue("ingredients", next);
       if (setFieldError) setFieldError("ingredients", undefined);
       return next;
@@ -150,7 +151,7 @@ export default function AddRecipeForm() {
         validationSchema={ValidationSchema}
         onSubmit={async (
           values,
-          { setSubmitting, resetForm, setFieldError, setTouched }
+          {setSubmitting, resetForm, setFieldError, setTouched}
         ) => {
           try {
             if (selectedIngredients.length < 1) {
@@ -158,7 +159,7 @@ export default function AddRecipeForm() {
                 id: "recipe-ingredients",
               });
               setFieldError("ingredients", "Add at least one ingredient");
-              setTouched({ ...setTouched.touched, ingredients: true });
+              setTouched({...setTouched.touched, ingredients: true});
               setSubmitting(false);
               return;
             }
@@ -176,7 +177,7 @@ export default function AddRecipeForm() {
             form.append("ingredients", JSON.stringify(ingredientsPayload));
             if (values.thumb) form.append("thumb", values.thumb);
 
-            const { data } = await api.post("/recipes", form);
+            const {data} = await api.post("/recipes", form);
             toast.success("Recipe created");
             clearThumb();
             setSelectedIngredients([]);
@@ -196,7 +197,7 @@ export default function AddRecipeForm() {
           }
         }}
       >
-        {({ errors, touched, setFieldValue, values, setFieldError }) => (
+        {({errors, touched, setFieldValue, values, setFieldError}) => (
           <Form className={styles.form}>
             {/* LEFT */}
             <div className={styles.left}>
@@ -231,25 +232,10 @@ export default function AddRecipeForm() {
                       accept="image/*"
                       onChange={(e) => handleThumbChange(e, setFieldValue)}
                     />
-                    <div className={styles.cameraWrap} aria-hidden="true">
-                      <svg
-                        width="28"
-                        height="28"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M9 4.5h6l1.2 1.8H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8.3a2 2 0 0 1 2-2h2.8L9 4.5Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                      </svg>
-                    </div>
+                      <Icon
+                        id="icon-camera-capture"
+                        className={styles.responsiveIcon}
+                      />
                     <span className={styles.uploadLink}>Upload a photo</span>
                   </label>
                   {touched.thumb && errors.thumb && (
@@ -562,7 +548,7 @@ export default function AddRecipeForm() {
                         </button>
                         <div className={styles.ingThumb}>
                           {item.img ? (
-                            <img src={item.img} alt={item.name} />
+                            <img src={item.img} alt={item.name}/>
                           ) : (
                             <div
                               style={{
@@ -654,7 +640,7 @@ export default function AddRecipeForm() {
                       stroke="currentColor"
                       strokeWidth="1.5"
                     />
-                    <path d="M4 7h16" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 7h16" stroke="currentColor" strokeWidth="1.5"/>
                   </svg>
                 </button>
 
@@ -668,6 +654,6 @@ export default function AddRecipeForm() {
       </Formik>
     </div>
   ) : (
-    <Navigate to="/" replace />
+    <Navigate to="/" replace/>
   );
 }
