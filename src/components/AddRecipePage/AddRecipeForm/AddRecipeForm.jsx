@@ -272,15 +272,11 @@ export default function AddRecipeForm() {
             <div className={styles.right}>
               {/* TITLE + DESCRIPTION */}
               <div className={styles.block}>
-                <div className={styles.titleRow}>
-                  <h2 className={styles.heading}>THE NAME OF THE RECIPE</h2>
-                </div>
-
                 <Field
                   name="title"
                   as="input"
                   type="text"
-                  placeholder="Enter a name"
+                  placeholder="THE NAME OF THE RECIPE"
                   className={`${styles.titleInput} ${
                     touched.title && errors.title ? styles.invalidLine : ""
                   }`}
@@ -339,9 +335,12 @@ export default function AddRecipeForm() {
                         </option>
                       ))}
                     </Field>
-                    <span className={styles.chev} aria-hidden="true">
-                      ▾
-                    </span>
+                    <Icon
+                      id="icon-chevron-down"
+                      className={styles.chev}
+                      width={18}
+                      height={18}
+                    />
                   </div>
                   {touched.category && errors.category && (
                     <div className={styles.errorMsg}>{errors.category}</div>
@@ -412,9 +411,12 @@ export default function AddRecipeForm() {
                       </option>
                     ))}
                   </Field>
-                  <span className={styles.chev} aria-hidden="true">
-                    ▾
-                  </span>
+                  <Icon
+                    id="icon-chevron-down"
+                    className={styles.chev}
+                    width={18}
+                    height={18}
+                  />
                 </div>
                 {touched.area && errors.area && (
                   <div className={styles.errorMsg}>{errors.area}</div>
@@ -450,9 +452,12 @@ export default function AddRecipeForm() {
                         </option>
                       ))}
                     </select>
-                    <span className={styles.chev} aria-hidden="true">
-                      ▾
-                    </span>
+                    <Icon
+                      id="icon-chevron-down"
+                      className={styles.chev}
+                      width={18}
+                      height={18}
+                    />
                   </div>
 
                   <input
