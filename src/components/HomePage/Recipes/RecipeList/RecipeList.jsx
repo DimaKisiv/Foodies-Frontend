@@ -65,7 +65,7 @@ const RecipeList = () => {
             />)
         })}
       </div>
-      <RecipePagination />
+      <RecipePagination listRef={} />
     </div>
   );
 }
