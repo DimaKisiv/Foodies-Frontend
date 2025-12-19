@@ -1,21 +1,57 @@
 /* src/pages/UserPage/ListPagination/ListPagination.module.css */
 .wrap {
   display: flex;
-  gap: 10px;
+  gap: 6px;
 }
 
 .btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #fff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray);
+  border-radius: 100px;
+  background: transparent;
   cursor: pointer;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.55);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 143%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-text-secondary);
+  transition: background-color 250ms ease, border-color 250ms ease,
+    color 250ms ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background-color: var(--color-text-main);
+  border-color: var(--color-text-main);
+  color: var(--white);
+  outline: none;
 }
 
 .active {
-  color: rgba(0, 0, 0, 0.92);
-  border-color: rgba(0, 0, 0, 0.35);
+  border-color: var(--color-text-main);
+  cursor: default;
+}
+
+.active:hover,
+.active:focus-visible {
+  background-color: transparent;
+  border-color: var(--color-text-main);
+  color: var(--color-text-secondary);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn:disabled:hover,
+.btn:disabled:focus-visible {
+  background-color: transparent;
+  border-color: var(--gray);
+  color: var(--color-text-secondary);
 }

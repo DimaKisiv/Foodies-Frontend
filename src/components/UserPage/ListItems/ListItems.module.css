@@ -1,46 +1,88 @@
 /* src/pages/UserPage/ListItems/ListItems.module.css */
 .section {
+  width: 100%;
   min-width: 0;
 }
 
 .title {
-  margin: 0 0 10px;
-  font-size: 14px;
+  margin: 0 0 32px;
+  font-family: var(--font-family-main);
   font-weight: 800;
-  letter-spacing: 0.08em;
-  color: rgba(0, 0, 0, 0.85);
+  font-size: 18px;
+  line-height: 133%;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+  color: var(--color-text-main);
+}
+
+.loaderWrap {
+  padding: 80px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.state {
+  padding: 80px 0;
+  text-align: center;
+  font-family: var(--font-family-main);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 143%;
+  letter-spacing: -0.02em;
+  color: var(--gray);
+}
+
+.stateError {
+  padding: 80px 0;
+  text-align: center;
+  font-family: var(--font-family-main);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 143%;
+  letter-spacing: -0.02em;
+  color: #b00020;
 }
 
 .list {
-  display: grid;
-  gap: 18px;
-  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+.list:has(.card) {
+  gap: 0;
 }
 
 .row {
   min-width: 0;
 }
 
-.state {
-  padding: 18px 0;
-  color: rgba(0, 0, 0, 0.45);
-}
-
-.loaderWrap {
-  padding: 18px 0;
+.pagination {
+  margin-top: 32px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.stateError {
-  padding: 18px 0;
-  color: #b00020;
+.pagination:empty {
+  display: none;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 18px 0 6px;
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 20px;
+    line-height: 120%;
+    margin-bottom: 40px;
+  }
+
+  .list {
+    gap: 40px;
+  }
+
+  .pagination {
+    margin-top: 40px;
+  }
 }
