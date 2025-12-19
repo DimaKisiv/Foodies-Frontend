@@ -51,7 +51,6 @@ const RecipeList = ({ sectionRef }) => {
   }
 
   useEffect(() => {
-    console.log(isUserSignedIn);
     if (isUserSignedIn) {
       dispatch(fetchFavoritesRecipes());
     }
