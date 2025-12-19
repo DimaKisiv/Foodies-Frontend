@@ -24,6 +24,16 @@
     z-index: 2;
 }
 
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .selectArrow {
     position: absolute;
     right: 18px;

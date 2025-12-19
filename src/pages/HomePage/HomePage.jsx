@@ -27,9 +27,7 @@ const HomePage = () => {
   return (
     <main>
       <Hero/>
-      <section>
-        <Outlet />
-      </section>
+      <Outlet />
       <section className={css.testimonials}>
         <div className={css.testimonialsWrapper}>
           <h5>What our customer say</h5>

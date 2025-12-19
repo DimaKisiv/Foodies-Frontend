@@ -1,8 +1,8 @@
 import { useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIngredientsItems } from "../../../../redux/ingredients/ingredientsSlice.js";
 import { selectRecipesCategory } from "../../../../redux/recipes/recipesSlice.js";
-import { selectAreasItems } from "../../../../redux/areas/areasSlice.js";
+import { selectIngredientsItems, selectIngredientsStatus } from "../../../../redux/ingredients/ingredientsSlice.js";
+import { selectAreasItems, selectAreasStatus } from "../../../../redux/areas/areasSlice.js";
 import { fetchRecipes } from "../../../../redux/recipes/recipesOperations.js";
 import Select from "../../../shared/Select/Select.jsx";
 import css from "./RecipeFilters.module.css";
@@ -13,7 +13,9 @@ const RecipeFilters = () => {
   const ingredientsId = useId();
   const areaId = useId();
   const category = useSelector(selectRecipesCategory);
+  const ingredientsStatus = useSelector(selectIngredientsStatus);
   const ingredients = useSelector(selectIngredientsItems);
+  const areasStatus = useSelector(selectAreasStatus);
   const areas = useSelector(selectAreasItems);
   const dispatch = useDispatch();
 
@@ -39,20 +41,20 @@ const RecipeFilters = () => {
 
   return (
     <div className={css.container}>
-      {ingredients.length > 0 &&
         <Select
           id={ingredientsId}
           name="Ingredients"
           options={ingredients}
           onChange={handleIngredientsChange}
-        />}
-      {areas.length > 0 &&
+          isLoading={ingredientsStatus === "loading"}
+        />
         <Select
           id={areaId}
           name="Areas"
           options={areas}
           onChange={handleAreasChange}
-        />}
+          isLoading={areasStatus === "loading"}
+        />
     </div>
   );
 }

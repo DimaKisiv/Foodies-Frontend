@@ -1,15 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectIngredientsItems,
-  selectIngredientsStatus,
-} from "../../../redux/ingredients/ingredientsSlice.js";
-import {
-  selectAreasItems,
-  selectAreasStatus,
-} from "../../../redux/areas/areasSlice.js";
+import { selectIngredientsItems } from "../../../redux/ingredients/ingredientsSlice.js";
+import { selectAreasItems } from "../../../redux/areas/areasSlice.js";
 import {
   selectRecipeItems,
   selectRecipesStatus,
@@ -27,24 +21,14 @@ import NoItemsFound from "../../../components/Shared/NoItemsFound/NoItemsFound.j
 import css from "./Recipes.module.css";
 
 const Recipes = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { name } = useParams();
-
-  const ingredientsStatus = useSelector(selectIngredientsStatus);
   const ingredients = useSelector(selectIngredientsItems);
-  const areasStatus = useSelector(selectAreasStatus);
   const areas = useSelector(selectAreasItems);
   const recipesStatus = useSelector(selectRecipesStatus);
   const recipes = useSelector(selectRecipeItems);
-
-  const isLoading = () => {
-    return (
-      ingredientsStatus === "loading" ||
-      areasStatus === "loading" ||
-      recipesStatus === "loading"
-    );
-  };
+  const navigate = useNavigate();
+  const { name } = useParams();
+  const dispatch = useDispatch();
+  const recipesRef = useRef(null);
 
   useEffect(() => {
     dispatch(fetchRecipes({ category: name }));
@@ -58,13 +42,16 @@ const Recipes = () => {
   }, [dispatch, ingredients, areas]);
 
   return (
-    <section className={css.container}>
+    <section className={css.container} ref={recipesRef}>
       <button className={css.backBtn} onClick={() => navigate("/")}>
         <Icon id="icon-arrow-left-frameless" />
         back
       </button>
       <div className={css.header}>
-        <MainTitle>{name}</MainTitle>
+        <div className={css.title}>
+          <MainTitle>{name}</MainTitle>
+          {recipesStatus === "loading" && <Loader />}
+        </div>
         <Subtitle maxWidth={540}>
           Go on a taste journey, where every sip is a sophisticated creative
           chord, and every dessert is an expression of the most refined
@@ -72,13 +59,8 @@ const Recipes = () => {
         </Subtitle>
       </div>
       <div className={css.content}>
-        {isLoading() && (
-          <div className={css.loader}>
-            <Loader />
-          </div>
-        )}
         <RecipeFilters />
-        {recipes?.length > 0 && <RecipeList />}
+        {recipes?.length > 0 && <RecipeList sectionRef={recipesRef} />}
         {recipes?.length === 0 && <NoItemsFound />}
       </div>
     </section>
