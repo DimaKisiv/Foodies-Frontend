@@ -17,7 +17,7 @@ const RecipeCard = ({ recipe, isLoading, isFavorite, onFavoriteClick, onDetailsC
           <div className={css.avatar}>
             {recipe.owner.avatar
               ? <img src={recipe.owner.avatar} alt={recipe.owner.name} />
-              : <Avatar name={recipe.owner.name} size={40} variant="pixel" />}
+              : <Avatar name={recipe.owner.name} size={40} variant="geometric" />}
           </div>
           <span>{recipe.owner.name}</span>
         </div>
