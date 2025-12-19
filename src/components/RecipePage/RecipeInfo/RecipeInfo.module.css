@@ -67,12 +67,20 @@
 }
 
 .author {
+  /* reset button */
+  all: unset;
+  cursor: pointer;
+
   margin-top: 20px;
 
   display: flex;
   flex-direction: row;
   gap: 16px;
   align-items: center;
+}
+
+.author:focus {
+  outline: 1px auto blue;
 }
 
 .author-avatar {
