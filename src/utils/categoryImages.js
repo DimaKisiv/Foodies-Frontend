@@ -4,7 +4,7 @@ const categoryFileNames = {
   "Beef": "beef.jpg",
   "Breakfast": "breakfast.jpg",
   "Chicken": "chicken.jpg",
-  "Dessert": "desserts.jpg",
+  "Dessert": "dessert.jpg",
   "Goat": "goat.jpg",
   "Lamb": "lamb.jpg",
   "Miscellaneous": "miscellaneous.jpg",
