@@ -50,6 +50,14 @@ const RecipeList = ({ sectionRef }) => {
     navigate(`/recipe/${id}`);
   }
 
+  const authorHandler = (id) => {
+    if (!isUserSignedIn) {
+      openSignIn();
+      return;
+    }
+    navigate(`/user/${id}`);
+  }
+
   useEffect(() => {
     if (isUserSignedIn) {
       dispatch(fetchFavoritesRecipes());
@@ -59,8 +67,7 @@ const RecipeList = ({ sectionRef }) => {
   return (
     <div className={css.container}>
       <div className={css.list}>
-        {recipes.map((recipe) => {
-          return (
+        {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
@@ -68,8 +75,9 @@ const RecipeList = ({ sectionRef }) => {
               isFavorite={isFavorite(recipe.id)}
               onFavoriteClick={favoriteHandler}
               onDetailsClick={detailsHandler}
+              onAuthorClick={authorHandler}
             />)
-        })}
+        )}
       </div>
       <RecipePagination sectionRef={sectionRef} />
     </div>
