@@ -12,12 +12,14 @@ import {
 import styles from "./RecipePage.module.css";
 import RecipeInfo from "../../components/RecipePage/RecipeInfo/RecipeInfo";
 import { useParams } from "react-router";
+import PopularRecipes from "../../components/RecipePage/PopularRecipes/PopularRecipes";
 
 const RecipePage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const recipe = useSelector(selectCurrentRecipe);
   const status = useSelector(selectRecipesStatus);
+
 
   useEffect(() => {
     dispatch(fetchRecipeById(id));
@@ -30,6 +32,7 @@ const RecipePage = () => {
       {recipe != null && (
         <RecipeInfo recipe={recipe} />
       )}
+      <PopularRecipes />
     </section>
   );
 };
