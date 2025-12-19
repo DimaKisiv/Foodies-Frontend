@@ -103,7 +103,6 @@
     line-height: 1.33;
     text-transform: uppercase;
     color: var(--color-text-main);
-    margin-bottom: 40px;
 }
 
 .titleInput::placeholder {
@@ -131,11 +130,12 @@
     border: none;
     outline: none;
     resize: none;
-    padding: 0;
+    padding: 0 65px 0 0;
     font-size: 14px;
     line-height: 1.428;
     border-bottom: 1px solid #e7e7e7;
     color: #2b2b2b;
+    margin-top: 40px;
 }
 
 .desc::placeholder {
@@ -153,17 +153,29 @@
     resize: none;
     font-size: 14px;
     line-height: 1.75;
-    padding: 10px 0 14px;
+    padding: 10px 65px 14px 0;
     border-bottom: 1px solid #e7e7e7;
     color: #2b2b2b;
 }
 
 .counter {
     position: absolute;
-    right: 0;
+    right: 20px;
     top: 6px;
     font-size: 12px;
     color: #b2b2b2;
+}
+
+/* Клас для сірого кольору */
+.textGray {
+    color: var(--gray);
+    transition: color 0.3s ease;
+}
+
+/* Клас для чорного кольору */
+.textBlack {
+    color: var(--color-text-main);
+    transition: color 0.3s ease;
 }
 
 .row2 {
@@ -176,12 +188,11 @@
 .field {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .label {
     font-size: 16px;
-    /*letter-spacing: 0.12em;*/
     color: var(--color-text-secondary);
     font-weight: 800;
     text-transform: uppercase;
@@ -202,8 +213,12 @@
     font-size: 14px;
     background: #fff;
     appearance: none;
-    color: var(--gray);
+    color: var(--color-text-main);
     cursor: pointer;
+}
+
+.placeholderColor {
+    color: var(--gray); /* Сірий (коли пусто) */
 }
 
 .chev {
@@ -235,7 +250,7 @@
 .timeValue {
     min-width: 70px;
     text-align: center;
-    color: #9a9a9a;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -379,6 +394,11 @@
     .responsiveIcon {
         width: 64px;
         height: 64px;
+    }
+
+    .timeValue {
+        font-size: 16px;
+        font-weight: 500;
     }
 }
 

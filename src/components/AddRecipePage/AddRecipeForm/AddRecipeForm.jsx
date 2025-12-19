@@ -197,7 +197,7 @@ export default function AddRecipeForm() {
           }
         }}
       >
-        {({errors, touched, setFieldValue, values, setFieldError}) => (
+        {({errors, touched, setFieldValue, values, setFieldError, setFieldTouched}) => (
           <Form className={styles.form}>
             {/* LEFT */}
             <div className={styles.left}>
@@ -298,8 +298,21 @@ export default function AddRecipeForm() {
                     maxLength={200}
                   />
                   <span className={styles.counter}>
-                    {isFilled ? "45" : String(values.description?.length || 0)}
-                    /200
+    {/* 1. Поточна цифра: міняє колір */}
+                    <span
+                      className={
+                        (values.description && values.description.length > 0)
+                          ? styles.textBlack
+                          : styles.textGray
+                      }
+                    >
+                      {isFilled ? "45" : String(values.description?.length || 0)}
+                    </span>
+
+                    {/* 2. Розділювач і максимум: завжди сірі */}
+                    <span className={styles.textGray}>
+                      /200
+                    </span>
                   </span>
                   {touched.description && errors.description && (
                     <div className={styles.errorMsg}>{errors.description}</div>
@@ -316,10 +329,8 @@ export default function AddRecipeForm() {
                       as="select"
                       name="category"
                       className={`${styles.select} ${
-                        touched.category && errors.category
-                          ? styles.invalid
-                          : ""
-                      }`}
+                        touched.category && errors.category ? styles.invalid : ""
+                      } ${!values.category ? styles.placeholderColor : ""}`}
                     >
                       <option value="" disabled>
                         {categoriesStatus === "loading"
@@ -362,11 +373,16 @@ export default function AddRecipeForm() {
                         if (isFilled) return; // keep example intact
                         const next = Math.max(1, Number(values.time || 1) - 1);
                         setFieldValue("time", next);
+                        setFieldTouched("time", true);
                       }}
                     >
                       –
                     </button>
-                    <span className={styles.timeValue}>
+                    <span
+                      className={`${styles.timeValue} ${
+                        touched.time ? styles.textBlack : styles.textGray
+                      }`}
+                    >
                       {isFilled ? "40 min" : `${values.time} min`}
                     </span>
                     <button
@@ -377,6 +393,7 @@ export default function AddRecipeForm() {
                         if (isFilled) return; // keep example intact
                         const next = Number(values.time || 1) + 1;
                         setFieldValue("time", next);
+                        setFieldTouched("time", true);
                       }}
                     >
                       +
@@ -389,15 +406,15 @@ export default function AddRecipeForm() {
               </div>
 
               {/* AREA */}
-              <div className={styles.block}>
-                <label className={styles.label}>AREA</label>
+              <div className={`${styles.field} ${styles.block}`}>
+                <label className={styles.label} style={{ fontSize: "20px" }}>AREA</label>
                 <div className={styles.selectWrap}>
                   <Field
                     as="select"
                     name="area"
                     className={`${styles.select} ${
                       touched.area && errors.area ? styles.invalid : ""
-                    }`}
+                    } ${!values.area ? styles.placeholderColor : ""}`}
                   >
                     <option value="" disabled>
                       {areasStatus === "loading" ? "Loading areas..." : "Area"}
@@ -424,7 +441,7 @@ export default function AddRecipeForm() {
               </div>
 
               {/* INGREDIENTS */}
-              <div className={styles.block}>
+              <div className={`${styles.field} ${styles.block}`}>
                 <label className={styles.label}>INGREDIENTS</label>
 
                 <div className={styles.ingRow}>
@@ -434,7 +451,7 @@ export default function AddRecipeForm() {
                         touched.ingredients && errors.ingredients
                           ? styles.invalid
                           : ""
-                      }`}
+                      } ${!selectedIngredient ? styles.placeholderColor : ""}`}
                       value={selectedIngredient}
                       onChange={(e) => setSelectedIngredient(e.target.value)}
                     >
@@ -476,7 +493,7 @@ export default function AddRecipeForm() {
                     handleAddSelectedIngredient(
                       selectedIngredient,
                       setFieldValue,
-                      setFieldError
+                      setFieldError,
                     );
                     // Keep selection if validation fails; cleared inside handler on success
                     if (ingredientQty.trim()) {
