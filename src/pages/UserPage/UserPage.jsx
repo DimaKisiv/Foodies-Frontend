@@ -76,11 +76,13 @@ export default function UserPage() {
   return (
     <>
       <div className={styles.page}>
-        <MainTitle>PROFILE</MainTitle>
-        <Subtitle maxWidth={560}>
-          Reveal your culinary art, share your favorite recipe and create
-          gastronomic masterpieces with us.
-        </Subtitle>
+        <div className={styles.header}>
+          <MainTitle>PROFILE</MainTitle>
+          <Subtitle maxWidth={560}>
+            Reveal your culinary art, share your favorite recipe and create
+            gastronomic masterpieces with us.
+          </Subtitle>
+        </div>
         <aside className={styles.left}>
           {isOwnProfile ? (
             <UserInfo

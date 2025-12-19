@@ -7,6 +7,13 @@
   padding: 24px;
 }
 
+.header {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
 .left {
   position: sticky;
   top: 24px;
