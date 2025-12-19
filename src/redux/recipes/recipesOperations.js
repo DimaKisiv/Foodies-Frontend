@@ -95,3 +95,17 @@ export const deleteRecipeFromFavorites = createAsyncThunk(
     }
   }
 );
+
+export const deleteRecipe = createAsyncThunk(
+  "recipes/delete",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.delete(`/recipes/${id}`);
+      // Return the deleted id so the slice can remove it locally
+      return { id, data };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);

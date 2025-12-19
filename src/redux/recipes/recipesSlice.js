@@ -7,6 +7,7 @@ import {
   fetchFavoritesRecipes,
   addRecipeToFavorites,
   deleteRecipeFromFavorites,
+  deleteRecipe,
 } from "./recipesOperations";
 
 const slice = createSlice({
@@ -111,6 +112,24 @@ const slice = createSlice({
         state.status = "failed";
         state.error = payload;
       })
+      // delete recipe (own)
+      .addCase(deleteRecipe.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteRecipe.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        const removedId = String(payload?.id ?? "");
+        if (state.items && removedId) {
+          state.items = state.items.filter(
+            (r) => String(r.id ?? r._id) !== removedId
+          );
+        }
+      })
+      .addCase(deleteRecipe.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.error = payload;
+      })
       // fetch favorites
       .addCase(fetchFavoritesRecipes.pending, (state) => {
         state.status = "loading";
@@ -142,6 +161,7 @@ export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
 export const selectFavoritesRecipes = (state) => state.recipes.favorites;
 export const selectRecipesLimit = (state) => state.recipes.limit;
-export const selectPopularRecipesStatus = (state) => state.recipes.popularRecipesStatus;
+export const selectPopularRecipesStatus = (state) =>
+  state.recipes.popularRecipesStatus;
 // Derived total pages per section based on current arrays
 // Note: totalPages is sourced from API payload or computed from total count in fulfilled handlers

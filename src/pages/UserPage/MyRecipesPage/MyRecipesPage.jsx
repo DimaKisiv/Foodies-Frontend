@@ -14,6 +14,10 @@ import {
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
 import useSectionPagination from "../../../hooks/useSectionPagination";
 import styles from "./MyRecipesPage.module.css";
+import { useState, useCallback } from "react";
+import DeleteRecipeModal from "../../../components/Modals/DeleteRecipeModal/DeleteRecipeModal.jsx";
+import { deleteRecipe } from "../../../redux/recipes/recipesOperations.js";
+import { toast } from "react-hot-toast";
 
 export default function MyRecipesPage() {
   const dispatch = useDispatch();
@@ -49,6 +53,28 @@ export default function MyRecipesPage() {
       });
   }, [dispatch, targetAuthorId, page, limit, setSectionTotalPages]);
 
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const openDeleteFor = useCallback((id) => {
+    setDeleteId(id);
+    setIsDeleteOpen(true);
+  }, []);
+  const closeDelete = useCallback(() => {
+    setIsDeleteOpen(false);
+    setDeleteId(null);
+  }, []);
+  const confirmDelete = useCallback(async () => {
+    if (!deleteId) return;
+    try {
+      await dispatch(deleteRecipe(deleteId)).unwrap();
+      toast.success("Recipe deleted");
+    } catch (err) {
+      const message = err?.response?.data?.message || err?.message;
+      toast.error(message || "Failed to delete recipe");
+      throw err; // keep modal open if deletion fails
+    }
+  }, [dispatch, deleteId]);
+
   return (
     <div className={styles.wrap}>
       <ListItems
@@ -67,10 +93,17 @@ export default function MyRecipesPage() {
               if (id) navigate(`/recipe/${id}`);
             }}
             onDelete={() => {
-              // TODO dispatch delete
+              const id = recipe?.id || recipe?._id;
+              if (id) openDeleteFor(id);
             }}
           />
         )}
+      />
+
+      <DeleteRecipeModal
+        isOpen={isDeleteOpen}
+        onClose={closeDelete}
+        onConfirm={confirmDelete}
       />
     </div>
   );

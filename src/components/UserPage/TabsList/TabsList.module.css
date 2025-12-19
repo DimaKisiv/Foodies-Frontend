@@ -9,6 +9,8 @@
   padding-bottom: 14px;
   overflow-x: auto;
   overflow-y: hidden;
+  /* Allow vertical panning to bubble so the page can scroll on mobile */
+  touch-action: pan-y;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge legacy */
 }
@@ -112,7 +114,9 @@
 @media screen and (min-width: 768px) {
   .tabs {
     gap: 40px;
-    overflow: visible;
+    /* Keep horizontal scroll available on larger screens too */
+    overflow-x: auto;
+    overflow-y: hidden;
     padding-right: 0;
   }
 
