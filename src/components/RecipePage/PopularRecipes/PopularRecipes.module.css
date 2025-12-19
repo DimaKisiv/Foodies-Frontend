@@ -23,8 +23,8 @@
   padding: 0;
 
   margin-top: 32px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
 }
 
@@ -32,5 +32,15 @@
   .section-header {
     font-size: 20px;
     line-height: 1.2;
+  }
+
+  .recipes-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .recipes-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }

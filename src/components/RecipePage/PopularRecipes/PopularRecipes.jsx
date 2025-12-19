@@ -16,7 +16,7 @@ const PopularRecipes = () => {
       <h3 className={styles["section-header"]}>Popular Recipes</h3>
       {popularRecipesStatus === "loading" && <Loader />}
       <ul className={styles["recipes-list"]}>
-        {popular?.map((r) => (
+        {popular?.slice(0, 4)?.map((r) => (
           <li key={r.id || r._id || r.name}>
             <RecipeCard recipe={r} />
           </li>
