@@ -20,6 +20,7 @@ const slice = createSlice({
     current: null,
     limit: 12,
     status: "idle",
+    popularRecipesStatus: "idle",
     error: null,
   },
   reducers: {
@@ -36,7 +37,8 @@ const slice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
-        state.category = payload.items.length > 0 ? payload.items[0].category : null;
+        state.category =
+          payload.items.length > 0 ? payload.items[0].category : null;
         state.items = payload.items;
         state.limit = payload.limit ?? state.limit ?? 12;
         state.pages = Math.ceil(payload.total / payload.limit);
@@ -61,16 +63,14 @@ const slice = createSlice({
       })
       // popular
       .addCase(fetchPopularRecipes.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.popularRecipesStatus = "loading";
       })
       .addCase(fetchPopularRecipes.fulfilled, (state, { payload }) => {
-        state.status = "succeeded";
+        state.popularRecipesStatus = "succeeded";
         state.popular = payload.items;
       })
-      .addCase(fetchPopularRecipes.rejected, (state, { payload }) => {
-        state.status = "failed";
-        state.error = payload;
+      .addCase(fetchPopularRecipes.rejected, (state) => {
+        state.popularRecipesStatus = "failed";
       })
       // by id
       .addCase(fetchRecipeById.pending, (state) => {
@@ -142,5 +142,6 @@ export const selectRecipesStatus = (state) => state.recipes.status;
 export const selectRecipesError = (state) => state.recipes.error;
 export const selectFavoritesRecipes = (state) => state.recipes.favorites;
 export const selectRecipesLimit = (state) => state.recipes.limit;
+export const selectPopularRecipesStatus = (state) => state.recipes.popularRecipesStatus;
 // Derived total pages per section based on current arrays
 // Note: totalPages is sourced from API payload or computed from total count in fulfilled handlers
