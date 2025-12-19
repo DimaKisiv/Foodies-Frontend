@@ -16,7 +16,7 @@ import RecipePagination from "../RecipePagination/RecipePagination.jsx";
 import RecipeCard from "../RecipeCard/RecipeCard.jsx";
 import css from "./RecipeList.module.css";
 
-const RecipeList = () => {
+const RecipeList = ({ sectionRef }) => {
   const [ currentId, setCurrentId ] = useState(null);
   const isUserSignedIn = useSelector(selectIsAuthenticated);
   const recipesStatus = useSelector(selectRecipesStatus);
@@ -65,7 +65,7 @@ const RecipeList = () => {
             />)
         })}
       </div>
-      <RecipePagination listRef={} />
+      <RecipePagination sectionRef={sectionRef} />
     </div>
   );
 }

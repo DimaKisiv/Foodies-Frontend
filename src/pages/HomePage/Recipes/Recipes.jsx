@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ const Recipes = () => {
   const navigate = useNavigate();
   const { name } = useParams();
   const dispatch = useDispatch();
+  const recipesRef = useRef(null);
 
   useEffect(() => {
     dispatch(fetchRecipes({ category: name }));
@@ -41,7 +42,7 @@ const Recipes = () => {
   }, [dispatch, ingredients, areas]);
 
   return (
-    <section className={css.container}>
+    <section className={css.container} ref={recipesRef}>
       <button className={css.backBtn} onClick={() => navigate("/")}>
         <Icon id="icon-arrow-left-frameless" />
         back
@@ -59,7 +60,7 @@ const Recipes = () => {
       </div>
       <div className={css.content}>
         <RecipeFilters />
-        {recipes?.length > 0 && <RecipeList />}
+        {recipes?.length > 0 && <RecipeList sectionRef={recipesRef} />}
         {recipes?.length === 0 && <NoItemsFound />}
       </div>
     </section>
