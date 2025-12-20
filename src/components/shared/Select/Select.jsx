@@ -1,8 +1,9 @@
 import { useState } from "react";
+import Loader from "../Loader/Loader.jsx";
 import Icon from "../Icon/Icon.jsx";
 import css from "./Select.module.css";
 
-const Select = ({ id, name, options, onChange, label = "" }) => {
+const Select = ({ id, name, options, onChange, isLoading = false, label = "" }) => {
   const [ isArrowUp, setIsArrowUp ] = useState(false);
 
   const changeHandler = (e) => {
@@ -22,8 +23,9 @@ const Select = ({ id, name, options, onChange, label = "" }) => {
         onChange={changeHandler}
         onClick={() => setIsArrowUp(!isArrowUp)}
         onBlur={() => setIsArrowUp(false)}
+        disabled={isLoading}
       >
-        <option value="" disabled hidden>{name}</option>
+        <option value="">{name}</option>
         {options.map(({ id, name }) => (
           <option
             key={id}
@@ -34,10 +36,14 @@ const Select = ({ id, name, options, onChange, label = "" }) => {
           </option>
         ))}
       </select>
-      <Icon
-        id="icon-chevron-down"
-        className={isArrowUp ? `${css.selectArrow} ${css.selectArrowUp}` : css.selectArrow}
-      />
+      {isLoading
+        ? <div className={css.loader}>
+            <Loader />
+          </div>
+        : <Icon
+            id="icon-chevron-down"
+            className={isArrowUp ? `${css.selectArrow} ${css.selectArrowUp}` : css.selectArrow}
+          />}
     </div>
   );
 }

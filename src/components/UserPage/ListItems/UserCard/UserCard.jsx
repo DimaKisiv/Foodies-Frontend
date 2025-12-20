@@ -1,7 +1,11 @@
 // src/pages/UserPage/ListItems/UserCard/UserCard.jsx
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styles from "./UserCard.module.css";
 import { toggleFollowUser } from "../../../../redux/users/usersOperations";
+import { selectFollowRequestStatusFor } from "../../../../redux/users/usersSlice";
+import profilePlaceholder from "../../../../assets/profile.png";
+import foodPlaceholder from "../../../../assets/food.png";
 
 export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   const name = user?.name ?? "USER NAME";
@@ -10,6 +14,9 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   const avatar = user?.avatar || user?.avatarURL;
   const dispatch = useDispatch();
   const userId = user?.id ?? user?._id;
+  const to = userId ? `/user/${userId}` : "/user";
+  const followReqStatus = useSelector(selectFollowRequestStatusFor(userId));
+  const isFollowRequestLoading = followReqStatus === "loading";
   // Derive following status from Redux when prop isn't explicitly provided
   const storeFollowing = useSelector((state) => {
     const items = state?.users?.followingByUserId?.["me"]?.items || [];
@@ -31,18 +38,30 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   return (
     <article className={styles.card}>
       <div className={styles.left}>
-        <div className={styles.avatar}>
-          {avatar ? <img src={avatar} alt={name || "Avatar"} /> : null}
-        </div>
+        <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          <div className={styles.avatar}>
+            <img
+              src={avatar || profilePlaceholder}
+              alt={name || "Avatar"}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = profilePlaceholder;
+              }}
+            />
+          </div>
+        </Link>
 
         <div className={styles.info}>
-          <div className={styles.name}>{name}</div>
+          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+            <div className={styles.name}>{name}</div>
+          </Link>
           <div className={styles.meta}>Own recipes: {recipes}</div>
 
           <button
             type="button"
             className={styles.followBtn}
             onClick={handleToggle}
+            disabled={isFollowRequestLoading}
           >
             {effectiveIsFollowing ? "UNFOLLOW" : "FOLLOW"}
           </button>
@@ -52,21 +71,37 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
       <div className={styles.preview}>
         {recipePreviews.slice(0, 4).map((r, idx) => (
           <div key={r.id ?? idx} className={styles.thumb}>
-            {r?.thumb ? (
-              <img src={r.thumb} alt={name ? `${name} recipe` : "Recipe"} />
-            ) : null}
+            <img
+              src={r?.thumb || foodPlaceholder}
+              alt={name ? `${name} recipe` : "Recipe"}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = foodPlaceholder;
+              }}
+            />
           </div>
         ))}
       </div>
 
-      <button
-        type="button"
-        className={styles.openBtn}
-        onClick={onOpen}
-        title="Open"
-      >
-        ↗
-      </button>
+      {onOpen ? (
+        <button
+          type="button"
+          className={styles.openBtn}
+          onClick={onOpen}
+          title="Open"
+        >
+          ↗
+        </button>
+      ) : (
+        <Link
+          to={to}
+          className={styles.openBtn}
+          title="Open"
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
+          ↗
+        </Link>
+      )}
     </article>
   );
 }

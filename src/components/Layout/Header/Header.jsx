@@ -10,7 +10,8 @@ import {
   selectIsAuthenticated,
 } from "../../../redux/auth/authSlice";
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
-import Icon from "../../Shared/Icon/Icon.jsx";
+import Icon from "../../shared/Icon/Icon.jsx";
+import profilePlaceholder from "../../../assets/profile.png";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -59,13 +60,15 @@ function Header() {
           >
             <div className={css["header-profile-action"]}>
               <div className={css["header-profile-img"]}>
-                {user?.avatar || user?.avatarURL ? (
-                  <img
-                    src={user.avatar || user.avatarURL}
-                    alt={user.name || "Avatar"}
-                    aria-hidden={!user?.name}
-                  />
-                ) : null}
+                <img
+                  src={user?.avatar || user?.avatarURL || profilePlaceholder}
+                  alt={user?.name || "Avatar"}
+                  aria-hidden={!user?.name}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = profilePlaceholder;
+                  }}
+                />
               </div>
 
               <p className={css["header-profile-name"]}>{user.name}</p>

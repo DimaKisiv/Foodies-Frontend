@@ -11,13 +11,14 @@ import {
   fetchUserById,
   followUser,
   unfollowUser,
+  fetchFollowing,
 } from "../../redux/users/usersOperations";
 import { UserInfo } from "../../components/UserPage/UserInfo/UserInfo";
 import { TabsList } from "../../components/UserPage/TabsList/TabsList";
 import { useEffect, useMemo, useState } from "react";
 import { useAuthModal } from "../../providers/useAuthModal";
-import MainTitle from "../../components/Shared/MainTitle/MainTitle.jsx";
-import Subtitle from "../../components/Shared/Subtitle/Subtitle.jsx";
+import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
+import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 import LogOutModal from "../../components/Modals/LogOutModal/LogOutModal.jsx";
 
 export default function UserPage() {
@@ -45,17 +46,23 @@ export default function UserPage() {
     }
   }, [dispatch, id, isOwnProfile]);
 
+  // Ensure we have my following list to detect follow state on other profiles
+  useEffect(() => {
+    if (id && !isOwnProfile) {
+      dispatch(fetchFollowing({}));
+    }
+  }, [dispatch, id, isOwnProfile]);
+
   const otherUser = useSelector((state) => (id ? state.users.byId[id] : null));
-  const myKey = useMemo(
-    () => String(authUser?.id || authUser?._id || ""),
-    [authUser]
-  );
-  const followingMe = useSelector(selectFollowingFor(myKey));
+  // Use the 'me' key for current user's following list (auth-context based)
+  const followingMe = useSelector(selectFollowingFor("me"));
   const isFollowingOther = useMemo(() => {
     if (!id) return false;
     const list = followingMe?.items || [];
-    return list.some((u) => String(u.id ?? u._id) === String(id));
-  }, [followingMe?.items, id]);
+    const inList = list.some((u) => String(u.id ?? u._id) === String(id));
+    const serverFlag = !!otherUser?.isFollowing;
+    return inList || serverFlag;
+  }, [followingMe?.items, id, otherUser?.isFollowing]);
 
   const onToggleFollow = useMemo(
     () => async () => {
@@ -66,6 +73,8 @@ export default function UserPage() {
         } else {
           await dispatch(followUser(id)).unwrap();
         }
+        // Refresh following so UI button state updates immediately
+        await dispatch(fetchFollowing({}));
       } catch {
         // no-op
       }
@@ -76,11 +85,13 @@ export default function UserPage() {
   return (
     <>
       <div className={styles.page}>
-        <MainTitle>PROFILE</MainTitle>
-        <Subtitle maxWidth={560}>
-          Reveal your culinary art, share your favorite recipe and create
-          gastronomic masterpieces with us.
-        </Subtitle>
+        <div className={styles.header}>
+          <MainTitle>PROFILE</MainTitle>
+          <Subtitle maxWidth={560}>
+            Reveal your culinary art, share your favorite recipe and create
+            gastronomic masterpieces with us.
+          </Subtitle>
+        </div>
         <aside className={styles.left}>
           {isOwnProfile ? (
             <UserInfo

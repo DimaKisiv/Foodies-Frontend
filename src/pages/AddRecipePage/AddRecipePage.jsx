@@ -1,6 +1,6 @@
 import AddRecipeForm from "../../components/AddRecipePage/AddRecipeForm/AddRecipeForm";
-import MainTitle from "../../components/Shared/MainTitle/MainTitle.jsx";
-import Subtitle from "../../components/Shared/Subtitle/Subtitle.jsx";
+import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
+import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 
 const AddRecipePage = () => {
   return (

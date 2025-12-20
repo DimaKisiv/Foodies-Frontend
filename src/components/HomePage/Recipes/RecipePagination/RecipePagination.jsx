@@ -6,13 +6,34 @@ import { getPageArray } from "../../../../utils/recipes.js";
 import PageButton from "../../../shared/Button/PageButton/PageButton.jsx";
 import css from "./RecipePagination.module.css";
 
-const RecipePagination = () => {
+const RecipePagination = ({ sectionRef }) => {
   const [ activePage, setActivePage ] = useState(1);
   const category = useSelector(selectRecipesCategory);
   const pageCount = useSelector(selectRecipePages);
   const dispatch = useDispatch();
 
   const pageButtons = useMemo(() => {
+    const scrollToSection = () => {
+      if (sectionRef.current) {
+        setTimeout(() => {
+          sectionRef.current.scrollIntoView({ behavior: "smooth" });
+        }, 0);
+      }
+    };
+
+    const getRecipesForPage = (value) => {
+      dispatch(fetchRecipes({
+        category: category,
+        page: value
+      }));
+    }
+
+    const clickHandler = (value) => {
+      setActivePage(value);
+      scrollToSection();
+      getRecipesForPage(value);
+    }
+
     const pageArray = getPageArray(activePage, pageCount);
     if (pageArray.length <= 1) {
       return null;
@@ -22,20 +43,16 @@ const RecipePagination = () => {
         return <span>. . .</span>;
       }
       const pageNumber = Number(page);
-      return <PageButton
-        key={pageNumber}
-        pageNumber={pageNumber}
-        isActive={activePage === pageNumber}
-        onClick={(value) => {
-          setActivePage(value);
-          dispatch(fetchRecipes({
-            category: category,
-            page: value
-          }));
-        }}
-      />
+      return (
+        <PageButton
+          key={pageNumber}
+          pageNumber={pageNumber}
+          isActive={activePage === pageNumber}
+          onClick={clickHandler}
+        />
+      );
     })
-  },[activePage, pageCount, category, dispatch]);
+  },[sectionRef, activePage, pageCount, category, dispatch]);
 
   return (
     <div className={css.container}>

@@ -1,0 +1,46 @@
+.popular-recipes {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 64px;
+}
+
+.section-header {
+  margin: 0;
+  margin-top: 32px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.33333;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #050505;
+}
+
+.recipes-list {
+  /* ul override */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .section-header {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .recipes-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .recipes-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import css from "./Modal.module.css"
+import { createPortal } from "react-dom";
+import css from "./Modal.module.css";
 import Icon from "../shared/Icon/Icon.jsx";
 
 function Modal({ isOpen, onClose, children }) {
@@ -15,6 +16,15 @@ function Modal({ isOpen, onClose, children }) {
         return () => document.removeEventListener("keydown", handleEsc);
     }, [isOpen, onClose]);
 
+    useEffect(() => {
+        if (!isOpen) return;
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     const handleBackdropMouseDown = (e) => {
@@ -27,7 +37,7 @@ function Modal({ isOpen, onClose, children }) {
         if (e.target === e.currentTarget) onClose();
     };
 
-    return (
+    return createPortal(
         <div
             className={css['modal-backdrop']}
             onMouseDown={handleBackdropMouseDown}
@@ -45,7 +55,8 @@ function Modal({ isOpen, onClose, children }) {
 
                 {children}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }
 

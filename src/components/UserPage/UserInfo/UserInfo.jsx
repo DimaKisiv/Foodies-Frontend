@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
 import { selectUsersStatus } from "../../../redux/users/usersSlice";
+import { selectFollowRequestStatusFor } from "../../../redux/users/usersSlice";
 import { updateAvatar } from "../../../redux/users/usersOperations";
 import styles from "./UserInfo.module.css";
+import profilePlaceholder from "../../../assets/profile.png";
 
 export function UserInfo({
   user,
@@ -18,6 +20,10 @@ export function UserInfo({
   const dispatch = useDispatch();
   const me = user ?? current;
   const usersStatus = useSelector(selectUsersStatus);
+  const followReqStatus = useSelector(
+    selectFollowRequestStatusFor(user?.id ?? user?._id)
+  );
+  const isFollowRequestLoading = followReqStatus === "loading";
 
   const name = me?.name ?? "";
   const email = me?.email ?? "";
@@ -85,7 +91,14 @@ export function UserInfo({
     <div className={styles.card}>
       <div className={styles.avatarWrap}>
         <div className={styles.avatar} aria-label="User avatar">
-          {avatarUrl ? <img src={avatarUrl} alt={name || "Avatar"} /> : null}
+          <img
+            src={avatarUrl || profilePlaceholder}
+            alt={name || "Avatar"}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = profilePlaceholder;
+            }}
+          />
         </div>
         {mode === "own" ? (
           <button
@@ -125,7 +138,7 @@ export function UserInfo({
           className={styles.logoutBtn}
           type="button"
           onClick={onToggleFollow}
-          disabled={usersStatus === "loading"}
+          disabled={usersStatus === "loading" || isFollowRequestLoading}
         >
           {isFollowing ? "UNFOLLOW" : "FOLLOW"}
         </button>

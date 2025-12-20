@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api, buildQuery } from "../client";
+import { fetchCurrent } from "../users/usersOperations";
 
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchList",
@@ -70,11 +71,39 @@ export const fetchFavoritesRecipes = createAsyncThunk(
   }
 );
 
+/**
+ * IDs для сердечок/кнопок (не для табу Favorites).
+ * Backend не дає ids напряму — беремо з /recipes/favorites великим limit.
+ */
+export const fetchFavoriteIds = createAsyncThunk(
+  "recipes/fetchFavoriteIds",
+  async (_, thunkAPI) => {
+    try {
+      const query = buildQuery({ page: 1, limit: 5000 });
+      const { data } = await api.get(`/recipes/favorites${query}`);
+
+      const ids = (data?.items || [])
+        .map((r) => String(r?.id ?? r?._id ?? ""))
+        .filter(Boolean);
+
+      return { ids };
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const addRecipeToFavorites = createAsyncThunk(
   "recipes/addToFavorites",
   async (id, thunkAPI) => {
     try {
       const { data } = await api.post(`/recipes/${id}/favorite`);
+
+      // ✅ оновити лічильник favorites у UserInfo
+      thunkAPI.dispatch(fetchCurrent());
+
+      // data: { favorites: [...] } (бек повертає id-список)
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
@@ -88,7 +117,25 @@ export const deleteRecipeFromFavorites = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await api.delete(`/recipes/${id}/favorite`);
+
+      // ✅ оновити лічильник favorites у UserInfo
+      thunkAPI.dispatch(fetchCurrent());
+
+      // data: { favorites: [...] } (бек повертає id-список)
       return data;
+    } catch (err) {
+      const message = err.response?.data?.message || err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const deleteRecipe = createAsyncThunk(
+  "recipes/delete",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.delete(`/recipes/${id}`);
+      return { id, data };
     } catch (err) {
       const message = err.response?.data?.message || err.message;
       return thunkAPI.rejectWithValue(message);
