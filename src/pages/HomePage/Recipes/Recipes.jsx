@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIngredientsItems } from "../../../redux/ingredients/ingredientsSlice.js";
@@ -27,13 +27,16 @@ const Recipes = () => {
   const recipesStatus = useSelector(selectRecipesStatus);
   const recipes = useSelector(selectRecipeItems);
   const navigate = useNavigate();
-  const { name } = useParams();
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get("category");
   const dispatch = useDispatch();
   const recipesRef = useRef(null);
 
   useEffect(() => {
-    dispatch(clearRecipesList(name));
-    dispatch(fetchRecipes({ category: name }));
+    if (name) {
+      dispatch(clearRecipesList(name));
+      dispatch(fetchRecipes({ category: name }));
+    }
   }, [dispatch, name]);
 
   useEffect(() => {
@@ -51,7 +54,7 @@ const Recipes = () => {
       </button>
       <div className={css.header}>
         <div className={css.title}>
-          <MainTitle>{name}</MainTitle>
+          <MainTitle>{name || "Category"}</MainTitle>
           {recipesStatus === "loading" && <Loader />}
         </div>
         <Subtitle maxWidth={540}>

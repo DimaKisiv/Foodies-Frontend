@@ -1,12 +1,12 @@
 import { getCategoryImage } from "../../../../utils/categoryImages.js";
 import { Link } from "react-router-dom";
 import Icon from "../../../shared/Icon/Icon.jsx";
-import styles from './CategoryCard.module.css';
+import styles from "./CategoryCard.module.css";
 import foodPlaceholder from "../../../../assets/food.png";
 
-const CategoryCard = ({ category, className = '' }) => {
+const CategoryCard = ({ category, className = "" }) => {
   const imageSrc = getCategoryImage(category.name);
-  const to = `/categories/${encodeURIComponent(category.name)}`;
+  const to = `/?category=${encodeURIComponent(category.name)}`;
 
   return (
     <Link
@@ -35,7 +35,10 @@ const CategoryCard = ({ category, className = '' }) => {
               id="icon-arrow-up-right"
               width={18}
               height={18}
-              style={{ transform: "scale(1.08)", filter: "drop-shadow(0 0 0 currentColor)" }}
+              style={{
+                transform: "scale(1.08)",
+                filter: "drop-shadow(0 0 0 currentColor)",
+              }}
             />
           </span>
         </div>
