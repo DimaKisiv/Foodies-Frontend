@@ -6,7 +6,7 @@ import foodPlaceholder from "../../../../assets/food.png";
 
 const CategoryCard = ({ category, className = '' }) => {
   const imageSrc = getCategoryImage(category.name);
-  const to = `/categories/${category.name}`;
+  const to = `/categories/${encodeURIComponent(category.name)}`;
 
   return (
     <Link

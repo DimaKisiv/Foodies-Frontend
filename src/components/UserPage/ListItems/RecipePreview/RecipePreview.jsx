@@ -7,12 +7,22 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
   const title = recipe?.title || "Untitled recipe";
   const description = recipe?.description || recipe?.instructions || "";
   const imgSrc = recipe?.thumb || recipe?.thumbUrl || recipe?.image || "";
-  const to = recipe?.id ? `/recipe/${recipe.id}` : "/recipe";
+  const to = recipe?.id ? `/recipe/${recipe.id}` : null;
 
   return (
     <article className={styles.item}>
       <div className={styles.left}>
-        <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+        {to ? (
+          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+            <div className={styles.thumb}>
+              {imgSrc ? (
+                <img className={styles.img} src={imgSrc} alt={title} />
+              ) : (
+                <div className={styles.imgFallback} aria-hidden="true" />
+              )}
+            </div>
+          </Link>
+        ) : (
           <div className={styles.thumb}>
             {imgSrc ? (
               <img className={styles.img} src={imgSrc} alt={title} />
@@ -20,14 +30,20 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
               <div className={styles.imgFallback} aria-hidden="true" />
             )}
           </div>
-        </Link>
+        )}
 
         <div className={styles.text}>
-          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          {to ? (
+            <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+              <h4 className={styles.name} title={title}>
+                {title}
+              </h4>
+            </Link>
+          ) : (
             <h4 className={styles.name} title={title}>
               {title}
             </h4>
-          </Link>
+          )}
           {!!description && <p className={styles.desc}>{description}</p>}
         </div>
       </div>
