@@ -1,39 +1,87 @@
 import AvatarButton from "../../../shared/Button/AvatarButton/AvatarButton.jsx";
 import RoundButton from "../../../shared/Button/RoundButton/RoundButton.jsx";
+import { Link } from "react-router-dom";
 import css from "./RecipeCard.module.css";
+import foodPlaceholder from "../../../../assets/food.png";
 
-const RecipeCard = ({ recipe, isLoading, isFavorite, onFavoriteClick, onDetailsClick, onAuthorClick }) => (
-  <div className={css.container}>
-    <div className={css.image}>
-      <img src={recipe.thumb} alt={recipe.title} />
-    </div>
-    <div className={css.title}>
-      <h4>{recipe.title}</h4>
-      <p>{recipe.instructions}</p>
-    </div>
-    <div className={css.ui}>
-      <div className={css.author}>
-        <AvatarButton
-          image={recipe.owner.avatar}
-          name={recipe.owner.name}
-          onClick={() => onAuthorClick(recipe.owner.id)}
-        />
-        <span>{recipe.owner.name}</span>
+const RecipeCard = ({
+  recipe,
+  isLoading,
+  isFavorite,
+  onFavoriteClick,
+  onDetailsClick,
+  onAuthorClick,
+}) => {
+  const to = `/recipe/${recipe.id}`;
+
+  return (
+    <div className={css.container}>
+      <Link
+        to={to}
+        style={{ display: "contents", color: "inherit", textDecoration: "none" }}
+        aria-label={recipe?.title || "Recipe"}
+      >
+        <div className={css.image}>
+          <img
+            src={recipe?.thumb || foodPlaceholder}
+            alt={recipe?.title || "Recipe"}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = foodPlaceholder;
+            }}
+          />
+        </div>
+        <div className={css.title}>
+          <h4>{recipe.title}</h4>
+          <p>{recipe.instructions}</p>
+        </div>
+      </Link>
+
+      <div className={css.ui}>
+        <div className={css.author}>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onAuthorClick(recipe.owner.id);
+            }}
+          >
+            <AvatarButton image={recipe.owner.avatar} name={recipe.owner.name} />
+          </div>
+          <span>{recipe.owner.name}</span>
+        </div>
+
+        <div className={css.buttons}>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onFavoriteClick(recipe.id);
+            }}
+          >
+            <RoundButton
+              iconId="icon-heart"
+              isLoading={isLoading}
+              altMode={isFavorite}
+            />
+          </div>
+
+          <Link
+            to={to}
+            style={{ color: "inherit", textDecoration: "none" }}
+            onClick={(e) => {
+              if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+                e.preventDefault();
+                onDetailsClick(recipe.id);
+              }
+            }}
+          >
+            <RoundButton iconId="icon-arrow-up-right" />
+          </Link>
+        </div>
       </div>
-      <div className={css.buttons}>
-        <RoundButton
-          iconId="icon-heart"
-          onClick={() => onFavoriteClick(recipe.id)}
-          isLoading={isLoading}
-          altMode={isFavorite}
-        />
-        <RoundButton
-          iconId="icon-arrow-up-right"
-          onClick={() => onDetailsClick(recipe.id)}
-        />
-      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default RecipeCard;

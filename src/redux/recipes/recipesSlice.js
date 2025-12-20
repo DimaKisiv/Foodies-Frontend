@@ -25,6 +25,13 @@ const slice = createSlice({
     error: null,
   },
   reducers: {
+    clearRecipesList(state, { payload }) {
+      state.category = payload ?? state.category;
+      state.items = null;
+      state.pages = 0;
+      state.error = null;
+      state.status = "idle";
+    },
     setRecipesLimit(state, { payload }) {
       state.limit = Number(payload) || state.limit;
     },
@@ -147,7 +154,7 @@ const slice = createSlice({
   },
 });
 
-export const { setRecipesLimit } = slice.actions;
+export const { clearRecipesList, setRecipesLimit } = slice.actions;
 export const recipesReducer = slice.reducer;
 
 // Selectors

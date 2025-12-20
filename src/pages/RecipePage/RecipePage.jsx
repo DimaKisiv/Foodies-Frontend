@@ -4,7 +4,7 @@ import {
   selectRecipesStatus,
   selectCurrentRecipe,
 } from "../../redux/recipes/recipesSlice";
-import Loader from "../../components/Shared/Loader/Loader";
+import Loader from "../../components/shared/Loader/Loader";
 import {
   fetchFavoritesRecipes,
   fetchPopularRecipes,

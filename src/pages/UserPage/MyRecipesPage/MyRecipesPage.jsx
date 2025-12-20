@@ -6,6 +6,7 @@ import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
 import { RecipePreview } from "../../../components/UserPage/ListItems/RecipePreview/RecipePreview";
 import { fetchRecipes } from "../../../redux/recipes/recipesOperations";
 import {
+  clearRecipesList,
   selectRecipeItems,
   selectRecipesLimit,
   selectRecipesStatus,
@@ -37,6 +38,7 @@ export default function MyRecipesPage() {
 
   useEffect(() => {
     if (!targetAuthorId) return;
+    dispatch(clearRecipesList(null));
     dispatch(fetchRecipes({ ownerId: targetAuthorId, page, limit }))
       .unwrap()
       .then((payload) => {

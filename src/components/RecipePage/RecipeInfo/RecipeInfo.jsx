@@ -8,6 +8,7 @@ import {
   addRecipeToFavorites,
   deleteRecipeFromFavorites,
 } from "../../../redux/recipes/recipesOperations";
+import foodPlaceholder from "../../../assets/food.png";
 
 const RecipeInfo = ({ recipe }) => {
   const dispatch = useDispatch();
@@ -25,7 +26,15 @@ const RecipeInfo = ({ recipe }) => {
 
   return (
     <div className={styles.recipe}>
-      <img className={styles["thumb"]} src={recipe.thumb} />
+      <img
+        className={styles["thumb"]}
+        src={recipe?.thumb || foodPlaceholder}
+        alt={recipe?.title || "Recipe"}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = foodPlaceholder;
+        }}
+      />
       <div>
         <RecipeMainInfo recipe={recipe} owner={recipe.owner} />
         <RecipeIngredients ingredients={recipe.ingredientsDetailed} />

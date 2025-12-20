@@ -33,6 +33,11 @@
     margin: 0;
 }
 
+.card:hover .text,
+.card:focus-within .text {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .button {
     display: flex;
     align-items: center;
@@ -44,6 +49,12 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 11px;
     cursor: pointer;
+    pointer-events: none;
+}
+
+.card:hover .button,
+.card:focus-within .button {
+    background: var(--color-text-main);
 }
 
 .button:hover {

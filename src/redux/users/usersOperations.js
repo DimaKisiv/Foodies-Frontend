@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api, buildQuery } from "../client";
 
+const followToggleInFlight = new Set();
+
 export const fetchUsers = createAsyncThunk(
   "users/fetchAll",
   async (_, thunkAPI) => {
@@ -128,22 +130,33 @@ export const toggleFollowUser = createAsyncThunk(
   "users/toggleFollowUser",
   async (userId, thunkAPI) => {
     try {
+      const uid = String(userId);
+      followToggleInFlight.add(uid);
       const state = thunkAPI.getState();
       const key = "me";
       const items = state?.users?.followingByUserId?.[key]?.items || [];
       const isFollowing = items.some(
-        (u) => String(u.id ?? u._id) === String(userId)
+        (u) => String(u.id ?? u._id) === uid
       );
 
       if (isFollowing) {
-        const res = await thunkAPI.dispatch(unfollowUser(userId)).unwrap();
-        return { userId: String(userId), followed: false, ...res };
+        const res = await thunkAPI.dispatch(unfollowUser(uid)).unwrap();
+        return { userId: uid, followed: false, ...res };
       }
-      const res = await thunkAPI.dispatch(followUser(userId)).unwrap();
-      return { userId: String(userId), followed: true, ...res };
+      const res = await thunkAPI.dispatch(followUser(uid)).unwrap();
+      return { userId: uid, followed: true, ...res };
     } catch (err) {
       const message = err?.message || "Failed to toggle follow";
       return thunkAPI.rejectWithValue({ userId: String(userId), message });
+    } finally {
+      followToggleInFlight.delete(String(userId));
     }
+  },
+  {
+    condition: (userId) => {
+      const uid = String(userId);
+      if (followToggleInFlight.has(uid)) return false;
+      return true;
+    },
   }
 );
