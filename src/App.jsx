@@ -37,6 +37,11 @@ function App() {
                     <Route index element={<Categories />} />
                     <Route path="categories/:name" element={<Recipes />} />
                   </Route>
+                  {/* Redirect bare /categories to Home page categories list */}
+                  <Route
+                    path="/categories"
+                    element={<Navigate to="/" replace />}
+                  />
                   <Route path="/recipe/:id" element={<RecipePage />} />
                   <Route path="/recipe/add" element={<AddRecipePage />} />
                   {/* Own profile (all four tabs) */}
