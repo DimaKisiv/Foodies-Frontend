@@ -12,6 +12,7 @@ import {
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
 import Icon from "../../shared/Icon/Icon.jsx";
 import profilePlaceholder from "../../../assets/profile.png";
+import {useLocation} from "react-router-dom";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -19,6 +20,9 @@ function Header() {
       isActive && css["header-nav-link--active"]
     );
   };
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   const { authModal, openSignIn, openSignUp } = useAuthModal();
   const [LogOutModalOpen, LogOutModalSetOpen] = useState(false);
   const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
@@ -29,7 +33,10 @@ function Header() {
 
   return (
     <>
-      <div className={css["header"]}>
+      <header className={clsx(
+          css["header"],
+          !isHomePage && css["header--white"],
+      )}>
         <NavLink to="/" className={css.logo}>
           foodies
         </NavLink>
@@ -120,7 +127,7 @@ function Header() {
             <button onClick={() => openSignUp()}>Sign Up</button>
           </div>
         )}
-      </div>
+      </header>
 
       <LogOutModal
         isOpen={LogOutModalOpen}
