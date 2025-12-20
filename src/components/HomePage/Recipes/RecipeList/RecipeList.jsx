@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import useAuthModal from "../../../../providers/useAuthModal.js";
 import {
-  selectFavoritesRecipes,
+  selectFavoriteIds,
   selectRecipeItems,
   selectRecipesStatus,
 } from "../../../../redux/recipes/recipesSlice.js";
 import { selectIsAuthenticated } from "../../../../redux/auth/authSlice.js";
 import {
-  fetchFavoritesRecipes,
+  fetchFavoriteIds,
   addRecipeToFavorites,
   deleteRecipeFromFavorites,
 } from "../../../../redux/recipes/recipesOperations.js";
@@ -19,36 +19,40 @@ import css from "./RecipeList.module.css";
 
 const RecipeList = ({ sectionRef }) => {
   const [currentId, setCurrentId] = useState(null);
+
   const { openSignIn } = useAuthModal();
-  const isUserSignedIn = useSelector(selectIsAuthenticated);
-  const recipesStatus = useSelector(selectRecipesStatus);
-  const recipes = useSelector(selectRecipeItems);
-  const favorites = useSelector(selectFavoritesRecipes);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isLoading = (id) => {
-    return currentId === id ? recipesStatus === "loading" : false;
-  };
+  const isUserSignedIn = useSelector(selectIsAuthenticated);
+  const recipesStatus = useSelector(selectRecipesStatus);
+  const recipes = useSelector(selectRecipeItems) || [];
+  const favoriteIds = useSelector(selectFavoriteIds) || [];
 
-  const isFavorite = (id) => {
-    return favorites.find((f) => f.id === id);
-  };
+  const isLoading = (id) =>
+    String(currentId) === String(id) && recipesStatus === "loading";
 
-  const favoriteHandler = (id) => {
+  const isFavorite = (id) => favoriteIds.includes(String(id));
+
+  const favoriteHandler = async (id) => {
     if (!isUserSignedIn) {
       openSignIn();
       return;
     }
+
     setCurrentId(id);
-    isFavorite(id)
-      ? dispatch(deleteRecipeFromFavorites(id))
-      : dispatch(addRecipeToFavorites(id));
+    try {
+      if (isFavorite(id)) {
+        await dispatch(deleteRecipeFromFavorites(id)).unwrap();
+      } else {
+        await dispatch(addRecipeToFavorites(id)).unwrap();
+      }
+    } finally {
+      setCurrentId(null);
+    }
   };
 
-  const detailsHandler = (id) => {
-    navigate(`/recipe/${id}`);
-  };
+  const detailsHandler = (id) => navigate(`/recipe/${id}`);
 
   const authorHandler = (id) => {
     if (!isUserSignedIn) {
@@ -60,9 +64,9 @@ const RecipeList = ({ sectionRef }) => {
 
   useEffect(() => {
     if (isUserSignedIn) {
-      dispatch(fetchFavoritesRecipes());
+      dispatch(fetchFavoriteIds()).catch(() => {});
     }
-  }, [isUserSignedIn, dispatch]);
+  }, [dispatch, isUserSignedIn]);
 
   return (
     <div className={css.container}>
@@ -79,6 +83,7 @@ const RecipeList = ({ sectionRef }) => {
           />
         ))}
       </div>
+
       <RecipePagination sectionRef={sectionRef} />
     </div>
   );
