@@ -1,7 +1,7 @@
 .page {
     min-height: 100vh;
     background: #fff;
-    padding: 48px 56px;
+    /*padding: 48px 56px;*/
 }
 
 .form {
@@ -40,7 +40,7 @@
     display: none;
 }
 
-.responsiveIcon {
+.responsiveIconUpload {
     width: 50px;
     height: 50px;
 }
@@ -86,11 +86,11 @@
 
 /* RIGHT */
 .right {
-    padding-top: 8px;
+    /*padding-top: 8px;*/
 }
 
 .block {
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .titleInput {
@@ -123,6 +123,7 @@
 
 .textareaWrap {
     position: relative;
+    margin-top: 32px;
 }
 
 .desc {
@@ -130,12 +131,11 @@
     border: none;
     outline: none;
     resize: none;
-    padding: 0 65px 0 0;
+    padding: 0 100px 0 0;
     font-size: 14px;
     line-height: 1.428;
     border-bottom: 1px solid #e7e7e7;
     color: #2b2b2b;
-    margin-top: 40px;
 }
 
 .desc::placeholder {
@@ -153,7 +153,7 @@
     resize: none;
     font-size: 14px;
     line-height: 1.75;
-    padding: 10px 65px 14px 0;
+    padding: 10px 100px 14px 0;
     border-bottom: 1px solid #e7e7e7;
     color: #2b2b2b;
 }
@@ -162,33 +162,29 @@
     position: absolute;
     right: 20px;
     top: 6px;
-    font-size: 12px;
+    font-size: 14px;
     color: #b2b2b2;
 }
 
-/* Клас для сірого кольору */
 .textGray {
     color: var(--gray);
     transition: color 0.3s ease;
 }
 
-/* Клас для чорного кольору */
 .textBlack {
     color: var(--color-text-main);
     transition: color 0.3s ease;
 }
 
 .row2 {
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 40px;
-    margin: 22px 0 26px;
+    display: flex;
+    flex-direction: column;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    margin-bottom: 20px;
 }
 
 .label {
@@ -196,6 +192,7 @@
     color: var(--color-text-secondary);
     font-weight: 800;
     text-transform: uppercase;
+    margin-bottom: 8px;
 }
 
 .selectWrap {
@@ -206,8 +203,8 @@
 .select {
     width: 100%;
     height: 44px;
-    border: 1px solid #e2e2e2;
-    border-radius: 999px;
+    border: 1px solid var(--gray);
+    border-radius: 30px;
     padding: 0 44px 0 18px;
     outline: none;
     font-size: 14px;
@@ -218,16 +215,21 @@
 }
 
 .placeholderColor {
-    color: var(--gray); /* Сірий (коли пусто) */
+    color: var(--gray);
 }
 
 .chev {
     position: absolute;
     right: 18px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) rotate(0deg);
     color: var(--color-text-main);
     pointer-events: none;
+    transition: transform 0.6s ease;
+}
+
+.select:focus + .chev {
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .timeControl {
@@ -256,14 +258,13 @@
 
 /* INGREDIENTS */
 .ingRow {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 22px;
-    align-items: center;
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .qty {
+    min-width: 200px;
     border: none;
     outline: none;
     padding: 10px 0 14px;
@@ -271,49 +272,61 @@
     font-size: 14px;
 }
 
+.qty::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray);
+}
+
 .addBtn {
-    margin-top: 16px;
-    height: 44px;
-    padding: 0 22px;
-    border-radius: 999px;
-    border: 1px solid #111;
-    background: #fff;
-    font-weight: 800;
-    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+    margin-bottom: 64px;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 1px solid var(--gray);
+    background: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.43;
+    transition: border 0.6s ease;
     cursor: pointer;
 }
 
-.plus {
-    margin-left: 10px;
-    font-size: 18px;
-    font-weight: 900;
+.addBtn:hover {
+    border: 1px solid var(--color-text-main);
+}
+
+.responsiveIconPlus {
+    width: 20px;
+    height: 20px;
 }
 
 .ingCards {
     display: flex;
-    gap: 18px;
-    margin-top: 18px;
+    gap: 16px;
+    margin-top: 32px;
     flex-wrap: wrap;
 }
 
 .ingCard {
     position: relative;
-    width: 220px;
-    height: 86px;
-    border: 1px solid #e6e6e6;
-    border-radius: 12px;
     display: grid;
     grid-template-columns: 64px 1fr;
     align-items: center;
-    gap: 12px;
-    padding: 10px;
-    background: #fff;
+    width: 155px;
+    border-radius: 12px;
+    gap: 10px;
+    background: var(--white);
 }
 
 .cardX {
     position: absolute;
-    right: 10px;
-    top: 8px;
+    right: 0;
+    top: 0;
     border: none;
     background: transparent;
     font-size: 18px;
@@ -322,9 +335,10 @@
 }
 
 .ingThumb {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
+    border: 1px solid var(--gray);
     overflow: hidden;
     background: #f3f3f3;
 }
@@ -336,16 +350,24 @@
     display: block;
 }
 
+.ingMeta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-top: 15px;
+}
+
 .ingName {
-    font-weight: 800;
     font-size: 14px;
-    color: #1a1a1a;
+    font-weight: 500;
+    color: var(--color-text-secondary);
 }
 
 .ingSub {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #b2b2b2;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray);
 }
 
 /* ACTIONS */
@@ -353,7 +375,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-top: 26px;
+    margin-top: 32px;
 }
 
 .trashBtn {
@@ -368,16 +390,32 @@
     place-items: center;
 }
 
+.trashIcon {
+    width: 20px;
+    height: 20px;
+    color: var(--gray);
+    transition: color 0.3s ease;
+}
+
+.trashBtn:hover .trashIcon {
+    color: var(--color-text-secondary);
+}
+
 .publishBtn {
-    height: 48px;
-    padding: 0 28px;
-    border-radius: 999px;
+    padding: 14px 32px;
+    border-radius: 30px;
     border: 1px solid #111;
-    background: #111;
+    background: var(--color-text-secondary);
     color: #fff;
-    font-weight: 900;
-    letter-spacing: 0.06em;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.428;
     cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.publishBtn:hover {
+    background: var(--color-text-main);
 }
 
 /* --- Validation Styles --- */
@@ -391,7 +429,55 @@
 }
 
 @media (min-width: 768px) {
-    .responsiveIcon {
+    .block {
+        margin-bottom: 60px;
+    }
+
+    .field {
+        margin-bottom: 60px;
+    }
+
+    .row2 {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .ingRow {
+        flex-direction: row;
+    }
+
+    .addBtn {
+        margin-top: 40px;
+    }
+
+    .textareaWrap {
+        margin-top: 40px;
+    }
+
+    .label {
+        margin-bottom: 16px;
+        font-size: 20px;
+    }
+
+    .select {
+        font-size: 16px;
+    }
+
+    .qty {
+        font-size: 16px;
+    }
+
+    .qty::placeholder {
+        font-size: 16px;
+    }
+
+    .addBtn {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 80px;
+    }
+
+    .responsiveIconUpload {
         width: 64px;
         height: 64px;
     }
@@ -400,6 +486,48 @@
         font-size: 16px;
         font-weight: 500;
     }
+
+    .responsiveIconPlus {
+        width: 22px;
+        height: 22px;
+    }
+
+    .ingCards {
+        gap: 28px;
+        margin-top: 40px;
+    }
+
+    .ingCard {
+        gap: 14px;
+    }
+
+    .counter {
+        font-size: 16px;
+    }
+
+    .desc {
+        font-size: 16px;
+    }
+
+    .prep {
+        font-size: 16px;
+    }
+
+    .actions {
+        margin-top: 80px;
+    }
+
+    .trashBtn {
+        width: 56px;
+        height: 56px;
+    }
+
+    .publishBtn {
+        font-size: 16px;
+        line-height: 1.50;
+        padding: 16px 39px;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -407,9 +535,6 @@
         gap: 32px;
     }
 
-    .titleInput {
-        margin-bottom: 32px;
-    }
 }
 
 @media (max-width: 1100px) {
@@ -426,10 +551,6 @@
     .previewFrame {
         width: 100%;
         max-width: 520px;
-    }
-
-    .row2 {
-        grid-template-columns: 1fr;
     }
 
     .ingRow {

@@ -40,6 +40,7 @@ export default function AddRecipeForm() {
   const ingredients = useSelector(selectIngredientsItems);
   const ingredientsStatus = useSelector(selectIngredientsStatus);
 
+
   useEffect(() => {
     if (categoriesStatus === "idle") dispatch(fetchCategories());
     if (areasStatus === "idle") dispatch(fetchAreas());
@@ -112,6 +113,7 @@ export default function AddRecipeForm() {
     if (thumbPreview) URL.revokeObjectURL(thumbPreview);
     setThumbPreview(null);
   };
+
 
   const ValidationSchema = Yup.object({
     title: Yup.string().trim().required("Title is required"),
@@ -234,7 +236,7 @@ export default function AddRecipeForm() {
                     />
                       <Icon
                         id="icon-camera-capture"
-                        className={styles.responsiveIcon}
+                        className={styles.responsiveIconUpload}
                       />
                     <span className={styles.uploadLink}>Upload a photo</span>
                   </label>
@@ -298,7 +300,6 @@ export default function AddRecipeForm() {
                     maxLength={200}
                   />
                   <span className={styles.counter}>
-    {/* 1. Поточна цифра: міняє колір */}
                     <span
                       className={
                         (values.description && values.description.length > 0)
@@ -308,8 +309,6 @@ export default function AddRecipeForm() {
                     >
                       {isFilled ? "45" : String(values.description?.length || 0)}
                     </span>
-
-                    {/* 2. Розділювач і максимум: завжди сірі */}
                     <span className={styles.textGray}>
                       /200
                     </span>
@@ -322,7 +321,7 @@ export default function AddRecipeForm() {
 
               {/* CATEGORY + TIME */}
               <div className={styles.row2}>
-                <div className={styles.field}>
+                <div className={styles.field} style={{ flexGrow: 1}}>
                   <label className={styles.label}>CATEGORY</label>
                   <div className={styles.selectWrap}>
                     <Field
@@ -406,8 +405,8 @@ export default function AddRecipeForm() {
               </div>
 
               {/* AREA */}
-              <div className={`${styles.field} ${styles.block}`}>
-                <label className={styles.label} style={{ fontSize: "20px" }}>AREA</label>
+              <div className={styles.field}>
+                <label className={styles.label} style={{ fontSize: "20px", marginBottom: "16px" }}>AREA</label>
                 <div className={styles.selectWrap}>
                   <Field
                     as="select"
@@ -441,7 +440,7 @@ export default function AddRecipeForm() {
               </div>
 
               {/* INGREDIENTS */}
-              <div className={`${styles.field} ${styles.block}`}>
+              <div className={styles.field}>
                 <label className={styles.label}>INGREDIENTS</label>
 
                 <div className={styles.ingRow}>
@@ -501,7 +500,11 @@ export default function AddRecipeForm() {
                     }
                   }}
                 >
-                  ADD INGREDIENT <span className={styles.plus}>＋</span>
+                  ADD INGREDIENT
+                  <Icon
+                    id="icon-plus"
+                    className={styles.responsiveIconPlus}
+                  />
                 </button>
 
                 {isFilled && (
@@ -613,10 +616,18 @@ export default function AddRecipeForm() {
                     maxLength={1000}
                   />
                   <span className={styles.counter}>
-                    {isFilled
-                      ? "108"
-                      : String(values.instructions?.length || 0)}
-                    /1000
+                    <span
+                      className={
+                        (values.instructions && values.instructions.length > 0)
+                          ? styles.textBlack
+                          : styles.textGray
+                      }
+                    >
+                    {isFilled ? "108" : String(values.instructions?.length || 0)}
+                    </span>
+                    <span className={styles.textGray}>
+                      /1000
+                    </span>
                   </span>
                   {touched.instructions && errors.instructions && (
                     <div className={styles.errorMsg}>{errors.instructions}</div>
@@ -645,27 +656,11 @@ export default function AddRecipeForm() {
                     setFieldValue("thumb", null);
                   }}
                 >
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M6 7h12l-1 14H7L6 7Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path d="M4 7h16" stroke="currentColor" strokeWidth="1.5"/>
-                  </svg>
-                </button>
-
+                  <Icon
+                    id="icon-trash"
+                    className={styles.trashIcon}
+                  />
+                  </button>
                 <button type="submit" className={styles.publishBtn}>
                   PUBLISH
                 </button>
