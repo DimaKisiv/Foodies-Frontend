@@ -4,7 +4,7 @@ import {
   selectPopularRecipes,
   selectPopularRecipesStatus,
 } from "../../../redux/recipes/recipesSlice";
-import Loader from "../../Shared/Loader/Loader";
+import Loader from "../../shared/Loader/Loader";
 import RecipeCard from "../../HomePage/Recipes/RecipeCard/RecipeCard";
 
 const PopularRecipes = () => {

@@ -9,12 +9,12 @@ const CategoryCard = ({ category, className = '' }) => {
   const to = `/categories/${category.name}`;
 
   return (
-    <div className={`${styles.card} ${className}`}>
-      <Link
-        to={to}
-        style={{ display: "contents", color: "inherit", textDecoration: "none" }}
-        aria-label={category.name}
-      >
+    <Link
+      to={to}
+      style={{ display: "contents", color: "inherit", textDecoration: "none" }}
+      aria-label={category.name}
+    >
+      <div className={`${styles.card} ${className}`}>
         <img
           src={imageSrc || foodPlaceholder}
           alt={category.name}
@@ -26,10 +26,9 @@ const CategoryCard = ({ category, className = '' }) => {
         />
         <div className={styles.content}>
           <h3 className={`${styles.text} ${className}`}>{category.name}</h3>
-          <Link
-            to={to}
+          <span
             className={`${styles.button} ${className}`}
-            aria-label={`Open ${category.name}`}
+            aria-hidden="true"
             style={{ color: "#ffffff", textDecoration: "none" }}
           >
             <Icon
@@ -38,10 +37,10 @@ const CategoryCard = ({ category, className = '' }) => {
               height={18}
               style={{ transform: "scale(1.08)", filter: "drop-shadow(0 0 0 currentColor)" }}
             />
-          </Link>
+          </span>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 

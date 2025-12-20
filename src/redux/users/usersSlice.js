@@ -90,6 +90,7 @@ const slice = createSlice({
         state.byId = {};
         state.byIdStatus = {};
         state.byIdError = {};
+        state.followRequestByUserId = {};
       })
       // Other user profile by id
       .addCase(fetchUserById.pending, (state, { meta }) => {
@@ -199,15 +200,20 @@ const slice = createSlice({
       .addCase(followUser.fulfilled, (state, { payload }) => {
         const uid = payload.userId;
         state.followRequestByUserId[uid] = "succeeded";
-        // Optimistically bump follower count for the followed user (UI convenience)
-        Object.values(state.byId).forEach((u) => {
-          if (String(u?.id ?? u?._id) === uid) {
-            u.followersCount = Number(u.followersCount || 0) + 1;
-          }
-        });
-        // Optimistically update my following list so button state flips immediately
         const meKey = "me";
         const meFollowing = state.followingByUserId[meKey];
+        const alreadyFollowing = (meFollowing?.items || []).some(
+          (u) => String(u.id ?? u._id) === uid
+        );
+        // Optimistically bump follower count for the followed user (UI convenience)
+        if (!alreadyFollowing) {
+          Object.values(state.byId).forEach((u) => {
+            if (String(u?.id ?? u?._id) === uid) {
+              u.followersCount = Number(u.followersCount || 0) + 1;
+            }
+          });
+        }
+        // Optimistically update my following list so button state flips immediately
         if (meFollowing?.items) {
           const exists = meFollowing.items.some(
             (u) => String(u.id ?? u._id) === uid
@@ -232,7 +238,7 @@ const slice = createSlice({
           });
         });
         // Optionally bump counts on current user
-        if (state.current) {
+        if (state.current && !alreadyFollowing) {
           state.current.followingCount =
             Number(state.current.followingCount || 0) + 1;
         }
@@ -251,15 +257,20 @@ const slice = createSlice({
       .addCase(unfollowUser.fulfilled, (state, { payload }) => {
         const uid = payload.userId;
         state.followRequestByUserId[uid] = "succeeded";
-        // Optimistically decrease follower count for the unfollowed user (clamped)
-        Object.values(state.byId).forEach((u) => {
-          if (String(u?.id ?? u?._id) === uid) {
-            u.followersCount = Math.max(0, Number(u.followersCount || 0) - 1);
-          }
-        });
-        // Optimistically update my following list so button state flips immediately
         const meKey = "me";
         const meFollowing = state.followingByUserId[meKey];
+        const wasFollowing = (meFollowing?.items || []).some(
+          (u) => String(u.id ?? u._id) === uid
+        );
+        // Optimistically decrease follower count for the unfollowed user (clamped)
+        if (wasFollowing) {
+          Object.values(state.byId).forEach((u) => {
+            if (String(u?.id ?? u?._id) === uid) {
+              u.followersCount = Math.max(0, Number(u.followersCount || 0) - 1);
+            }
+          });
+        }
+        // Optimistically update my following list so button state flips immediately
         if (meFollowing?.items) {
           meFollowing.items = (meFollowing.items || []).filter(
             (u) => String(u.id ?? u._id) !== uid
@@ -276,7 +287,7 @@ const slice = createSlice({
             if (String(u.id ?? u._id) === uid) u.isFollowing = false;
           });
         });
-        if (state.current) {
+        if (state.current && wasFollowing) {
           state.current.followingCount = Math.max(
             0,
             Number(state.current.followingCount || 0) - 1

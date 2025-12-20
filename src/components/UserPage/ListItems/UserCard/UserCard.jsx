@@ -1,5 +1,6 @@
 // src/pages/UserPage/ListItems/UserCard/UserCard.jsx
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styles from "./UserCard.module.css";
 import { toggleFollowUser } from "../../../../redux/users/usersOperations";
 import { selectFollowRequestStatusFor } from "../../../../redux/users/usersSlice";
@@ -13,6 +14,7 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   const avatar = user?.avatar || user?.avatarURL;
   const dispatch = useDispatch();
   const userId = user?.id ?? user?._id;
+  const to = userId ? `/user/${userId}` : "/user";
   const followReqStatus = useSelector(selectFollowRequestStatusFor(userId));
   const isFollowRequestLoading = followReqStatus === "loading";
   // Derive following status from Redux when prop isn't explicitly provided
@@ -36,19 +38,23 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   return (
     <article className={styles.card}>
       <div className={styles.left}>
-        <div className={styles.avatar}>
-          <img
-            src={avatar || profilePlaceholder}
-            alt={name || "Avatar"}
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = profilePlaceholder;
-            }}
-          />
-        </div>
+        <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          <div className={styles.avatar}>
+            <img
+              src={avatar || profilePlaceholder}
+              alt={name || "Avatar"}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = profilePlaceholder;
+              }}
+            />
+          </div>
+        </Link>
 
         <div className={styles.info}>
-          <div className={styles.name}>{name}</div>
+          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+            <div className={styles.name}>{name}</div>
+          </Link>
           <div className={styles.meta}>Own recipes: {recipes}</div>
 
           <button
@@ -77,14 +83,25 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
         ))}
       </div>
 
-      <button
-        type="button"
-        className={styles.openBtn}
-        onClick={onOpen}
-        title="Open"
-      >
-        ↗
-      </button>
+      {onOpen ? (
+        <button
+          type="button"
+          className={styles.openBtn}
+          onClick={onOpen}
+          title="Open"
+        >
+          ↗
+        </button>
+      ) : (
+        <Link
+          to={to}
+          className={styles.openBtn}
+          title="Open"
+          style={{ color: "inherit", textDecoration: "none" }}
+        >
+          ↗
+        </Link>
+      )}
     </article>
   );
 }
