@@ -313,11 +313,9 @@
 
 .ingCard {
     position: relative;
-    display: grid;
-    grid-template-columns: 64px 1fr;
+    display: flex;
     align-items: center;
-    width: 155px;
-    border-radius: 12px;
+    justify-content: center;
     gap: 10px;
     background: var(--white);
 }
@@ -333,18 +331,24 @@
     cursor: pointer;
 }
 
+.iconClose {
+    width: 16px;
+    height: 16px;
+}
+
 .ingThumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    flex-shrink: 0;
+    border-radius: 15px;
     border: 1px solid var(--gray);
-    overflow: hidden;
-    background: #f3f3f3;
 }
 
 .ingThumb img {
-    width: 100%;
-    height: 100%;
+    width: 55px;
+    height: 55px;
     object-fit: cover;
     display: block;
 }
@@ -496,10 +500,6 @@
         margin-top: 40px;
     }
 
-    .ingCard {
-        gap: 14px;
-    }
-
     .counter {
         font-size: 16px;
     }
@@ -525,6 +525,27 @@
         font-size: 16px;
         line-height: 1.50;
         padding: 16px 39px;
+    }
+
+    .ingThumb {
+        padding: 15px;
+    }
+
+    .ingThumb img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .ingName {
+        font-size: 16px;
+    }
+
+    .ingSub {
+        font-size: 16px;
+    }
+
+    .ingCard {
+        gap: 14px;
     }
 }
 

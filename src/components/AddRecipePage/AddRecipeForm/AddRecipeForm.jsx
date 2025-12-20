@@ -506,52 +506,7 @@ export default function AddRecipeForm() {
                     className={styles.responsiveIconPlus}
                   />
                 </button>
-
-                {isFilled && (
-                  <div className={styles.ingCards}>
-                    <div className={styles.ingCard}>
-                      <button
-                        type="button"
-                        className={styles.cardX}
-                        aria-label="Remove ingredient"
-                      >
-                        ×
-                      </button>
-                      <div className={styles.ingThumb}>
-                        <img
-                          src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200&auto=format&fit=crop"
-                          alt=""
-                        />
-                      </div>
-                      <div className={styles.ingMeta}>
-                        <div className={styles.ingName}>Salmon</div>
-                        <div className={styles.ingSub}>400 g</div>
-                      </div>
-                    </div>
-
-                    <div className={styles.ingCard}>
-                      <button
-                        type="button"
-                        className={styles.cardX}
-                        aria-label="Remove ingredient"
-                      >
-                        ×
-                      </button>
-                      <div className={styles.ingThumb}>
-                        <img
-                          src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=200&auto=format&fit=crop"
-                          alt=""
-                        />
-                      </div>
-                      <div className={styles.ingMeta}>
-                        <div className={styles.ingName}>Avocado</div>
-                        <div className={styles.ingSub}>3</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {!isFilled && selectedIngredients.length > 0 && (
+                {selectedIngredients.length > 0 && (
                   <div className={styles.ingCards}>
                     {selectedIngredients.map((item) => (
                       <div className={styles.ingCard} key={item.name}>
@@ -569,7 +524,10 @@ export default function AddRecipeForm() {
                             })
                           }
                         >
-                          ×
+                          <Icon
+                            id="icon-close"
+                            className={styles.iconClose}
+                          />
                         </button>
                         <div className={styles.ingThumb}>
                           {item.img ? (
