@@ -10,7 +10,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-
   position: relative;
   padding-bottom: 24px;
 }
@@ -20,7 +19,6 @@
   position: absolute;
   left: 50%;
   bottom: 0;
-
   transform: translateX(-50%);
   width: 100vw;
   height: 1px;
