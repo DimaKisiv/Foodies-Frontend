@@ -40,8 +40,6 @@ const Footer = () => {
         </nav>
       </div>
 
-      <div className={styles.divider} />
-
       <p className={styles.copyright}>
         &copy; {currentYear}, Foodies. All rights reserved
       </p>
