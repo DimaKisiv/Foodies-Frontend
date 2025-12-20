@@ -108,7 +108,7 @@ const slice = createSlice({
       .addCase(addRecipeToFavorites.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         const ids = (payload?.favorites || [])
-          .map((x) => String(x))
+          .map((x) => String(x.id))
           .filter(Boolean);
 
         state.favoriteIds = ids;
@@ -125,7 +125,7 @@ const slice = createSlice({
       .addCase(deleteRecipeFromFavorites.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
         const ids = (payload?.favorites || [])
-          .map((x) => String(x))
+          .map((x) => String(x.id))
           .filter(Boolean);
 
         state.favoriteIds = ids;
