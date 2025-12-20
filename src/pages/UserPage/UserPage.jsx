@@ -17,8 +17,8 @@ import { UserInfo } from "../../components/UserPage/UserInfo/UserInfo";
 import { TabsList } from "../../components/UserPage/TabsList/TabsList";
 import { useEffect, useMemo, useState } from "react";
 import { useAuthModal } from "../../providers/useAuthModal";
-import MainTitle from "../../components/Shared/MainTitle/MainTitle.jsx";
-import Subtitle from "../../components/Shared/Subtitle/Subtitle.jsx";
+import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
+import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 import LogOutModal from "../../components/Modals/LogOutModal/LogOutModal.jsx";
 
 export default function UserPage() {

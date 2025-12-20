@@ -8,16 +8,17 @@ import {
   selectRecipeItems,
   selectRecipesStatus,
 } from "../../../redux/recipes/recipesSlice.js";
+import { clearRecipesList } from "../../../redux/recipes/recipesSlice.js";
 import { fetchIngredients } from "../../../redux/ingredients/ingredientsOperations.js";
 import { fetchAreas } from "../../../redux/areas/areasOperations.js";
 import { fetchRecipes } from "../../../redux/recipes/recipesOperations.js";
-import Icon from "../../../components/Shared/Icon/Icon.jsx";
-import Subtitle from "../../../components/Shared/Subtitle/Subtitle.jsx";
-import MainTitle from "../../../components/Shared/MainTitle/MainTitle.jsx";
+import Icon from "../../../components/shared/Icon/Icon.jsx";
+import Subtitle from "../../../components/shared/Subtitle/Subtitle.jsx";
+import MainTitle from "../../../components/shared/MainTitle/MainTitle.jsx";
 import RecipeFilters from "../../../components/HomePage/Recipes/RecipeFilters/RecipeFilters.jsx";
 import RecipeList from "../../../components/HomePage/Recipes/RecipeList/RecipeList.jsx";
-import Loader from "../../../components/Shared/Loader/Loader.jsx";
-import NoItemsFound from "../../../components/Shared/NoItemsFound/NoItemsFound.jsx";
+import Loader from "../../../components/shared/Loader/Loader.jsx";
+import NoItemsFound from "../../../components/shared/NoItemsFound/NoItemsFound.jsx";
 import css from "./Recipes.module.css";
 
 const Recipes = () => {
@@ -31,6 +32,7 @@ const Recipes = () => {
   const recipesRef = useRef(null);
 
   useEffect(() => {
+    dispatch(clearRecipesList(name));
     dispatch(fetchRecipes({ category: name }));
   }, [dispatch, name]);
 

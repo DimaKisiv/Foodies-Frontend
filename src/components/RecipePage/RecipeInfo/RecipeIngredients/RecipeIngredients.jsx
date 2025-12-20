@@ -1,4 +1,5 @@
 import styles from "../RecipeInfo.module.css";
+import foodPlaceholder from "../../../../assets/ingredient.png";
 
 export default function RecipeIngredients({ ingredients }) {
   return (
@@ -8,7 +9,16 @@ export default function RecipeIngredients({ ingredients }) {
         {ingredients.map((ingredient) => {
           return (
             <div key={ingredient.id} className={styles.ingredient}>
-              <img src={ingredient.img} width="55" height="55" />
+              <img
+                src={ingredient?.img || foodPlaceholder}
+                alt={ingredient?.name || "Ingredient"}
+                width="55"
+                height="55"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = foodPlaceholder;
+                }}
+              />
               <div>
                 <p className={styles["ingredient-name"]}>{ingredient.name}</p>
                 <p className={styles["ingredient-measure"]}>

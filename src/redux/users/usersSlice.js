@@ -24,6 +24,7 @@ const slice = createSlice({
     byIdError: {},
     followersByUserId: {}, // key: userId or 'me' -> { items, totalPages, status, error }
     followingByUserId: {}, // key: userId or 'me' -> { items, totalPages, status, error }
+    followRequestByUserId: {}, // map of userId -> 'idle'|'loading'|'succeeded'|'failed'
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -79,6 +80,7 @@ const slice = createSlice({
         state.byId = {};
         state.byIdStatus = {};
         state.byIdError = {};
+        state.followRequestByUserId = {};
       })
       // On logout, clear current user and all user-related caches
       .addCase(logout.fulfilled, (state) => {
@@ -189,8 +191,35 @@ const slice = createSlice({
         };
       })
       // Follow/Unfollow optimistic toggle in cached lists
+      .addCase(followUser.pending, (state, { meta }) => {
+        const uid = String(meta?.arg ?? "");
+        if (!uid) return;
+        state.followRequestByUserId[uid] = "loading";
+      })
       .addCase(followUser.fulfilled, (state, { payload }) => {
         const uid = payload.userId;
+        state.followRequestByUserId[uid] = "succeeded";
+        // Optimistically bump follower count for the followed user (UI convenience)
+        Object.values(state.byId).forEach((u) => {
+          if (String(u?.id ?? u?._id) === uid) {
+            u.followersCount = Number(u.followersCount || 0) + 1;
+          }
+        });
+        // Optimistically update my following list so button state flips immediately
+        const meKey = "me";
+        const meFollowing = state.followingByUserId[meKey];
+        if (meFollowing?.items) {
+          const exists = meFollowing.items.some(
+            (u) => String(u.id ?? u._id) === uid
+          );
+          if (!exists) {
+            const fromById = state.byId?.[uid];
+            meFollowing.items = [
+              ...(meFollowing.items || []),
+              fromById ? { ...fromById, isFollowing: true } : { id: uid, isFollowing: true },
+            ];
+          }
+        }
         // Mark user as followed in all followers/following lists
         Object.values(state.followersByUserId).forEach((entry) => {
           (entry.items || []).forEach((u) => {
@@ -208,8 +237,34 @@ const slice = createSlice({
             Number(state.current.followingCount || 0) + 1;
         }
       })
+      .addCase(followUser.rejected, (state, { payload, meta }) => {
+        const uid = payload?.userId ?? String(meta?.arg ?? "");
+        if (!uid) return;
+        state.followRequestByUserId[uid] = "failed";
+      })
+
+      .addCase(unfollowUser.pending, (state, { meta }) => {
+        const uid = String(meta?.arg ?? "");
+        if (!uid) return;
+        state.followRequestByUserId[uid] = "loading";
+      })
       .addCase(unfollowUser.fulfilled, (state, { payload }) => {
         const uid = payload.userId;
+        state.followRequestByUserId[uid] = "succeeded";
+        // Optimistically decrease follower count for the unfollowed user (clamped)
+        Object.values(state.byId).forEach((u) => {
+          if (String(u?.id ?? u?._id) === uid) {
+            u.followersCount = Math.max(0, Number(u.followersCount || 0) - 1);
+          }
+        });
+        // Optimistically update my following list so button state flips immediately
+        const meKey = "me";
+        const meFollowing = state.followingByUserId[meKey];
+        if (meFollowing?.items) {
+          meFollowing.items = (meFollowing.items || []).filter(
+            (u) => String(u.id ?? u._id) !== uid
+          );
+        }
         Object.values(state.followersByUserId).forEach((entry) => {
           (entry.items || []).forEach((u) => {
             if (String(u.id ?? u._id) === uid) u.isFollowing = false;
@@ -227,6 +282,11 @@ const slice = createSlice({
             Number(state.current.followingCount || 0) - 1
           );
         }
+      })
+      .addCase(unfollowUser.rejected, (state, { payload, meta }) => {
+        const uid = payload?.userId ?? String(meta?.arg ?? "");
+        if (!uid) return;
+        state.followRequestByUserId[uid] = "failed";
       });
   },
 });
@@ -239,6 +299,11 @@ export const selectUsersItems = (state) => state.users.items;
 export const selectCurrentUser = (state) => state.users.current;
 export const selectUsersStatus = (state) => state.users.status;
 export const selectUsersError = (state) => state.users.error;
+
+export const selectFollowRequestStatusFor =
+  (userId) =>
+  (state) =>
+    state.users.followRequestByUserId[String(userId)] || "idle";
 
 // Followers/Following selectors
 const emptyListState = {

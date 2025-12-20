@@ -12,7 +12,15 @@ export const register = createAsyncThunk(
       const { data } = await api.post("/auth/register", payload);
       const { token } = data;
       setAuthToken(token);
-      saveAuthToStorage({ ...data, token });
+      // Hydrate full current user immediately after auth
+      try {
+        const meRes = await api.get("/users/current");
+        const hydrated = { ...data, user: meRes.data, token };
+        saveAuthToStorage(hydrated);
+        return hydrated;
+      } catch {
+        saveAuthToStorage({ ...data, token });
+      }
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;
@@ -29,7 +37,15 @@ export const login = createAsyncThunk(
       const { data } = await api.post("/auth/login", payload);
       const { token } = data;
       setAuthToken(token);
-      saveAuthToStorage({ ...data, token });
+      // Hydrate full current user immediately after auth
+      try {
+        const meRes = await api.get("/users/current");
+        const hydrated = { ...data, user: meRes.data, token };
+        saveAuthToStorage(hydrated);
+        return hydrated;
+      } catch {
+        saveAuthToStorage({ ...data, token });
+      }
       return data;
     } catch (err) {
       const message = err.response?.data?.message || err.message;

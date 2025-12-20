@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router";
 import { fetchPopularRecipes } from "../../redux/recipes/recipesOperations";
 import { fetchCategories } from "../../redux/categories/categoriesOperations";
-import Loader from "../../components/Shared/Loader/Loader";
+import Loader from "../../components/shared/Loader/Loader";
 import Hero from "../../components/HomePage/Hero/Hero";
 import {
   selectTestimonialsItems,

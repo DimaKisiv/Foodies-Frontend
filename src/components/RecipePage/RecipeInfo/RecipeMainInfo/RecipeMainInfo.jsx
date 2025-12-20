@@ -1,5 +1,6 @@
 import styles from "../RecipeInfo.module.css";
 import { useNavigate } from "react-router-dom";
+import profilePlaceholder from "../../../../assets/profile.png";
 
 export default function RecipeMainInfo({ recipe, owner }) {
   const navigate = useNavigate();
@@ -29,7 +30,15 @@ export default function RecipeMainInfo({ recipe, owner }) {
 const RecipeAuthor = ({ author, onClick }) => {
   return (
     <button className={styles.author} onClick={onClick}>
-      <img className={styles["author-avatar"]} src={author.avatar} />
+      <img
+        className={styles["author-avatar"]}
+        src={author?.avatar || author?.avatarURL || profilePlaceholder}
+        alt={author?.name || "Author"}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = profilePlaceholder;
+        }}
+      />
       <div className={styles["author-name-layout"]}>
         <p className={styles["author-created-by-text"]}>Created by:</p>
         <p className={styles["author-name"]}>{author.name}</p>
