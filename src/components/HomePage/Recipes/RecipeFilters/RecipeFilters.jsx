@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRecipesCategory } from "../../../../redux/recipes/recipesSlice.js";
 import { selectIngredientsItems, selectIngredientsStatus } from "../../../../redux/ingredients/ingredientsSlice.js";
@@ -8,6 +8,7 @@ import Select from "../../../shared/Select/Select.jsx";
 import css from "./RecipeFilters.module.css";
 
 const RecipeFilters = () => {
+  const [ currentCategory, setCurrentCategory ] = useState("");
   const [ currentIngredient, setCurrentIngredient ] = useState("");
   const [ currentArea, setCurrentArea ] = useState("");
   const ingredientsId = useId();
@@ -24,20 +25,26 @@ const RecipeFilters = () => {
     dispatch(fetchRecipes({
       ingredientIds: value,
       area: currentArea,
-      category: category,
+      category: currentCategory,
       page: 1
     }));
   }
 
   const handleAreasChange = ({ name }) => {
-    setCurrentArea(name);
+    setCurrentArea(name ?? "");
     dispatch(fetchRecipes({
       ingredientIds: currentIngredient,
-      area: name,
-      category: category,
+      area: name ?? "",
+      category: currentCategory,
       page: 1
     }));
   }
+
+  useEffect(() => {
+    if (category && currentCategory !== category) {
+      setCurrentCategory(category);
+    }
+  }, [category, currentCategory]);
 
   return (
     <div className={css.container}>
