@@ -33,10 +33,8 @@ function App() {
             <Suspense fallback={<Loader />}>
               <Routes>
                 <Route element={<SharedLayout />}>
-                  <Route path="/" element={<HomePage />}>
-                    <Route index element={<Categories />} />
-                    <Route path="categories/:name" element={<Recipes />} />
-                  </Route>
+                  {/* Home page now handles category via query string (?category=Name) */}
+                  <Route path="/" element={<HomePage />} />
                   <Route path="/recipe/:id" element={<RecipePage />} />
                   <Route path="/recipe/add" element={<AddRecipePage />} />
                   {/* Own profile (all four tabs) */}

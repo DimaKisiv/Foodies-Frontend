@@ -1,5 +1,5 @@
 // src/pages/UserPage/MyFavoritesPage/MyFavoritesPage.jsx
-import { useEffect, useMemo } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ListItems } from "../../../components/UserPage/ListItems/ListItems";
@@ -10,7 +10,7 @@ import {
 } from "../../../redux/recipes/recipesOperations";
 import {
   selectFavoritesRecipes,
-  selectRecipesLimit,
+  selectFavoritesTotalPages,
   selectRecipesStatus,
   selectRecipesError,
 } from "../../../redux/recipes/recipesSlice";
@@ -22,38 +22,65 @@ const FAVORITES_PER_PAGE = 9;
 export default function MyFavoritesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const favorites = useSelector(selectFavoritesRecipes) || [];
-  const recipesLimit = useSelector(selectRecipesLimit);
+
+  const favoritesPageItems = useSelector(selectFavoritesRecipes) || [];
+  const favoritesTotalPages = useSelector(selectFavoritesTotalPages) || 1;
   const status = useSelector(selectRecipesStatus);
   const error = useSelector(selectRecipesError);
-  const perPage =
-    recipesLimit === FAVORITES_PER_PAGE ? recipesLimit : FAVORITES_PER_PAGE;
+
   const { page, totalPages, onPageChange, setSectionTotalPages, setPage } =
     useSectionPagination();
 
+  const loadFavoritesPage = useCallback(
+    async (p) => {
+      const res = await dispatch(
+        fetchFavoritesRecipes({ page: p, limit: FAVORITES_PER_PAGE })
+      ).unwrap();
+      const tp =
+        Number(res?.totalPages || res?.total_pages) ||
+        (res?.total && res?.limit
+          ? Math.max(1, Math.ceil(Number(res.total) / Number(res.limit)))
+          : 1);
+
+      setSectionTotalPages(tp || 1);
+      if (p > (tp || 1)) {
+        setPage(tp || 1);
+      }
+
+      return res;
+    },
+    [dispatch, setPage, setSectionTotalPages]
+  );
+
   useEffect(() => {
-    dispatch(fetchFavoritesRecipes()).catch(() => {});
-  }, [dispatch]);
-
-  const computedTotalPages = useMemo(() => {
-    const total = favorites.length;
-    return Math.max(1, Math.ceil(total / perPage));
-  }, [favorites.length, perPage]);
-
+    loadFavoritesPage(page).catch(() => {});
+  }, [loadFavoritesPage, page]);
   useEffect(() => {
-    setSectionTotalPages(computedTotalPages);
-    if (page > computedTotalPages) setPage(computedTotalPages);
-  }, [computedTotalPages, page, setPage, setSectionTotalPages]);
+    setSectionTotalPages(Number(favoritesTotalPages || 1));
+    if (page > Number(favoritesTotalPages || 1)) {
+      setPage(Number(favoritesTotalPages || 1));
+    }
+  }, [favoritesTotalPages, page, setPage, setSectionTotalPages]);
 
-  const pagedItems = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return favorites.slice(start, start + perPage);
-  }, [favorites, page, perPage]);
+  const handleDelete = async (recipe) => {
+    const id = recipe?.id || recipe?._id;
+    if (!id) return;
+
+    try {
+      await dispatch(deleteRecipeFromFavorites(id)).unwrap();
+      const res = await loadFavoritesPage(page);
+      if ((res?.items || []).length === 0 && page > 1) {
+        setPage(page - 1);
+      }
+    } catch {
+      // помилки — через існуючу обробку
+    }
+  };
 
   return (
     <div className={styles.wrap}>
       <ListItems
-        items={pagedItems}
+        items={favoritesPageItems}
         isLoading={status === "loading"}
         error={error}
         page={page}
@@ -66,11 +93,7 @@ export default function MyFavoritesPage() {
               const id = recipe?.id || recipe?._id;
               if (id) navigate(`/recipe/${id}`);
             }}
-            onDelete={() => {
-              const id = recipe?.id || recipe?._id;
-              if (!id) return;
-              dispatch(deleteRecipeFromFavorites(id)).catch(() => {});
-            }}
+            onDelete={() => handleDelete(recipe)}
           />
         )}
       />

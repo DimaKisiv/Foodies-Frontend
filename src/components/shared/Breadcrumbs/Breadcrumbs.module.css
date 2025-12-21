@@ -1,0 +1,22 @@
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style-type: none;
+}
+
+.breadcrumbs-item {
+    text-transform: uppercase;
+    color: #050505;
+}
+
+
+.breadcrumbs-item a {
+    color: #BFBEBE;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.breadcrumbs-separator {
+    color: #BFBEBE;
+}
