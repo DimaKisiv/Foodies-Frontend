@@ -1,4 +1,3 @@
-// src/pages/UserPage/TabsList/TabsList.jsx
 import { NavLink, useParams, useLocation } from "react-router-dom";
 import styles from "./TabsList.module.css";
 

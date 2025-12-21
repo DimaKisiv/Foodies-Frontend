@@ -1,4 +1,3 @@
-// src/pages/UserPage/ListItems/ListItems.jsx
 import styles from "./ListItems.module.css";
 import { ListPagination } from "../ListPagination/ListPagination";
 import Loader from "../../shared/Loader/Loader";

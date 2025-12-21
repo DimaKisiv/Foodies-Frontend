@@ -1,4 +1,3 @@
-// src/pages/UserPage/UserPage.jsx
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import styles from "./UserPage.module.css";
 
