@@ -12,6 +12,7 @@ import {
   fetchRecipeById,
 } from "../../redux/recipes/recipesOperations";
 import styles from "./RecipePage.module.css";
+import "../../index.css";
 import RecipeInfo from "../../components/RecipePage/RecipeInfo/RecipeInfo";
 import { useParams } from "react-router";
 import PopularRecipes from "../../components/RecipePage/PopularRecipes/PopularRecipes";
@@ -33,7 +34,7 @@ const RecipePage = () => {
   }, [dispatch, id, isAuth]);
 
   return (
-    <section className={styles["recipe-page"]}>
+    <section className={styles["recipe-page"] + " " + "container"}>
       {status === "loading" && <Loader />}
       {recipe != null && <RecipeInfo recipe={recipe} />}
       <PopularRecipes />
