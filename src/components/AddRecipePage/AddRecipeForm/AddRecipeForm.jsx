@@ -210,6 +210,8 @@ export default function AddRecipeForm() {
                       className={styles.previewImg}
                       src={thumbPreview}
                       alt="Recipe preview"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
 
@@ -254,6 +256,8 @@ export default function AddRecipeForm() {
                         "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1400&auto=format&fit=crop"
                       }
                       alt="Recipe preview"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
 
@@ -531,7 +535,7 @@ export default function AddRecipeForm() {
                         </button>
                         <div className={styles.ingThumb}>
                           {item.img ? (
-                            <img src={item.img} alt={item.name}/>
+                            <img src={item.img} alt={item.name} loading="lazy" decoding="async"/>
                           ) : (
                             <div
                               style={{

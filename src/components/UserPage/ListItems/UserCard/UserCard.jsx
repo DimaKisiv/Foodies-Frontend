@@ -43,6 +43,8 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
             <img
               src={avatar || profilePlaceholder}
               alt={name || "Avatar"}
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = profilePlaceholder;
@@ -74,6 +76,8 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
             <img
               src={r?.thumb || foodPlaceholder}
               alt={name ? `${name} recipe` : "Recipe"}
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = foodPlaceholder;

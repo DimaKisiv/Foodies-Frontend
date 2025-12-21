@@ -34,6 +34,8 @@ const RecipeInfo = ({ recipe }) => {
         className={styles.thumb}
         src={recipe?.thumb || foodPlaceholder}
         alt={recipe?.title || "Recipe"}
+        loading="lazy"
+        decoding="async"
         onError={(e) => {
           e.currentTarget.onerror = null;
           e.currentTarget.src = foodPlaceholder;

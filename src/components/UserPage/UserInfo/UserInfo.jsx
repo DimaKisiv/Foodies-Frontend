@@ -94,6 +94,8 @@ export function UserInfo({
           <img
             src={avatarUrl || profilePlaceholder}
             alt={name || "Avatar"}
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = profilePlaceholder;

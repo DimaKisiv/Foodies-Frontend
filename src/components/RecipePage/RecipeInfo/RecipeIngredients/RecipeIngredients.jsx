@@ -14,6 +14,8 @@ export default function RecipeIngredients({ ingredients }) {
                 alt={ingredient?.name || "Ingredient"}
                 width="55"
                 height="55"
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.src = foodPlaceholder;
