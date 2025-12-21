@@ -1,8 +1,8 @@
 // src/components/UserPage/ListItems/RecipePreview/RecipePreview.jsx
-import Icon from "../../../Shared/Icon/Icon";
+import Icon from "@/components/Shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
-import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage";
+import ResponsiveImage from "@/components/Shared/ResponsiveImage/ResponsiveImage";
 import foodPlaceholder from "../../../../assets/food.png";
 
 export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
