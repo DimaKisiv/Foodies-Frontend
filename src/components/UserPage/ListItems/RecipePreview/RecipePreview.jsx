@@ -15,7 +15,7 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
     <article className={styles.item}>
       <div className={styles.left}>
         {to ? (
-          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          <Link to={to} className={styles.link}>
             <div className={styles.thumb}>
               {imgSrc ? (
                 <ResponsiveImage
@@ -46,7 +46,7 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
 
         <div className={styles.text}>
           {to ? (
-            <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+            <Link to={to} className={styles.link}>
               <h4 className={styles.name} title={title}>
                 {title}
               </h4>

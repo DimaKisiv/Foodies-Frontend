@@ -330,7 +330,7 @@ export default function AddRecipeForm() {
 
               {/* CATEGORY + TIME */}
               <div className={styles.row2}>
-                <div className={styles.field} style={{ flexGrow: 1 }}>
+                <div className={`${styles.field} ${styles.grow}`}>
                   <label className={styles.label}>CATEGORY</label>
                   <div className={styles.selectWrap}>
                     <Field
@@ -417,12 +417,7 @@ export default function AddRecipeForm() {
 
               {/* AREA */}
               <div className={styles.field}>
-                <label
-                  className={styles.label}
-                  style={{ fontSize: "20px", marginBottom: "16px" }}
-                >
-                  AREA
-                </label>
+                <label className={styles.label}>AREA</label>
                 <div className={styles.selectWrap}>
                   <Field
                     as="select"
@@ -548,14 +543,7 @@ export default function AddRecipeForm() {
                               decoding="async"
                             />
                           ) : (
-                            <div
-                              style={{
-                                width: 40,
-                                height: 40,
-                                background: "#eee",
-                                borderRadius: 8,
-                              }}
-                            />
+                            <div className={styles.thumbPlaceholder} />
                           )}
                           {touched.ingredients && errors.ingredients && (
                             <div className={styles.errorMsg}>

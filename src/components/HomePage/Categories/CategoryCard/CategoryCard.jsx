@@ -10,11 +10,7 @@ const CategoryCard = ({ category, className = "" }) => {
   const to = `/?category=${encodeURIComponent(category.name)}`;
 
   return (
-    <Link
-      to={to}
-      style={{ display: "contents", color: "inherit", textDecoration: "none" }}
-      aria-label={category.name}
-    >
+    <Link to={to} className={styles.link} aria-label={category.name}>
       <div className={`${styles.card} ${className}`}>
         <ResponsiveImage
           src={imageSrc}
@@ -24,19 +20,12 @@ const CategoryCard = ({ category, className = "" }) => {
         />
         <div className={styles.content}>
           <h3 className={`${styles.text} ${className}`}>{category.name}</h3>
-          <span
-            className={`${styles.button} ${className}`}
-            aria-hidden="true"
-            style={{ color: "#ffffff", textDecoration: "none" }}
-          >
+          <span className={`${styles.button} ${className}`} aria-hidden="true">
             <Icon
               id="icon-arrow-up-right"
               width={18}
               height={18}
-              style={{
-                transform: "scale(1.08)",
-                filter: "drop-shadow(0 0 0 currentColor)",
-              }}
+              className={styles.icon}
             />
           </span>
         </div>

@@ -19,11 +19,7 @@ const RecipeCard = ({
     <div className={css.container}>
       <Link
         to={to}
-        style={{
-          display: "contents",
-          color: "inherit",
-          textDecoration: "none",
-        }}
+        className={css.linkContents}
         aria-label={recipe?.title || "Recipe"}
       >
         <div className={css.image}>
@@ -73,7 +69,7 @@ const RecipeCard = ({
 
           <Link
             to={to}
-            style={{ color: "inherit", textDecoration: "none" }}
+            className={css.link}
             onClick={(e) => {
               if (
                 e.button === 0 &&

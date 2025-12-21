@@ -88,3 +88,9 @@
   cursor: pointer;
   justify-self: end;
 }
+
+/* Inline link styles moved to a class */
+.link {
+  color: inherit;
+  text-decoration: none;
+}
