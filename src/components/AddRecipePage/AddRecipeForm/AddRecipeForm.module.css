@@ -572,10 +572,6 @@
     grid-template-columns: 1fr;
   }
 
-  .left {
-    justify-content: flex-start;
-  }
-
   .uploader,
   .previewBlock,
   .previewFrame {
