@@ -38,11 +38,13 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
   return (
     <article className={styles.card}>
       <div className={styles.left}>
-        <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+        <Link to={to} className={styles.link}>
           <div className={styles.avatar}>
             <img
               src={avatar || profilePlaceholder}
               alt={name || "Avatar"}
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = profilePlaceholder;
@@ -52,7 +54,7 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
         </Link>
 
         <div className={styles.info}>
-          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          <Link to={to} className={styles.link}>
             <div className={styles.name}>{name}</div>
           </Link>
           <div className={styles.meta}>Own recipes: {recipes}</div>
@@ -74,6 +76,8 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
             <img
               src={r?.thumb || foodPlaceholder}
               alt={name ? `${name} recipe` : "Recipe"}
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = foodPlaceholder;
@@ -95,9 +99,8 @@ export function UserCard({ user, isFollowing, onToggleFollow, onOpen }) {
       ) : (
         <Link
           to={to}
-          className={styles.openBtn}
+          className={`${styles.openBtn} ${styles.link}`}
           title="Open"
-          style={{ color: "inherit", textDecoration: "none" }}
         >
           ↗
         </Link>

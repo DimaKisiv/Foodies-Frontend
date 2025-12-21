@@ -4,6 +4,14 @@
     gap: 14px;
 }
 
-.ingredients {}
+@media screen and (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+}
 
-.areas {}
+@media screen and (min-width: 1440px) {
+    .container {
+        flex-direction: column;
+    }
+}

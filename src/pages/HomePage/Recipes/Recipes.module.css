@@ -1,4 +1,7 @@
-.container {}
+.container {
+    margin-top: 56px;
+    padding: 0;
+}
 
 .backBtn {
     display: flex;
@@ -25,7 +28,30 @@
 }
 
 .content {
-    position: relative;
     display: flex;
-    gap: 40px;
+    flex-direction: column;
+    gap: 32px;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        margin-top: 100px;
+        padding: 0 16px;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .container {
+        margin-top: 120px;
+        padding: 0 80px;
+    }
+
+    .content {
+        flex-direction: row;
+    }
 }

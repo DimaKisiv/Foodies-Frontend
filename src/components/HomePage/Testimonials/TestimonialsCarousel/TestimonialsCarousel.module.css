@@ -3,18 +3,24 @@
     flex-direction: column;
 }
 
-.quotes {
+.quotesContainer {
+    align-self: flex-start;
     padding-left: 16px;
+}
+
+.quotes {
     width: 40px;
     height: 32px;
     color: #bfbebe;
 }
 
-@media screen and (min-width: 768px) {}
 
-@media screen and (min-width: 1440px) {
-    .quotes {
+@media screen and (min-width: 768px) {
+    .quotesContainer {
         padding-left: 32px;
+    }
+
+    .quotes {
         width: 59px;
         height: 48px;
     }

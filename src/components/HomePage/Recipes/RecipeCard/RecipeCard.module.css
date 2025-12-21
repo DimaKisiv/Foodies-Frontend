@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 16px;
 }
 
@@ -29,8 +30,8 @@
     -webkit-box-orient: vertical;
     line-clamp: 1;
     font-weight: 800;
-    font-size: 20px;
-    line-height: 1.2;
+    font-size: 18px;
+    line-height: 1.35;
     letter-spacing: var(--letter-spacing-base);
     text-transform: uppercase;
 }
@@ -42,7 +43,7 @@
     -webkit-box-orient: vertical;
     line-clamp: 2;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.5;
     letter-spacing: var(--letter-spacing-base);
 }
@@ -99,4 +100,28 @@
 .iconArrow {
     width: 18px;
     height: 18px;
+}
+
+/* Inline styles moved to CSS classes */
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.linkContents {
+  display: contents;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 768px) {
+    .title h4 {
+        font-size: 20px;
+        line-height: 1.2;
+    }
+
+    .title p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
 }

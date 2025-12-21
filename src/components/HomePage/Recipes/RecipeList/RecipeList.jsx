@@ -18,8 +18,7 @@ import RecipeCard from "../RecipeCard/RecipeCard.jsx";
 import css from "./RecipeList.module.css";
 
 const RecipeList = ({ sectionRef }) => {
-  const [currentId, setCurrentId] = useState(null);
-
+  const [ currentId, setCurrentId ] = useState(null);
   const { openSignIn } = useAuthModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,30 +28,28 @@ const RecipeList = ({ sectionRef }) => {
   const recipes = useSelector(selectRecipeItems) || [];
   const favoriteIds = useSelector(selectFavoriteIds) || [];
 
-  const isLoading = (id) =>
-    String(currentId) === String(id) && recipesStatus === "loading";
+  const isLoading = (id) => {
+    return String(currentId) === String(id) && recipesStatus === "loading";
+  }
 
-  const isFavorite = (id) => favoriteIds.includes(String(id));
+  const isFavorite = (id) => {
+    return favoriteIds.includes(String(id));
+  }
 
   const favoriteHandler = async (id) => {
     if (!isUserSignedIn) {
       openSignIn();
       return;
     }
-
     setCurrentId(id);
-    try {
-      if (isFavorite(id)) {
-        await dispatch(deleteRecipeFromFavorites(id)).unwrap();
-      } else {
-        await dispatch(addRecipeToFavorites(id)).unwrap();
-      }
-    } finally {
-      setCurrentId(null);
-    }
-  };
+    isFavorite(id)
+      ? dispatch(deleteRecipeFromFavorites(id))
+      : dispatch(addRecipeToFavorites(id));
+  }
 
-  const detailsHandler = (id) => navigate(`/recipe/${id}`);
+  const detailsHandler = (id) => {
+    navigate(`/recipe/${id}`);
+  }
 
   const authorHandler = (id) => {
     if (!isUserSignedIn) {
@@ -60,33 +57,34 @@ const RecipeList = ({ sectionRef }) => {
       return;
     }
     navigate(`/user/${id}`);
-  };
+  }
 
   useEffect(() => {
     if (isUserSignedIn) {
-      dispatch(fetchFavoriteIds()).catch(() => {});
+      dispatch(fetchFavoriteIds());
     }
   }, [dispatch, isUserSignedIn]);
 
   return (
     <div className={css.container}>
-      <div className={css.list}>
+      <ul className={css.list}>
         {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            isLoading={isLoading(recipe.id)}
-            isFavorite={isFavorite(recipe.id)}
-            onFavoriteClick={favoriteHandler}
-            onDetailsClick={detailsHandler}
-            onAuthorClick={authorHandler}
-          />
+          <li>
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              isLoading={isLoading(recipe.id)}
+              isFavorite={isFavorite(recipe.id)}
+              onFavoriteClick={favoriteHandler}
+              onDetailsClick={detailsHandler}
+              onAuthorClick={authorHandler}
+            />
+          </li>
         ))}
-      </div>
-
+      </ul>
       <RecipePagination sectionRef={sectionRef} />
     </div>
   );
-};
+}
 
 export default RecipeList;

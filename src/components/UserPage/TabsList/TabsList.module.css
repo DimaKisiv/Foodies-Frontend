@@ -9,8 +9,10 @@
   padding-bottom: 14px;
   overflow-x: auto;
   overflow-y: hidden;
-  /* Allow vertical panning to bubble so the page can scroll on mobile */
-  touch-action: pan-y;
+  /* Enable horizontal scrolling on touch devices */
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge legacy */
 }
