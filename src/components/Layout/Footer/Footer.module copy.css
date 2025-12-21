@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  overflow: visible;
 }
 
 .topRow {
@@ -10,22 +9,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  position: relative;
-  padding-bottom: 24px;
-}
-
-.topRow::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 1px;
-  background-color: var(--gray);
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
   font-weight: 800;
   font-size: 20px;
   line-height: 1.2;
@@ -50,6 +41,15 @@
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.divider {
+  width: 100vw;
+  height: 1px;
+  background-color: var(--gray);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .copyright {
