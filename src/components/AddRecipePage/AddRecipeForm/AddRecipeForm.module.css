@@ -265,6 +265,10 @@
   gap: 20px;
 }
 
+.ingredientSelectWrap {
+    flex-grow: 1;
+}
+
 .qty {
   min-width: 200px;
   border: none;
