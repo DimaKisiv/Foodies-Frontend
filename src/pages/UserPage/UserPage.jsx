@@ -20,6 +20,7 @@ import { useAuthModal } from "../../providers/useAuthModal";
 import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
 import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 import LogOutModal from "../../components/Modals/LogOutModal/LogOutModal.jsx";
+import Breadcrumbs from "../../components/shared/Breadcrumbs/Breadcrumbs.jsx";
 
 export default function UserPage() {
   const { id } = useParams();
@@ -86,6 +87,7 @@ export default function UserPage() {
     <>
       <div className={styles.page}>
         <div className={styles.header}>
+          <Breadcrumbs />
           <MainTitle>PROFILE</MainTitle>
           <Subtitle maxWidth={560}>
             Reveal your culinary art, share your favorite recipe and create
