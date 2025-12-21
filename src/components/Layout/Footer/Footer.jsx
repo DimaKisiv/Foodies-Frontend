@@ -7,7 +7,7 @@ const currentYear = new Date().getFullYear();
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <div className={styles.topRow}>
+      <div className={styles["footer-header"]}>
         <Link to="/" className={styles.logo}>
           foodies
         </Link>
@@ -39,8 +39,6 @@ const Footer = () => {
           />
         </nav>
       </div>
-
-      <div className={styles.divider} />
 
       <p className={styles.copyright}>
         &copy; {currentYear}, Foodies. All rights reserved
