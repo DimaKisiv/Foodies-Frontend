@@ -2,7 +2,7 @@
 import Icon from "../../../shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
-import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
+import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage";
 import foodPlaceholder from "../../../../assets/food.png";
 
 export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
