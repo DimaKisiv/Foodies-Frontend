@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CategoryCard from "../CategoryCard/CategoryCard.jsx";
 import styles from "./CategoryList.module.css";
 
+
 const DESKTOP_WIDE_CATEGORIES = [2, 3, 7, 9];
 const TABLET_WIDE_CATEGORIES = [2, 7];
 const TABLET_BREAKPOINT = 768;
@@ -30,7 +31,7 @@ const CategoryList = ({ categories }) => {
     : DESKTOP_WIDE_CATEGORIES;
 
   return (
-    <ul className={styles.gridContainer}>
+    <ul className={`${styles.gridContainer} container`}>
       {(showAll ? categories : categories.slice(0, 11)).map((category, i) => {
         const layoutClass = currentWideCategories.includes(i)
           ? styles.wideCard
