@@ -1,9 +1,9 @@
 // src/components/UserPage/ListItems/RecipePreview/RecipePreview.jsx
-import Icon from "@/components/Shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
-import ResponsiveImage from "@/components/Shared/ResponsiveImage/ResponsiveImage";
 import foodPlaceholder from "../../../../assets/food.png";
+import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage";
+import Icon from "../../../shared/Icon/Icon";
 
 export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
   const title = recipe?.title || "Untitled recipe";
