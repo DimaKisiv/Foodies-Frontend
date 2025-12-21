@@ -7,13 +7,14 @@ import {
   selectCategoriesItems,
   selectCategoriesStatus,
 } from "../../../redux/categories/categoriesSlice.js";
+import css from "./Categories.module.css";
 
 const Categories = () => {
   const categories = useSelector(selectCategoriesItems);
   const categoriesStatus = useSelector(selectCategoriesStatus);
 
   return (
-    <section>
+    <section className={css.container}>
       <MainTitle>Categories</MainTitle>
       <Subtitle maxWidth={531}>
         Discover a limitless world of culinary possibilities and enjoy exquisite
