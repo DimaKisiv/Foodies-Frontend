@@ -41,11 +41,9 @@ const CategoryList = ({ categories }) => {
           </li>
         );
       })}
-      <li className={styles.card}>
         <button className={styles.card} onClick={() => setShowAll(!showAll)}>
           {showAll ? "Show less" : "All Categories"}
         </button>
-      </li>
     </ul>
   );
 };
