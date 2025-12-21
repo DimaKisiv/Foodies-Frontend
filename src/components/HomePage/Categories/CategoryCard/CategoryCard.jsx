@@ -1,7 +1,7 @@
 import { getCategoryImage } from "../../../../utils/categoryImages.js";
 import { Link } from "react-router-dom";
 import Icon from "../../../shared/Icon/Icon.jsx";
-import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
+import ResponsiveImage from "../../../shared/ResponsiveImage/ResponsiveImage.jsx";
 import styles from "./CategoryCard.module.css";
 import foodPlaceholder from "../../../../assets/food.png";
 

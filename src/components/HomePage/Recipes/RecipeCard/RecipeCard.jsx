@@ -3,7 +3,7 @@ import RoundButton from "../../../shared/Button/RoundButton/RoundButton.jsx";
 import { Link } from "react-router-dom";
 import css from "./RecipeCard.module.css";
 import foodPlaceholder from "../../../../assets/food.png";
-import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
+import ResponsiveImage from "../../../shared/ResponsiveImage/ResponsiveImage.jsx";
 
 const RecipeCard = ({
   recipe,
