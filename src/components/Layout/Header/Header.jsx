@@ -12,7 +12,7 @@ import {
 import { selectCurrentUser } from "../../../redux/users/usersSlice";
 import Icon from "../../shared/Icon/Icon.jsx";
 import profilePlaceholder from "../../../assets/profile.png";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 function Header() {
   const buildLinkClass = ({ isActive }) => {
     return clsx(
@@ -33,10 +33,9 @@ function Header() {
 
   return (
     <>
-      <header className={clsx(
-          css["header"],
-          !isHomePage && css["header--white"],
-      )}>
+      <header
+        className={clsx(css["header"], !isHomePage && css["header--white"])}
+      >
         <NavLink to="/" className={css.logo}>
           foodies
         </NavLink>
@@ -71,6 +70,8 @@ function Header() {
                   src={user?.avatar || user?.avatarURL || profilePlaceholder}
                   alt={user?.name || "Avatar"}
                   aria-hidden={!user?.name}
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = profilePlaceholder;

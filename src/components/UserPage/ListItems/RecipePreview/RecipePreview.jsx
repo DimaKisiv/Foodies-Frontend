@@ -1,7 +1,9 @@
 // src/components/UserPage/ListItems/RecipePreview/RecipePreview.jsx
-import Icon from "../../../shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
+import foodPlaceholder from "../../../../assets/food.png";
+import ResponsiveImage from "../../../shared/ResponsiveImage/ResponsiveImage";
+import Icon from "../../../shared/Icon/Icon";
 
 export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
   const title = recipe?.title || "Untitled recipe";
@@ -13,10 +15,15 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
     <article className={styles.item}>
       <div className={styles.left}>
         {to ? (
-          <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+          <Link to={to} className={styles.link}>
             <div className={styles.thumb}>
               {imgSrc ? (
-                <img className={styles.img} src={imgSrc} alt={title} />
+                <ResponsiveImage
+                  className={styles.img}
+                  src={imgSrc}
+                  fallbackSrc={foodPlaceholder}
+                  alt={title}
+                />
               ) : (
                 <div className={styles.imgFallback} aria-hidden="true" />
               )}
@@ -25,7 +32,12 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
         ) : (
           <div className={styles.thumb}>
             {imgSrc ? (
-              <img className={styles.img} src={imgSrc} alt={title} />
+              <ResponsiveImage
+                className={styles.img}
+                src={imgSrc}
+                fallbackSrc={foodPlaceholder}
+                alt={title}
+              />
             ) : (
               <div className={styles.imgFallback} aria-hidden="true" />
             )}
@@ -34,7 +46,7 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
 
         <div className={styles.text}>
           {to ? (
-            <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
+            <Link to={to} className={styles.link}>
               <h4 className={styles.name} title={title}>
                 {title}
               </h4>

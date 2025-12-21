@@ -34,6 +34,8 @@ const RecipeAuthor = ({ author, onClick }) => {
         className={styles["author-avatar"]}
         src={author?.avatar || author?.avatarURL || profilePlaceholder}
         alt={author?.name || "Author"}
+        loading="lazy"
+        decoding="async"
         onError={(e) => {
           e.currentTarget.onerror = null;
           e.currentTarget.src = profilePlaceholder;

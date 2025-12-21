@@ -20,7 +20,44 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, a, button {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+button {
   margin: 0;
   padding: 0;
+}
+
+/* Global list reset: remove default bullets and spacing */
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Common container for pages */
+.container {
+  margin: 32px auto;
+  max-width: 343px;
+  min-width: 320px;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .container {
+    margin: 40px auto;
+    max-width: 704px;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+  }
 }

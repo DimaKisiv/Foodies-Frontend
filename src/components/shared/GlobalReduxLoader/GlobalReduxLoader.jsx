@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
+import styles from "./GlobalReduxLoader.module.css";
 
 const GlobalReduxLoader = () => {
   const isGlobalLoading = useSelector((state) =>
@@ -10,9 +11,7 @@ const GlobalReduxLoader = () => {
   );
   if (!isGlobalLoading) return null;
   return (
-    <div
-      style={{ position: "fixed", top: "1rem", right: "1rem", zIndex: 1000 }}
-    >
+    <div className={styles.container}>
       <Loader />
     </div>
   );
