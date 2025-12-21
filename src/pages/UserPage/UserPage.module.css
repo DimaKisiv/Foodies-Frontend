@@ -40,8 +40,8 @@
   }
 }
 
-/* ≤ 768px (tablet) */
-@media (max-width: 768px) {
+/* Tablet: 768–1439px */
+@media (min-width: 768px) and (max-width: 1439px) {
   .page {
     grid-template-columns: 1fr;
     gap: 18px;
@@ -51,8 +51,26 @@
     margin-bottom: 4px;
   }
   .left {
-    position: static; /* disable sticky on small screens */
     top: auto;
+    width: 394px; /* requested tablet width */
+    margin: 0 auto; /* center user info on tablet */
+  }
+}
+
+/* Mobile: ≤767px — single column, tabs below */
+@media (max-width: 767px) {
+  .page {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 14px;
+  }
+  .header {
+    margin-bottom: 4px;
+  }
+  .left {
+    position: static;
+    top: auto;
+    width: 100%;
   }
 }
 
