@@ -1,6 +1,7 @@
 import { getCategoryImage } from "../../../../utils/categoryImages.js";
 import { Link } from "react-router-dom";
 import Icon from "../../../shared/Icon/Icon.jsx";
+import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
 import styles from "./CategoryCard.module.css";
 import foodPlaceholder from "../../../../assets/food.png";
 
@@ -15,14 +16,11 @@ const CategoryCard = ({ category, className = "" }) => {
       aria-label={category.name}
     >
       <div className={`${styles.card} ${className}`}>
-        <img
-          src={imageSrc || foodPlaceholder}
+        <ResponsiveImage
+          src={imageSrc}
+          fallbackSrc={foodPlaceholder}
           alt={category.name}
           className={styles.image}
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = foodPlaceholder;
-          }}
         />
         <div className={styles.content}>
           <h3 className={`${styles.text} ${className}`}>{category.name}</h3>

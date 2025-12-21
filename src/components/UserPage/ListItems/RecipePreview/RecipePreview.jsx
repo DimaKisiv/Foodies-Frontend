@@ -2,6 +2,8 @@
 import Icon from "../../../shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
+import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
+import foodPlaceholder from "../../../../assets/food.png";
 
 export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
   const title = recipe?.title || "Untitled recipe";
@@ -16,7 +18,12 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
           <Link to={to} style={{ color: "inherit", textDecoration: "none" }}>
             <div className={styles.thumb}>
               {imgSrc ? (
-                <img className={styles.img} src={imgSrc} alt={title} />
+                <ResponsiveImage
+                  className={styles.img}
+                  src={imgSrc}
+                  fallbackSrc={foodPlaceholder}
+                  alt={title}
+                />
               ) : (
                 <div className={styles.imgFallback} aria-hidden="true" />
               )}
@@ -25,7 +32,12 @@ export const RecipePreview = ({ recipe, onOpen, onDelete }) => {
         ) : (
           <div className={styles.thumb}>
             {imgSrc ? (
-              <img className={styles.img} src={imgSrc} alt={title} />
+              <ResponsiveImage
+                className={styles.img}
+                src={imgSrc}
+                fallbackSrc={foodPlaceholder}
+                alt={title}
+              />
             ) : (
               <div className={styles.imgFallback} aria-hidden="true" />
             )}

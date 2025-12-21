@@ -3,6 +3,7 @@ import RoundButton from "../../../shared/Button/RoundButton/RoundButton.jsx";
 import { Link } from "react-router-dom";
 import css from "./RecipeCard.module.css";
 import foodPlaceholder from "../../../../assets/food.png";
+import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage.jsx";
 
 const RecipeCard = ({
   recipe,
@@ -18,17 +19,18 @@ const RecipeCard = ({
     <div className={css.container}>
       <Link
         to={to}
-        style={{ display: "contents", color: "inherit", textDecoration: "none" }}
+        style={{
+          display: "contents",
+          color: "inherit",
+          textDecoration: "none",
+        }}
         aria-label={recipe?.title || "Recipe"}
       >
         <div className={css.image}>
-          <img
-            src={recipe?.thumb || foodPlaceholder}
+          <ResponsiveImage
+            src={recipe?.thumb}
+            fallbackSrc={foodPlaceholder}
             alt={recipe?.title || "Recipe"}
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = foodPlaceholder;
-            }}
           />
         </div>
         <div className={css.title}>
@@ -46,7 +48,10 @@ const RecipeCard = ({
               onAuthorClick(recipe.owner.id);
             }}
           >
-            <AvatarButton image={recipe.owner.avatar} name={recipe.owner.name} />
+            <AvatarButton
+              image={recipe.owner.avatar}
+              name={recipe.owner.name}
+            />
           </div>
           <span>{recipe.owner.name}</span>
         </div>
@@ -70,7 +75,13 @@ const RecipeCard = ({
             to={to}
             style={{ color: "inherit", textDecoration: "none" }}
             onClick={(e) => {
-              if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+              if (
+                e.button === 0 &&
+                !e.metaKey &&
+                !e.ctrlKey &&
+                !e.shiftKey &&
+                !e.altKey
+              ) {
                 e.preventDefault();
                 onDetailsClick(recipe.id);
               }
