@@ -1,5 +1,5 @@
 // src/components/UserPage/ListItems/RecipePreview/RecipePreview.jsx
-import Icon from "../../../shared/Icon/Icon";
+import Icon from "../../../Shared/Icon/Icon";
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
 import ResponsiveImage from "../../../Shared/ResponsiveImage/ResponsiveImage";
