@@ -40,7 +40,6 @@ export default function AddRecipeForm() {
   const ingredients = useSelector(selectIngredientsItems);
   const ingredientsStatus = useSelector(selectIngredientsStatus);
 
-
   useEffect(() => {
     if (categoriesStatus === "idle") dispatch(fetchCategories());
     if (areasStatus === "idle") dispatch(fetchAreas());
@@ -80,11 +79,11 @@ export default function AddRecipeForm() {
       (i) => i.name === displayName || i.id === id
     );
     if (isDuplicate) {
-      toast.error("Ingredient already added", {id: "ingredient-dup"});
+      toast.error("Ingredient already added", { id: "ingredient-dup" });
       return;
     }
     setSelectedIngredients((prev) => {
-      const next = [...prev, {id, name: displayName, qty, img}];
+      const next = [...prev, { id, name: displayName, qty, img }];
       setFieldValue("ingredients", next);
       if (setFieldError) setFieldError("ingredients", undefined);
       return next;
@@ -113,7 +112,6 @@ export default function AddRecipeForm() {
     if (thumbPreview) URL.revokeObjectURL(thumbPreview);
     setThumbPreview(null);
   };
-
 
   const ValidationSchema = Yup.object({
     title: Yup.string().trim().required("Title is required"),
@@ -153,7 +151,7 @@ export default function AddRecipeForm() {
         validationSchema={ValidationSchema}
         onSubmit={async (
           values,
-          {setSubmitting, resetForm, setFieldError, setTouched}
+          { setSubmitting, resetForm, setFieldError, setTouched }
         ) => {
           try {
             if (selectedIngredients.length < 1) {
@@ -161,7 +159,7 @@ export default function AddRecipeForm() {
                 id: "recipe-ingredients",
               });
               setFieldError("ingredients", "Add at least one ingredient");
-              setTouched({...setTouched.touched, ingredients: true});
+              setTouched({ ...setTouched.touched, ingredients: true });
               setSubmitting(false);
               return;
             }
@@ -179,7 +177,7 @@ export default function AddRecipeForm() {
             form.append("ingredients", JSON.stringify(ingredientsPayload));
             if (values.thumb) form.append("thumb", values.thumb);
 
-            const {data} = await api.post("/recipes", form);
+            const { data } = await api.post("/recipes", form);
             toast.success("Recipe created");
             clearThumb();
             setSelectedIngredients([]);
@@ -199,7 +197,14 @@ export default function AddRecipeForm() {
           }
         }}
       >
-        {({errors, touched, setFieldValue, values, setFieldError, setFieldTouched}) => (
+        {({
+          errors,
+          touched,
+          setFieldValue,
+          values,
+          setFieldError,
+          setFieldTouched,
+        }) => (
           <Form className={styles.form}>
             {/* LEFT */}
             <div className={styles.left}>
@@ -236,10 +241,10 @@ export default function AddRecipeForm() {
                       accept="image/*"
                       onChange={(e) => handleThumbChange(e, setFieldValue)}
                     />
-                      <Icon
-                        id="icon-camera-capture"
-                        className={styles.responsiveIconUpload}
-                      />
+                    <Icon
+                      id="icon-camera-capture"
+                      className={styles.responsiveIconUpload}
+                    />
                     <span className={styles.uploadLink}>Upload a photo</span>
                   </label>
                   {touched.thumb && errors.thumb && (
@@ -306,16 +311,16 @@ export default function AddRecipeForm() {
                   <span className={styles.counter}>
                     <span
                       className={
-                        (values.description && values.description.length > 0)
+                        values.description && values.description.length > 0
                           ? styles.textBlack
                           : styles.textGray
                       }
                     >
-                      {isFilled ? "45" : String(values.description?.length || 0)}
+                      {isFilled
+                        ? "45"
+                        : String(values.description?.length || 0)}
                     </span>
-                    <span className={styles.textGray}>
-                      /200
-                    </span>
+                    <span className={styles.textGray}>/200</span>
                   </span>
                   {touched.description && errors.description && (
                     <div className={styles.errorMsg}>{errors.description}</div>
@@ -325,14 +330,16 @@ export default function AddRecipeForm() {
 
               {/* CATEGORY + TIME */}
               <div className={styles.row2}>
-                <div className={styles.field} style={{ flexGrow: 1}}>
+                <div className={styles.field} style={{ flexGrow: 1 }}>
                   <label className={styles.label}>CATEGORY</label>
                   <div className={styles.selectWrap}>
                     <Field
                       as="select"
                       name="category"
                       className={`${styles.select} ${
-                        touched.category && errors.category ? styles.invalid : ""
+                        touched.category && errors.category
+                          ? styles.invalid
+                          : ""
                       } ${!values.category ? styles.placeholderColor : ""}`}
                     >
                       <option value="" disabled>
@@ -410,7 +417,12 @@ export default function AddRecipeForm() {
 
               {/* AREA */}
               <div className={styles.field}>
-                <label className={styles.label} style={{ fontSize: "20px", marginBottom: "16px" }}>AREA</label>
+                <label
+                  className={styles.label}
+                  style={{ fontSize: "20px", marginBottom: "16px" }}
+                >
+                  AREA
+                </label>
                 <div className={styles.selectWrap}>
                   <Field
                     as="select"
@@ -496,7 +508,7 @@ export default function AddRecipeForm() {
                     handleAddSelectedIngredient(
                       selectedIngredient,
                       setFieldValue,
-                      setFieldError,
+                      setFieldError
                     );
                     // Keep selection if validation fails; cleared inside handler on success
                     if (ingredientQty.trim()) {
@@ -505,10 +517,7 @@ export default function AddRecipeForm() {
                   }}
                 >
                   ADD INGREDIENT
-                  <Icon
-                    id="icon-plus"
-                    className={styles.responsiveIconPlus}
-                  />
+                  <Icon id="icon-plus" className={styles.responsiveIconPlus} />
                 </button>
                 {selectedIngredients.length > 0 && (
                   <div className={styles.ingCards}>
@@ -528,14 +537,16 @@ export default function AddRecipeForm() {
                             })
                           }
                         >
-                          <Icon
-                            id="icon-close"
-                            className={styles.iconClose}
-                          />
+                          <Icon id="icon-close" className={styles.iconClose} />
                         </button>
                         <div className={styles.ingThumb}>
                           {item.img ? (
-                            <img src={item.img} alt={item.name} loading="lazy" decoding="async"/>
+                            <img
+                              src={item.img}
+                              alt={item.name}
+                              loading="lazy"
+                              decoding="async"
+                            />
                           ) : (
                             <div
                               style={{
@@ -580,16 +591,16 @@ export default function AddRecipeForm() {
                   <span className={styles.counter}>
                     <span
                       className={
-                        (values.instructions && values.instructions.length > 0)
+                        values.instructions && values.instructions.length > 0
                           ? styles.textBlack
                           : styles.textGray
                       }
                     >
-                    {isFilled ? "108" : String(values.instructions?.length || 0)}
+                      {isFilled
+                        ? "108"
+                        : String(values.instructions?.length || 0)}
                     </span>
-                    <span className={styles.textGray}>
-                      /1000
-                    </span>
+                    <span className={styles.textGray}>/1000</span>
                   </span>
                   {touched.instructions && errors.instructions && (
                     <div className={styles.errorMsg}>{errors.instructions}</div>
@@ -618,11 +629,8 @@ export default function AddRecipeForm() {
                     setFieldValue("thumb", null);
                   }}
                 >
-                  <Icon
-                    id="icon-trash"
-                    className={styles.trashIcon}
-                  />
-                  </button>
+                  <Icon id="icon-trash" className={styles.trashIcon} />
+                </button>
                 <button type="submit" className={styles.publishBtn}>
                   PUBLISH
                 </button>
@@ -633,6 +641,6 @@ export default function AddRecipeForm() {
       </Formik>
     </div>
   ) : (
-    <Navigate to="/" replace/>
+    <Navigate to="/" replace />
   );
 }
