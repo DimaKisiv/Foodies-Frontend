@@ -76,7 +76,8 @@ const RecipeList = ({ sectionRef }) => {
               onFavoriteClick={favoriteHandler}
               onDetailsClick={detailsHandler}
               onAuthorClick={authorHandler}
-            />)
+            />
+          )
         )}
       </div>
       <RecipePagination sectionRef={sectionRef} />
