@@ -25,9 +25,15 @@ import * as Yup from "yup";
 import Icon from "../../shared/Icon/Icon.jsx";
 import ResponsiveImage from "../../shared/ResponsiveImage/ResponsiveImage.jsx";
 import foodPlaceholder from "../../../assets/food.png";
+import { useId } from "react";
+import Select from "../../shared/Select/Select.jsx";
 
 export default function AddRecipeForm() {
   const isAuth = useSelector(selectIsAuthenticated);
+
+  const categoryId = useId();
+  const areaId = useId();
+  const ingredientId = useId();
 
   // toggle to preview empty/filled UI
   const isFilled = false;
@@ -335,38 +341,14 @@ export default function AddRecipeForm() {
               {/* CATEGORY + TIME */}
               <div className={styles.row2}>
                 <div className={`${styles.field} ${styles.grow}`}>
-                  <label className={styles.label}>CATEGORY</label>
-                  <div className={styles.selectWrap}>
-                    <Field
-                      as="select"
-                      name="category"
-                      className={`${styles.select} ${
-                        touched.category && errors.category
-                          ? styles.invalid
-                          : ""
-                      } ${!values.category ? styles.placeholderColor : ""}`}
-                    >
-                      <option value="" disabled>
-                        {categoriesStatus === "loading"
-                          ? "Loading categories..."
-                          : "Select a category"}
-                      </option>
-                      {categoryOptions.map((c) => (
-                        <option
-                          key={c.id ?? c._id ?? c.name}
-                          value={c.name ?? c.title ?? c.id}
-                        >
-                          {c.name ?? c.title ?? String(c.id)}
-                        </option>
-                      ))}
-                    </Field>
-                    <Icon
-                      id="icon-chevron-down"
-                      className={styles.chev}
-                      width={18}
-                      height={18}
-                    />
-                  </div>
+                  <label className={styles.label} htmlFor={categoryId}>CATEGORY</label>
+                  <Select
+                    id={categoryId}
+                    name="Category"
+                    options={categoryOptions}
+                    isLoading={categoriesStatus === "loading"}
+                    onChange={(option) => setFieldValue("category", option.name || option.value)}
+                  />
                   {touched.category && errors.category && (
                     <div className={styles.errorMsg}>{errors.category}</div>
                   )}
@@ -421,34 +403,14 @@ export default function AddRecipeForm() {
 
               {/* AREA */}
               <div className={styles.field}>
-                <label className={styles.label}>AREA</label>
-                <div className={styles.selectWrap}>
-                  <Field
-                    as="select"
-                    name="area"
-                    className={`${styles.select} ${
-                      touched.area && errors.area ? styles.invalid : ""
-                    } ${!values.area ? styles.placeholderColor : ""}`}
-                  >
-                    <option value="" disabled>
-                      {areasStatus === "loading" ? "Loading areas..." : "Area"}
-                    </option>
-                    {areaOptions.map((a) => (
-                      <option
-                        key={a.id ?? a._id ?? a.name}
-                        value={a.name ?? a.title ?? a.id}
-                      >
-                        {a.name ?? a.title ?? String(a.id)}
-                      </option>
-                    ))}
-                  </Field>
-                  <Icon
-                    id="icon-chevron-down"
-                    className={styles.chev}
-                    width={18}
-                    height={18}
-                  />
-                </div>
+                <label className={styles.label} htmlFor={areaId}>AREA</label>
+                <Select
+                  id={areaId}
+                  name="Area"
+                  options={areaOptions}
+                  isLoading={areasStatus === "loading"}
+                  onChange={(option) => setFieldValue("area", option.name || option.value)}
+                />
                 {touched.area && errors.area && (
                   <div className={styles.errorMsg}>{errors.area}</div>
                 )}
@@ -457,40 +419,18 @@ export default function AddRecipeForm() {
               {/* INGREDIENTS */}
               <div className={styles.field}>
                 <label className={styles.label}>INGREDIENTS</label>
-
                 <div className={styles.ingRow}>
-                  <div className={styles.selectWrap}>
-                    <select
-                      className={`${styles.select} ${
-                        touched.ingredients && errors.ingredients
-                          ? styles.invalid
-                          : ""
-                      } ${!selectedIngredient ? styles.placeholderColor : ""}`}
-                      value={selectedIngredient}
-                      onChange={(e) => setSelectedIngredient(e.target.value)}
-                    >
-                      <option value="" disabled>
-                        {ingredientsStatus === "loading"
-                          ? "Loading ingredients..."
-                          : "Add the ingredient"}
-                      </option>
-                      {ingredientOptions.map((ing) => (
-                        <option
-                          key={ing.id ?? ing._id ?? ing.name}
-                          value={ing.name ?? ing.title ?? ing.id}
-                        >
-                          {ing.name ?? ing.title ?? String(ing.id)}
-                        </option>
-                      ))}
-                    </select>
-                    <Icon
-                      id="icon-chevron-down"
-                      className={styles.chev}
-                      width={18}
-                      height={18}
+                  <div className={styles.ingredientSelectWrap}>
+                    <Select
+                      id={ingredientId}
+                      name="Add the ingredient"
+                      options={ingredientOptions}
+                      isLoading={ingredientsStatus === "loading"}
+                      onChange={(option) => {
+                      setSelectedIngredient(option.name || option.title || option.id);
+                      }}
                     />
                   </div>
-
                   <input
                     className={styles.qty}
                     type="text"
@@ -499,7 +439,6 @@ export default function AddRecipeForm() {
                     onChange={(e) => setIngredientQty(e.target.value)}
                   />
                 </div>
-
                 <button
                   type="button"
                   className={styles.addBtn}

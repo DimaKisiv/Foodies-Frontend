@@ -20,6 +20,16 @@ function Header() {
       isActive && css["header-nav-link--active"]
     );
   };
+  const [isShowMobileMenu, setIsShowMobileMenu] = useState(false);
+
+  const onShowMobileMenu = () => {
+    setIsShowMobileMenu(true);
+  };
+
+  const onHideMobileMenu = () => {
+    setIsShowMobileMenu(false);
+  };
+
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -60,61 +70,70 @@ function Header() {
         </nav>
 
         {isAuthenticated && user ? (
-          <div
-            className={css["header-profile"]}
-            onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
-          >
-            <div className={css["header-profile-action"]}>
-              <div className={css["header-profile-img"]}>
-                <img
-                  src={user?.avatar || user?.avatarURL || profilePlaceholder}
-                  alt={user?.name || "Avatar"}
-                  aria-hidden={!user?.name}
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = profilePlaceholder;
-                  }}
-                />
+            <>
+              <div
+                  className={css["header-profile"]}
+                  onClick={() => setOpenProfileDropdown(!openProfileDropdown)}
+              >
+                <div className={css["header-profile-action"]}>
+                  <div className={css["header-profile-img"]}>
+                    <img
+                        src={user?.avatar || user?.avatarURL || profilePlaceholder}
+                        alt={user?.name || "Avatar"}
+                        aria-hidden={!user?.name}
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = profilePlaceholder;
+                        }}
+                    />
+                  </div>
+
+                  <p className={css["header-profile-name"]}>{user.name}</p>
+
+                  <button className={css["header-profile-arrow"]}>
+                    <Icon
+                        id="icon-chevron-down"
+                        className={`${openProfileDropdown ? css["arrow__up"] : ""}`}
+                        width={18}
+                        height={18}
+                        aria-hidden="true"
+                    />
+                  </button>
+                </div>
+
+                {openProfileDropdown && (
+                    <div className={css["header-profile-content"]}>
+                      <NavLink
+                          to="/user"
+                          className={css["header-profile-content__item"]}
+                      >
+                        Profile
+                      </NavLink>
+                      <button
+                          className={css["header-profile-content__item"]}
+                          onClick={() => LogOutModalSetOpen(true)}
+                      >
+                        <span>Log Out</span>
+                        <Icon
+                            id="icon-arrow-up-right"
+                            width={18}
+                            height={18}
+                            aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+                )}
               </div>
 
-              <p className={css["header-profile-name"]}>{user.name}</p>
-
-              <button className={css["header-profile-arrow"]}>
-                <Icon
-                  id="icon-chevron-down"
-                  className={`${openProfileDropdown ? css["arrow__up"] : ""}`}
-                  width={18}
-                  height={18}
-                  aria-hidden="true"
-                />
+              <button className={css["burger"]} onClick={onShowMobileMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
               </button>
-            </div>
-
-            {openProfileDropdown && (
-              <div className={css["header-profile-content"]}>
-                <NavLink
-                  to="/user"
-                  className={css["header-profile-content__item"]}
-                >
-                  Profile
-                </NavLink>
-                <button
-                  className={css["header-profile-content__item"]}
-                  onClick={() => LogOutModalSetOpen(true)}
-                >
-                  <span>Log Out</span>
-                  <Icon
-                    id="icon-arrow-up-right"
-                    width={18}
-                    height={18}
-                    aria-hidden="true"
-                  />
-                </button>
-              </div>
-            )}
-          </div>
+            </>
         ) : (
           <div
             className={clsx(
@@ -134,6 +153,45 @@ function Header() {
         isOpen={LogOutModalOpen}
         onClose={() => LogOutModalSetOpen(false)}
       ></LogOutModal>
+
+      <div className={clsx(css["mobile-menu"], { [css.active]: isShowMobileMenu })}>
+        <div className={css["mobile-menu-header"]} onClick={onHideMobileMenu}>
+          <NavLink to="/" className={css.logo}>
+            foodies
+          </NavLink>
+
+          <button className={css["mobile-menu-close-btn"]} onClick={onHideMobileMenu}>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <nav className={css["mobile-menu-nav"]}>
+          <NavLink to="/" className={buildLinkClass} onClick={onHideMobileMenu}>
+            Home
+          </NavLink>
+
+          <NavLink
+              to="/recipe/add"
+              className={buildLinkClass}
+              onClick={(e) => {
+                if (!isAuthenticated) {
+                  e.preventDefault();
+                  openSignIn();
+                }
+                onHideMobileMenu()
+              }}
+          >
+            Add Recipe
+          </NavLink>
+        </nav>
+
+        <div className={css["mobile-menu-decors"]}>
+          <div className={css["mobile-menu-decors-img-1"]}></div>
+          <div className={css["mobile-menu-decors-img-2"]}></div>
+        </div>
+
+      </div>
     </>
   );
 }

@@ -1,7 +1,6 @@
 .page {
   min-height: 100vh;
   background: #fff;
-  padding: 48px 56px;
 }
 
 .form {
@@ -264,6 +263,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.ingredientSelectWrap {
+    flex-grow: 1;
 }
 
 .qty {
@@ -581,5 +584,165 @@
 
   .ingRow {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile refinements: tighter spacing and smaller elements */
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .form {
+    gap: 24px;
+  }
+
+  .left {
+    justify-content: center;
+  }
+
+  .uploader {
+    height: 240px;
+    border: 1px dashed #bfbebe;
+    border-radius: 30px;
+  }
+
+  .previewBlock {
+    width: 100%;
+  }
+
+  .previewFrame {
+    height: 240px;
+    border-radius: 30px;
+  }
+
+  .responsiveIconUpload {
+    width: 50px;
+    height: 50px;
+  }
+
+  .uploadLink {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+
+  .block {
+    margin-bottom: 24px;
+  }
+
+  .titleInput {
+    font-size: 16px;
+  }
+
+  .titleInput::placeholder {
+    font-size: 16px;
+  }
+
+  .textareaWrap {
+    margin-top: 24px;
+  }
+
+  .desc {
+    padding-right: 80px;
+    font-size: 14px;
+  }
+
+  .prep {
+    font-size: 14px;
+    padding: 10px 80px 14px 0;
+    min-height: 120px;
+  }
+
+  .counter {
+    right: 16px;
+    top: 4px;
+    font-size: 14px;
+  }
+
+  .row2 {
+    gap: 16px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .label {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .selectWrap {
+    width: 100%;
+  }
+
+  .select {
+    height: 48px;
+    padding: 0 40px 0 18px;
+    font-size: 14px;
+  }
+
+  .chev {
+    right: 16px;
+  }
+
+  .timeControl {
+    gap: 12px;
+  }
+
+  .circleBtn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .timeValue {
+    min-width: 64px;
+    font-size: 14px;
+  }
+
+  .ingRow {
+    gap: 16px;
+  }
+
+  .qty {
+    font-size: 14px;
+  }
+
+  .addBtn {
+    width: 186px;
+    margin-top: 24px;
+    margin-bottom: 48px;
+    font-size: 12px;
+    padding: 12px 20px;
+  }
+
+  .ingCards {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .ingThumb img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .ingName,
+  .ingSub {
+    font-size: 14px;
+  }
+
+  .actions {
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .trashBtn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .publishBtn {
+    padding: 14px 32px;
+    font-size: 14px;
   }
 }
