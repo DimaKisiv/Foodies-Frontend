@@ -42,7 +42,10 @@ const CategoryList = ({ categories }) => {
         );
       })}
       <li className={styles.card}>
-        <button className={styles.card} onClick={() => setShowAll(!showAll)}>
+        <button
+          className={styles.showAll}
+          onClick={() => setShowAll(!showAll)}
+        >
           {showAll ? "Show less" : "All Categories"}
         </button>
       </li>
