@@ -31,7 +31,7 @@ const CategoryList = ({ categories }) => {
     : DESKTOP_WIDE_CATEGORIES;
 
   return (
-    <ul className={`${styles.gridContainer} container`}>
+    <ul className={styles.gridContainer}>
       {(showAll ? categories : categories.slice(0, 11)).map((category, i) => {
         const layoutClass = currentWideCategories.includes(i)
           ? styles.wideCard
