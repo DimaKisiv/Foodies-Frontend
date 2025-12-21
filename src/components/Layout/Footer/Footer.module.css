@@ -1,14 +1,17 @@
 .footer {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  justify-self: center;
+  width: 100%;
+  max-width: 1400px;
 }
 
-.topRow {
+.footer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  padding: 0 16px 40px 16px;
+  border-bottom: 1px solid var(--gray);
 }
 
 .logo {
@@ -59,9 +62,14 @@
   letter-spacing: -0.02em;
   text-align: center;
   color: var(--color-text-secondary);
+  padding: 40px 0;
 }
 
 @media (min-width: 768px) {
+  .footer-header {
+    padding: 0 32px 40px 32px;
+  }
+
   .logo {
     font-size: 24px;
     line-height: 1.17;
@@ -70,5 +78,12 @@
   .copyright {
     font-size: 16px;
     line-height: 1.5;
+  }
+}
+
+
+@media screen and (min-width: 1440px) {
+  .footer-header {
+    padding: 0 80px 40px 80px;
   }
 }
