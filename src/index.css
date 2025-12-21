@@ -45,19 +45,18 @@ ol {
 /* Common container for pages */
 .container {
   margin: 32px auto;
-  max-width: 343px;
+  max-width: 325px;
   min-width: 320px;
 }
-
 
 @media only screen and (min-width: 768px) {
   .container {
     margin: 40px auto;
-    max-width: 704px;
+    max-width: 768px;
   }
 }
 @media only screen and (min-width: 1440px) {
   .container {
-    max-width: 1280px;
+    max-width: 1440px;
   }
 }

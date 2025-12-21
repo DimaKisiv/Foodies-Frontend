@@ -23,6 +23,8 @@ import {
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Icon from "../../shared/Icon/Icon.jsx";
+import ResponsiveImage from "../../shared/ResponsiveImage/ResponsiveImage.jsx";
+import foodPlaceholder from "../../../assets/food.png";
 
 export default function AddRecipeForm() {
   const isAuth = useSelector(selectIsAuthenticated);
@@ -211,9 +213,10 @@ export default function AddRecipeForm() {
               {!isFilled && thumbPreview ? (
                 <div className={styles.previewBlock}>
                   <div className={styles.previewFrame}>
-                    <img
+                    <ResponsiveImage
                       className={styles.previewImg}
                       src={thumbPreview}
+                      fallbackSrc={foodPlaceholder}
                       alt="Recipe preview"
                       loading="lazy"
                       decoding="async"
@@ -254,12 +257,13 @@ export default function AddRecipeForm() {
               ) : (
                 <div className={styles.previewBlock}>
                   <div className={styles.previewFrame}>
-                    <img
+                    <ResponsiveImage
                       className={styles.previewImg}
                       src={
                         thumbPreview ||
                         "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1400&auto=format&fit=crop"
                       }
+                      fallbackSrc={foodPlaceholder}
                       alt="Recipe preview"
                       loading="lazy"
                       decoding="async"

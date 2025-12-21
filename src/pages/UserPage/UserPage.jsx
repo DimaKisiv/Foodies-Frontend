@@ -85,39 +85,41 @@ export default function UserPage() {
 
   return (
     <>
-      <div className={styles.page}>
-        <div className={styles.header}>
-          <Breadcrumbs />
-          <MainTitle>PROFILE</MainTitle>
-          <Subtitle maxWidth={560}>
-            Reveal your culinary art, share your favorite recipe and create
-            gastronomic masterpieces with us.
-          </Subtitle>
-        </div>
-        <aside className={styles.left}>
-          {isOwnProfile ? (
-            <UserInfo
-              user={authUser}
-              mode="own"
-              onLogout={() => setIsLogoutOpen(true)}
-            />
-          ) : (
-            <UserInfo
-              user={otherUser}
-              mode="other"
-              isFollowing={isFollowingOther}
-              onToggleFollow={onToggleFollow}
-            />
-          )}
-        </aside>
-
-        <main className={styles.right}>
-          <TabsList />
-          <div className={styles.content}>
-            <Outlet />
+      <section className={"container"}>
+        <div className={styles.page}>
+          <div className={styles.header}>
+            <Breadcrumbs />
+            <MainTitle>PROFILE</MainTitle>
+            <Subtitle maxWidth={560}>
+              Reveal your culinary art, share your favorite recipe and create
+              gastronomic masterpieces with us.
+            </Subtitle>
           </div>
-        </main>
-      </div>
+          <aside className={styles.left}>
+            {isOwnProfile ? (
+              <UserInfo
+                user={authUser}
+                mode="own"
+                onLogout={() => setIsLogoutOpen(true)}
+              />
+            ) : (
+              <UserInfo
+                user={otherUser}
+                mode="other"
+                isFollowing={isFollowingOther}
+                onToggleFollow={onToggleFollow}
+              />
+            )}
+          </aside>
+
+          <main className={styles.right}>
+            <TabsList />
+            <div className={styles.content}>
+              <Outlet />
+            </div>
+          </main>
+        </div>
+      </section>
       <LogOutModal
         isOpen={isLogoutOpen}
         onClose={() => setIsLogoutOpen(false)}

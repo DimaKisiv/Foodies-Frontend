@@ -2,10 +2,11 @@ import AddRecipeForm from "../../components/AddRecipePage/AddRecipeForm/AddRecip
 import MainTitle from "../../components/shared/MainTitle/MainTitle.jsx";
 import Subtitle from "../../components/shared/Subtitle/Subtitle.jsx";
 import Breadcrumbs from "../../components/shared/Breadcrumbs/Breadcrumbs.jsx";
+import styles from "./AddRecipePage.module.css";
 
 const AddRecipePage = () => {
   return (
-    <section>
+    <section className={styles["add-recipe-page"] + " " + "container"}>
       <Breadcrumbs />
       <MainTitle>ADD RECIPE</MainTitle>
       <Subtitle maxWidth={560}>
