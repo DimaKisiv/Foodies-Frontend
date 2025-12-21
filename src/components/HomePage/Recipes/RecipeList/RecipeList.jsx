@@ -67,19 +67,21 @@ const RecipeList = ({ sectionRef }) => {
 
   return (
     <div className={css.container}>
-      <div className={css.list}>
+      <ul className={css.list}>
         {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            isLoading={isLoading(recipe.id)}
-            isFavorite={isFavorite(recipe.id)}
-            onFavoriteClick={favoriteHandler}
-            onDetailsClick={detailsHandler}
-            onAuthorClick={authorHandler}
-          />
+          <li>
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              isLoading={isLoading(recipe.id)}
+              isFavorite={isFavorite(recipe.id)}
+              onFavoriteClick={favoriteHandler}
+              onDetailsClick={detailsHandler}
+              onAuthorClick={authorHandler}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
       <RecipePagination sectionRef={sectionRef} />
     </div>
   );

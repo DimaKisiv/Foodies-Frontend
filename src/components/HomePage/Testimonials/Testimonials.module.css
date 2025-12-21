@@ -1,15 +1,26 @@
-.testimonials {
+.container {
     display: flex;
     justify-content: center;
+    margin-top: 56px;
 }
 
-.testimonialsWrapper {
+.wrapper {
     width: 100%;
     text-align: center;
 }
 
+@media screen and (min-width: 768px) {
+    .container {
+        margin-top: 100px;
+    }
+}
+
 @media screen and (min-width: 1440px) {
-    .testimonialsWrapper {
+    .container {
+        margin-top: 120px;
+    }
+
+    .wrapper {
         width: 822px;
     }
 }

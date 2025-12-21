@@ -11,8 +11,8 @@ const Testimonials = () => {
   const testimonialsStatus = useSelector(selectTestimonialsStatus);
 
   return (
-    <section className={css.testimonials}>
-      <div className={css.testimonialsWrapper}>
+    <section className={css.container}>
+      <div className={css.wrapper}>
         <Subtitle>What our customer say</Subtitle>
         <MainTitle>Testimonials</MainTitle>
         {testimonialsStatus === "loading" && <Loader/>}
