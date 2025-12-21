@@ -1,4 +1,3 @@
-// src/components/UserPage/ListItems/RecipePreview/RecipePreview.jsx
 import { Link } from "react-router-dom";
 import styles from "./RecipePreview.module.css";
 import foodPlaceholder from "../../../../assets/food.png";

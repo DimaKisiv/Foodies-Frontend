@@ -1,6 +1,7 @@
 .container {
-    margin-top: 56px;
-    padding: 0;
+    margin: 56px auto 0;
+    max-width: 375px;
+    padding: 0 8px;
 }
 
 .backBtn {
@@ -37,6 +38,7 @@
     .container {
         margin-top: 100px;
         padding: 0 16px;
+        max-width: 768px;
     }
 
     .content {
@@ -49,6 +51,7 @@
     .container {
         margin-top: 120px;
         padding: 0 80px;
+        max-width: 1440px;
     }
 
     .content {
