@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CategoryCard from "../CategoryCard/CategoryCard.jsx";
 import styles from "./CategoryList.module.css";
 
+
 const DESKTOP_WIDE_CATEGORIES = [2, 3, 7, 9];
 const TABLET_WIDE_CATEGORIES = [2, 7];
 const TABLET_BREAKPOINT = 768;
@@ -41,11 +42,9 @@ const CategoryList = ({ categories }) => {
           </li>
         );
       })}
-      <li className={styles.card}>
         <button className={styles.card} onClick={() => setShowAll(!showAll)}>
           {showAll ? "Show less" : "All Categories"}
         </button>
-      </li>
     </ul>
   );
 };
