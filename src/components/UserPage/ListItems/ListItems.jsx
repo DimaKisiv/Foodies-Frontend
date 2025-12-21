@@ -29,16 +29,16 @@ export function ListItems({
         <div className={styles.state}>No items yet.</div>
       ) : null}
 
-      <div className={styles.list}>
+      <ul className={styles.list}>
         {items.map((item) => (
-          <div
+          <li
             key={item.id ?? item._id ?? JSON.stringify(item)}
             className={styles.row}
           >
             {renderItem?.(item)}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className={styles.pagination}>
         <ListPagination
