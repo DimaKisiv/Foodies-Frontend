@@ -1,0 +1,15 @@
+.testimonials {
+    display: flex;
+    justify-content: center;
+}
+
+.testimonialsWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+@media screen and (min-width: 1440px) {
+    .testimonialsWrapper {
+        width: 822px;
+    }
+}

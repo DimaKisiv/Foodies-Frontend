@@ -1,3 +1,7 @@
+.slick-dots {
+    position: static;
+}
+
 .slick-dots li button:before {
     font-size: 16px;
 }
