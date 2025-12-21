@@ -1,4 +1,3 @@
-// src/pages/UserPage/UserInfo/UserInfo.jsx
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
 import { selectCurrentUser } from "../../../redux/users/usersSlice";

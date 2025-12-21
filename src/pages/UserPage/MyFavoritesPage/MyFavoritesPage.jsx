@@ -1,4 +1,3 @@
-// src/pages/UserPage/MyFavoritesPage/MyFavoritesPage.jsx
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

@@ -1,4 +1,3 @@
-// src/pages/UserPage/ListItems/UserCard/UserCard.jsx
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./UserCard.module.css";
