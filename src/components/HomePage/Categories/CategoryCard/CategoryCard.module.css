@@ -42,12 +42,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: none;
   color: rgba(255, 255, 255, 1);
   transition: background 0.6s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 11px;
   cursor: pointer;
   pointer-events: none;
   text-decoration: none;
