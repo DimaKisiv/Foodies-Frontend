@@ -14,7 +14,7 @@ const Select = ({ id, name, options, onChange, isLoading = false, label = "" }) 
   }
 
   return (
-    <div className={css.wrapper}>
+    <div className={css.container}>
       {label && <label htmlFor={id}>{label}</label>}
       <select
         className={css.select}

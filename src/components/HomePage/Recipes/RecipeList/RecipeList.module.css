@@ -7,5 +7,6 @@
 .list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 16px;
+    column-gap: 20px;
+    row-gap: 40px;
 }
