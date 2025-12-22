@@ -2,3 +2,9 @@
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (min-width: 1440px) {
+    .add-recipe-page {
+        padding: 0 40px;
+    }
+}
