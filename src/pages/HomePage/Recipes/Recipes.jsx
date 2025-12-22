@@ -33,6 +33,7 @@ const Recipes = () => {
   const recipesRef = useRef(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (name) {
       dispatch(clearRecipesList(name));
       dispatch(fetchRecipes({ category: name }));

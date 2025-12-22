@@ -43,6 +43,7 @@ const PopularRecipes = () => {
   };
 
   const detailsHandler = (id) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     navigate(`/recipe/${id}`);
   };
 
