@@ -22,8 +22,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /*width: 520px;*/
-  /*height: 360px;*/
   border: 2px dashed #d9d9d9;
   border-radius: 22px;
   color: #9a9a9a;
@@ -240,13 +238,13 @@
 }
 
 .circleBtn {
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: 1px solid #e2e2e2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--gray);
   background: #fff;
-  font-size: 22px;
-  line-height: 1;
+  font-size: 16px;
+  color: var(--color-text-main);
   cursor: pointer;
 }
 
@@ -563,6 +561,12 @@
   .ingCard {
     gap: 14px;
   }
+
+    .circleBtn {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+    }
 }
 
 @media (min-width: 1440px) {
@@ -665,11 +669,6 @@
 
   .timeControl {
     gap: 12px;
-  }
-
-  .circleBtn {
-    width: 44px;
-    height: 44px;
   }
 
   .timeValue {
