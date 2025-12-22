@@ -10,7 +10,11 @@ import {
   followUser,
   unfollowUser,
 } from "../../../redux/users/usersOperations";
-import { selectFollowersFor } from "../../../redux/users/usersSlice";
+import {
+  selectFollowersFor,
+  selectCurrentUser,
+} from "../../../redux/users/usersSlice";
+import { toast } from "react-hot-toast";
 
 export default function FollowersPage() {
   const params = useParams();
@@ -24,6 +28,7 @@ export default function FollowersPage() {
     useSectionPagination();
 
   const listState = useSelector(selectFollowersFor(listKey));
+  const me = useSelector(selectCurrentUser);
   const items = listState.items || [];
   const isLoading = listState.status === "loading";
   const error = listState.error || null;
@@ -46,8 +51,16 @@ export default function FollowersPage() {
   const handleToggleFollow = useCallback(
     async (u) => {
       try {
-        const id = u.id ?? u._id;
+        const id = String(u.id ?? u._id ?? "");
         if (!id) return;
+
+        // Prevent following myself; still handle backend error below just in case
+        const myId = String(me?.id ?? me?._id ?? "");
+        if (myId && id === myId && !u.isFollowing) {
+          toast.error("You cannot follow yourself");
+          return;
+        }
+
         if (u.isFollowing) {
           await dispatch(unfollowUser(id)).unwrap();
         } else {
@@ -59,11 +72,16 @@ export default function FollowersPage() {
         } else {
           dispatch(fetchFollowers({ page }));
         }
-      } catch {
-        // noop; could show toast
+      } catch (err) {
+        const msg = err?.message || "Failed to update follow state";
+        // Normalize common backend message
+        const friendly = /yourself/i.test(msg)
+          ? "You cannot follow yourself"
+          : msg;
+        toast.error(friendly);
       }
     },
-    [dispatch, isOtherProfile, otherUserId, page]
+    [dispatch, isOtherProfile, otherUserId, page, me]
   );
 
   return (

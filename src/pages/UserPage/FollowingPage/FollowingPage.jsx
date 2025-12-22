@@ -10,6 +10,7 @@ import {
   unfollowUser,
 } from "../../../redux/users/usersOperations";
 import { selectFollowingFor } from "../../../redux/users/usersSlice";
+import { toast } from "react-hot-toast";
 
 export default function FollowingPage() {
   const dispatch = useDispatch();
@@ -39,8 +40,9 @@ export default function FollowingPage() {
         await dispatch(unfollowUser(id)).unwrap();
         // Refresh list after unfollow
         dispatch(fetchFollowing({ page }));
-      } catch {
-        // noop
+      } catch (err) {
+        const msg = err?.message || "Failed to unfollow user";
+        toast.error(msg);
       }
     },
     [dispatch, page]
