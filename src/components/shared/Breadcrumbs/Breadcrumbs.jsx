@@ -1,39 +1,54 @@
 import { Link, useLocation } from "react-router-dom";
 import css from "./Breadcrumbs.module.css";
 
-const Breadcrumbs = () => {
-    const location = useLocation();
+/**
+ * trail: optional array of { label, to? }
+ * - If provided, renders these entries instead of deriving from URL.
+ * - Last item renders as plain text.
+ */
+const Breadcrumbs = ({ trail }) => {
+  const location = useLocation();
 
-    const pathnames = location.pathname
-        .split("/")
-        .filter(Boolean);
+  const derived = location.pathname.split("/").filter(Boolean);
 
-    return (
-        <nav aria-label="breadcrumbs">
-            <ul className={css["breadcrumbs"]}>
-                <li className={css["breadcrumbs-item"]}>
-                    <Link to="/">Home</Link>
-                </li>
+  const items =
+    trail && Array.isArray(trail) && trail.length > 0
+      ? trail
+      : derived.map((value, index) => {
+          const to = `/${derived.slice(0, index + 1).join("/")}`;
+          return { label: decodeURIComponent(value), to };
+        });
 
-                <span className={css["breadcrumbs-separator"]}>/</span>
+  return (
+    <nav aria-label="breadcrumbs">
+      <ul className={css["breadcrumbs"]}>
+        <li className={css["breadcrumbs-item"]}>
+          <Link className={css["breadcrumbs-link"]} to="/">
+            HOME
+          </Link>
+        </li>
 
-                {pathnames.map((value, index) => {
-                    const to = `/${pathnames.slice(0, index + 1).join("/")}`;
-                    const isLast = index === pathnames.length - 1;
-
-                    return (
-                        <li className={css["breadcrumbs-item"]} key={to}>
-                            {isLast ? (
-                                <span>{decodeURIComponent(value)}</span>
-                            ) : (
-                                <Link to={to}>{decodeURIComponent(value)}</Link>
-                            )}
-                        </li>
-                    );
-                })}
-            </ul>
-        </nav>
-    );
+        {items.map((item, idx) => {
+          const isLast = idx === items.length - 1;
+          const label = String(item.label || "").toUpperCase();
+          return (
+            <li key={item.to || label} className={css["breadcrumbs-group"]}>
+              <span className={css["breadcrumbs-separator"]} aria-hidden="true">
+                /
+              </span>
+              {isLast || !item.to ? (
+                <span className={css["breadcrumbs-current"]}>{label}</span>
+              ) : (
+                <Link className={css["breadcrumbs-link"]} to={item.to}>
+                  {label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
 };
 
 export default Breadcrumbs;

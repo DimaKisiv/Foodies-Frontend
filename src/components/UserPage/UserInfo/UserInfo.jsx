@@ -14,10 +14,10 @@ export function UserInfo({
   onToggleFollow,
   onLogout,
 }) {
-  // Prefer explicit prop; otherwise fall back to current user from Redux
+  // Prefer explicit prop; otherwise fall back to current user from Redux (only for own profile)
   const current = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
-  const me = user ?? current;
+  const me = mode === "other" ? user : user ?? current;
   const usersStatus = useSelector(selectUsersStatus);
   const followReqStatus = useSelector(
     selectFollowRequestStatusFor(user?.id ?? user?._id)
@@ -84,7 +84,7 @@ export function UserInfo({
     input.click();
   };
 
-  const avatarUrl = previewUrl || me?.avatar || me?.avatarURL || "";
+  const avatarUrl = previewUrl || me?.avatar || me?.avatarURL || profilePlaceholder;
 
   return (
     <div className={styles.card}>
@@ -141,7 +141,11 @@ export function UserInfo({
           onClick={onToggleFollow}
           disabled={usersStatus === "loading" || isFollowRequestLoading}
         >
-          {isFollowing ? "UNFOLLOW" : "FOLLOW"}
+          {isFollowRequestLoading ? (
+            <span className={styles.loader} aria-label="Processing follow state" />
+          ) : (
+            isFollowing ? "UNFOLLOW" : "FOLLOW"
+          )}
         </button>
       )}
     </div>

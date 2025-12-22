@@ -21,6 +21,7 @@ const RecipeCard = ({
         to={to}
         className={css.linkContents}
         aria-label={recipe?.title || "Recipe"}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         <div className={css.image}>
           <ResponsiveImage
@@ -79,6 +80,7 @@ const RecipeCard = ({
                 !e.altKey
               ) {
                 e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 onDetailsClick(recipe.id);
               }
             }}
