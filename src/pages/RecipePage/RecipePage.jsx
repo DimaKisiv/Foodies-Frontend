@@ -11,6 +11,7 @@ import {
   fetchPopularRecipes,
   fetchRecipeById,
 } from "../../redux/recipes/recipesOperations";
+import Breadcrumbs from "../../components/shared/Breadcrumbs/Breadcrumbs.jsx";
 import styles from "./RecipePage.module.css";
 import "../../index.css";
 import RecipeInfo from "../../components/RecipePage/RecipeInfo/RecipeInfo";
@@ -35,6 +36,15 @@ const RecipePage = () => {
 
   return (
     <section className={styles["recipe-page"] + " " + "container"}>
+      <div className={styles["breadcrumbs-wrap"]}>
+        <Breadcrumbs
+          trail={[
+            {
+              label: recipe?.title || recipe?.name || "RECIPE",
+            },
+          ]}
+        />
+      </div>
       {status === "loading" && <Loader />}
       {recipe != null && <RecipeInfo recipe={recipe} />}
       <PopularRecipes />

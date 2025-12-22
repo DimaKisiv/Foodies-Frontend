@@ -7,7 +7,9 @@ import styles from "./AddRecipePage.module.css";
 const AddRecipePage = () => {
   return (
     <section className={styles["add-recipe-page"] + " " + "container"}>
-      <Breadcrumbs />
+      <div className={styles["breadcrumbs-wrap"]}>
+        <Breadcrumbs trail={[{ label: "ADD RECIPE" }]} />
+      </div>
       <MainTitle>ADD RECIPE</MainTitle>
       <Subtitle maxWidth={560}>
         Reveal your culinary art, share your favorite recipe and create

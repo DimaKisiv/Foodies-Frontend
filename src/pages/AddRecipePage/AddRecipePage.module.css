@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.breadcrumbs-wrap {
+  margin-bottom: 12px;
+}
+
 @media screen and (min-width: 1440px) {
     .add-recipe-page {
         padding: 0 40px;

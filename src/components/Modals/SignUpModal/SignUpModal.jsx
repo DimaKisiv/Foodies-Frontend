@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import css from "./SignUpModal.module.css";
 import Modal from "../Modal.jsx";
 import clsx from "clsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Icon from "../../shared/Icon/Icon";
 import { register } from "../../../redux/auth/authOperations";
 import { toast } from "react-hot-toast";
+import { selectAuthStatus } from "../../../redux/auth/authSlice";
 
-function SignUpModal({
-  isOpen,
-  onClose,
-  defaultEmail = "",
-  onSwitchToSignIn,
-}) {
+function SignUpModal({ isOpen, onClose, defaultEmail = "", onSwitchToSignIn }) {
   const dispatch = useDispatch();
+  const authStatus = useSelector(selectAuthStatus);
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -39,18 +36,30 @@ function SignUpModal({
 
   const validate = () => {
     const errors = {};
-    if (!formData.email) {
+    const email = String(formData.email || "").trim();
+    const name = String(formData.name || "").trim();
+    const password = String(formData.password || "").trim();
+
+    if (!email) {
       errors.email = "Email is required";
-    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
       errors.email = "Email is invalid";
     }
 
-    if (!formData.name) {
+    if (!name) {
       errors.name = "Name is required";
+    } else if (name.length < 2) {
+      errors.name = "Name must be at least 2 characters";
+    } else if (name.length > 50) {
+      errors.name = "Name must be at most 50 characters";
     }
 
-    if (!formData.password) {
+    if (!password) {
       errors.password = "Password is required";
+    } else if (password.length < 8) {
+      errors.password = "Password must be at least 8 characters";
+    } else if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+      errors.password = "Password must include letters and numbers";
     }
 
     return errors;
@@ -75,8 +84,12 @@ function SignUpModal({
     if (!isValid) return;
 
     setSubmitError(null);
-
-    const data = { ...formData, avatar: "" };
+    const data = {
+      email: String(formData.email || "").trim(),
+      name: String(formData.name || "").trim(),
+      password: String(formData.password || "").trim(),
+      avatar: "",
+    };
 
     try {
       await dispatch(register(data)).unwrap();
@@ -86,7 +99,7 @@ function SignUpModal({
       onClose?.();
     } catch (err) {
       const status = err?.status ?? null;
-      const message = err.response?.data?.message || err.message;
+      const message = err?.message;
 
       if (status === 409) {
         setSubmitError("User with this email already exists");
@@ -196,9 +209,9 @@ function SignUpModal({
               className={clsx(css["modal-btn"], {
                 [css["modal-btn-disabled"]]: !isValid,
               })}
-              disabled={!isValid}
+              disabled={!isValid || authStatus === "loading"}
             >
-              Create
+              {authStatus === "loading" ? "Creating..." : "Create"}
             </button>
           </div>
         </form>

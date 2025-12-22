@@ -40,6 +40,15 @@ const Recipes = () => {
   }, [dispatch, name]);
 
   useEffect(() => {
+    if (!name) return;
+    if (recipesStatus === "loading" || recipesStatus === "succeeded") {
+      const target = recipesRef.current;
+      const top = target ? target.offsetTop : 0;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [recipesStatus, name]);
+
+  useEffect(() => {
     if (ingredients.length === 0 || areas.length === 0) {
       dispatch(fetchIngredients());
       dispatch(fetchAreas());

@@ -28,8 +28,22 @@ export default function UserPage() {
   const { openSignIn } = useAuthModal();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const authUser = useSelector(selectCurrentUser);
+  const otherUser = useSelector((state) => (id ? state.users.byId[id] : null));
   const isOwnProfile =
     !id || id === String(authUser?.id || authUser?._id || "");
+  const profileName =
+    isOwnProfile && (authUser?.name || authUser?.username || authUser?.email)
+      ? "PROFILE"
+      : (otherUser?.name ||
+          "PROFILE"
+        ).toUpperCase();
+
+  // If route is /user/:id but the id matches me, normalize to /user
+  useEffect(() => {
+    if (id && isOwnProfile) {
+      navigate("/user", { replace: true });
+    }
+  }, [id, isOwnProfile, navigate]);
 
   // If visiting other user's page unauthenticated, redirect and open sign-in
   useEffect(() => {
@@ -53,7 +67,6 @@ export default function UserPage() {
     }
   }, [dispatch, id, isOwnProfile]);
 
-  const otherUser = useSelector((state) => (id ? state.users.byId[id] : null));
   // Use the 'me' key for current user's following list (auth-context based)
   const followingMe = useSelector(selectFollowingFor("me"));
   const isFollowingOther = useMemo(() => {
@@ -87,8 +100,14 @@ export default function UserPage() {
       <section className={"container"}>
         <div className={styles.page}>
           <div className={styles.header}>
-            <Breadcrumbs />
-            <MainTitle>PROFILE</MainTitle>
+            <Breadcrumbs
+              trail={
+                isOwnProfile
+                  ? [{ label: "PROFILE", to: "/user" }]
+                  : [{ label: profileName, to: `/user/${id}` }]
+              }
+            />
+            <MainTitle>{profileName}</MainTitle>
             <Subtitle maxWidth={560}>
               Reveal your culinary art, share your favorite recipe and create
               gastronomic masterpieces with us.
